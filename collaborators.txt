@@ -1,0 +1,92 @@
+Collaborators
+
+1. Collaborators for Ari Juels; Cornell Tech; PI
+    a. Kevin D. Bowers; RSA Labs
+    b. Wayne Burleson; University of Massachusetts-Amherst
+    c. Srdjan Capkun; ETH-Zurich
+    d. Marten van Dijk; University of Connecticut
+    e. Catherine Hart; Bell Canada
+    f. Jonathan Katz; University of Maryland
+    g. Engin Kirda; Northeastern University
+    h. Farinaz Koushanfar; Rice University
+    i. Todd Leetham; EMC
+    j. Andrew Miller; University of Maryland
+    k. Kaan Onarlioglu; Northeastern University
+    l. Alina Oprea; RSA Labs
+    m. Christof Paar; R.-U. Bochum
+    n. Bryan Parno; Microsoft Research
+    o. Michael Reiter; University of North Carolina
+    p. Thomas Ristenpart; University of Wisconsin-Madison
+    q. Ronald L. Rivest; Massachusetts Institute of Technology
+    r. William K. Robertson; Northeastern University
+    s. Masoud Rostami; Rice University
+    t. Emily Shen; Lincoln Labs
+    u. Elaine Shi; University of Maryland
+    v. Emil Stefanov; University of California, Berkeley
+    w. Nikos Triandopoulos; Boston University and RSA Labs
+    x. Venkatanathan Varadarajan; University of Wisconsin-Madison
+    y. Ting-Fang Yen; E8 Security
+    z. Bonnie Wong; Harvard Medical School
+    aa. Davide Zanetti; Medtronic
+    bb. Yinqian Zhang; University of North Carolina
+2. Collaborators for Thomas Ristenpart; University of Wisconsin-Madison; co-PI
+    a. Aditya Akella; University of Wisconsin-Madison
+    b. Mihir Bellare; University of California, San Diego
+    c. Juan Caballero; IMDEA, Spain
+    d. Stephen Checkoway; Johns Hopkins
+    e. Scott Coull; RedJack
+    f. Drew Davidson; University of Wisconsin-Madison
+    g. Yevgeniy Dodis; New York University
+    h. Kevin Dyer; Portland State University
+    i. Adam Everspaugh; University of Wisconsin-Madison
+    j. Benjamin Farley; University of Wisconsin-Madison
+    k. Alexis Fisher; University of Wisconsin-Madison
+    l. Matthew Fredrikson; University of Wisconsin-Madison
+    m. WesLee Frisby; University of Wisconsin-Madison
+    n. Aaron Gembler; University of Wisconsin-Madison
+    o. Matt Green; Johns Hopkins University
+    p. Keqiang He; University of Wisconsin-Madison
+    q. Daniel J. Bernstein; University of Illinois Chicago and TU Eindhoven
+    r. Robert Jellinek; University of Wisconsin-Madison
+    s. Somesh Jha; University of Wisconsin-Madison
+    t. Ari Juels; Cornell Tech
+    u. Sriram Keelveedhi ; University of California, San Diego
+    v. Thawan Kooburat; University of Wisconsin-Madison
+    w. Tanja Lange; TU Eindhoven
+    x. Eric Lantz; University of Wisconsin-Madison
+    y. Simon Lin; Marshfield Clinic
+    z. Daniel Luchaup; Carnegie Mellon University
+    aa. Jake Maskiewicz; University of California, San Diego
+    bb. Benjamin Moench; University of Wisconsin-Madison
+    cc. Antonio Nappa; IMDEA, Spain
+    dd. Ruben Niederhagen; TU Eindhoven
+    ee. David Page; University of Wisconsin-Madison
+    ff. Benjamin Recht; University of California, Berkeley
+    gg. Michael Reiter; University of North Carolina
+    hh. Hovav Shacham; University of California, San Diego 
+    ii. Thomas Shrimpton; Portland State University
+    jj. John Steinberger; Tsinghua Univ, China
+    kk. Michael Swift; University of Wisconsin-Madison
+    ll. Stefano Tessaro; University of California, Santa Barbara
+    mm. Salil Vadhan; Harvard University
+    nn. Venkatanathan Varadarajan ; University of Wisconsin-Madison
+    oo. Liang Wang; University of Wisconsin-Madison
+    pp. Scott Yilek; St. Thomas University
+    qq. Yan Zhai; University of Wisconsin-Madison
+    rr. Yinqian Zhang; University of North Carolina
+3. Collaborators for Thomas Shrimpton; Portland State University; co-PI
+    a. John Black; University of Colorado, Boulder
+    b. Scott Coull; Red Jack
+    c. Yevgeniy Dodis; New York University
+    d. Kevin Dyer; Portland State University
+    e. Marc Fischlin; TU-Darmstadt, Germany
+    f. Will Landecker; Portland State University
+    g. Anja Lehmann; IBM-Zurich, Switzerland
+    h. Onur Ozen; EPFL, Switzerland
+    i. Kenneth Paterson; Royal Holloway University, UK
+    j. Thomas Ristenpart; University of Wisconsin-Madison
+    k. Phillip Rogaway; University of California, Davis
+    l. Hovav Shacham; University of California, San Diego
+    m. Martijn Stam; University of Bristol, UK
+    n. Robert Terashima; Portland State University
+    o. Stefano Tessaro; University of California, Santa Barbara

@@ -1,0 +1,285 @@
+%
+% NSF bio (special format)
+%   Tom
+%
+\documentclass{article}[11pt]
+
+
+\pagestyle{empty}
+\raggedbottom
+
+\setlength{\topmargin}{-0.5in}
+\setlength{\oddsidemargin}{-0.25in}
+\setlength{\evensidemargin}{-0.25in}
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6.75in}
+\setlength{\parskip}{\bigskipamount}
+
+\newcommand{\revdate}{\today}
+
+\def\baselinestretch{1.05}
+
+\newcommand{\drop}{\protect{\vspace{1.2ex}}}
+
+\newlength{\headwidth}
+\def\homedir{\~{ }}
+
+\settowidth{\headwidth}{{\bf Publications}}
+\newlength{\sepwidth}
+\setlength{\sepwidth}{0.2in}
+\newlength{\itemwidth}
+\setlength{\itemwidth}{\textwidth}
+\addtolength{\itemwidth}{-\headwidth}
+\addtolength{\itemwidth}{-\sepwidth}
+
+\newlength{\jobindent} \setlength{\jobindent}{2em}
+\newlength{\jobwidth} \setlength{\jobwidth}{\itemwidth}
+\addtolength{\jobwidth}{-\jobindent}
+
+\newcommand{\resitem}[2]{\noindent\vspace{.15in}\parbox[t]{\headwidth}{\bf{#1}}\hspace{\sepwidth}\parbox[t]{\itemwidth}{#2}}
+\newcommand{\place}[1]{{\em {#1}}\\[0.5ex]}
+\newcommand{\job}[1]{\hspace*{\jobindent}\parbox{\jobwidth}{#1}}
+\newcommand{\abs}[1]{\begin{quote}{\small{\bf Abstract:} {#1}}\end{quote}}
+\newcommand{\pf}{\it}
+
+\newcommand{\somemark}{\raisebox{.3ex}{\mbox{$\star\,\,$}}}
+\newcommand{\anothermark}{\qquad {\bf --}\ }
+
+\hyphenation{euro-crypt}
+
+
+
+
+\begin{document}
+\begin{noindent}
+
+\iffalse
+\begin{picture}(0,0)(0,0)
+\put(455,-670){\tiny rev \revdate}
+\end{picture}
+\vspace{-9pt}
+\fi
+
+\vspace{-0.5in}
+
+\resitem{\mbox{}}{
+{\Large \bf Thomas Eric Shrimpton}
+}
+
+\vspace{0ex}
+
+
+\vspace{-3ex}
+
+\resitem{\mbox{}}{
+  \parbox[t]{4in}{
+    \begin{flushleft}
+    Dept.\ of Computer and Information\\
+    \hspace*{3ex} Science and Engineering\\
+    University of Florida\\
+    Gainesville, Florida 32601\ \   USA
+    \end{flushleft}
+    }
+  \parbox[t]{1.5in}{
+        \begin{flushleft}
+        \begin{tabular}{ll}
+        Office:&  +1 352 294-2092
+        \end{tabular}
+        \end{flushleft}
+
+  }
+}
+
+\vspace{-3ex}
+
+\resitem{\mbox{}}{
+\mbox{}\hspace{-8pt}
+\begin{tabular}{ll}
+\textrm{Email:} & \texttt{teshrim@ufl.edu}\\
+\textrm{Web:}   & \texttt{http://cise.ufl.edu/\~{ }teshrim/}
+\end{tabular}
+}
+
+
+\vspace{-2ex}
+
+\noindent
+\rule{6.75in}{.4mm}
+
+\vspace{1ex}
+
+\resitem{Professional Preparation}
+{
+{\bf Virginia Polytechnic Institute and State University} \hspace*{.3in}
+{Elec. Eng.}\hfill
+B.S. 1994\\
+{\bf University of Maryland, Baltimore County} \hspace*{.9in}
+{Elec. Eng.}\hfill
+M.S. 1997\\
+{\bf University of California, Davis} \hspace*{1.75in}
+{Elec. Eng.}\hfill
+Ph.D. 2004 \\
+}
+
+\newcommand{\num}[1]{{\textbf{#1}.}}
+
+\vspace{-2ex}
+
+\resitem{Appointments}
+{
+Associate Professor, Computer Science, University of Florida
+\hfill {\it 9/15-present}\\
+Associate Professor, Computer Science, Portland State University
+\hfill {\it 9/12-9/15}\\
+Assistant Professor, Computer Science, University of Lugano (CH)
+\hfill {\it 9/07-9/09} \\
+Assistant Professor, Computer Science, Portland State University
+\hfill {\it 6/04-6/12}
+}
+
+\resitem{Publications (Related)}
+{
+\num{1}
+D.\ Luchaup, T.\ Shrimpton, T.\ Ristenpart and S.\ Jha,
+``Formatted Encryption beyond Regular Languages'',
+{\pf ACM SIGSAC Conference on Computer and Communication Security -- CCS'14},
+%vol.\ 7417,
+pp.\ (TBD),
+ACM, 2014
+
+\drop
+\num{2}
+D.\ Luchaup, K.\ Dyer, S.\ Jha, T.\ Ristenpart and T.\ Shrimpton, 
+``LibFTE: A Toolkit for Constructing Practical, Format-Abiding Encryption Schemes'',
+{\pf Proceedings of the 23rd USENIX Security Symposium},
+pp.\ 877-891,
+USENIX, 2014
+
+\drop
+\num{3}
+K.\ Dyer, S.\ Coull, T.\ Ristenpart and T.\ Shrimpton,
+``Protocol Misidentification Made Easy with Format-Transforming Encryption'',
+{\pf ACM SIGSAC Conference on Computer and Communication Security -- CCS'13},
+%vol.\ 7417,
+pp.\ 61-72,
+ACM, 2013
+
+\drop
+\num{4}
+K.\ Dyer, S.\ Coull, T.\ Ristenpart and T.\ Shrimpton,
+``Peek-a-Boo, I Still See You: Why Traffic Analysis Countermeasures
+Fail'', {\pf IEEE Symposium on Security and Privacy~2012},
+pp.\ 332-346,
+IEEE, 2012
+
+\drop
+\num{5}
+K.\ G.\ Paterson, T.\ Ristenpart and T.\ Shrimpton,
+``Tag size does matter: Attacks and Proofs for the TLS Record
+Protocol'',
+{\pf Advances in Cryptology -- ASIACRYPT~2011, Lecture Notes in
+  Computer Science},
+vol.\ 7073,
+pp.\ 372-389,
+Springer, 2011
+
+}
+
+
+\resitem{Publications (General)}{
+\num{1}
+T.\ Ristenpart, T.\ Shrimpton and H.\ Shacham,
+``Careful with Composition: Limitations of the Indifferentiability
+Framework'',
+{\pf Advances in Cryptology -- EUROCRYPT~2011,
+Lecture Notes in Computer Science},
+vol.\ 6632,
+pp.\ 487-506,
+Springer, 2011
+
+\drop
+\num{2} Y.\ Dodis, T.\ Ristenpart and T.\ Shrimpton
+``Salvaging Merkle-Damg{\aa}rd for Practical Applications'',
+{\pf Advances in
+Cryptology -- EUROCRYPT~2009, Lecture Notes in Computer Science}, vol.\
+4579, pp.\ 371-388, Springer, 2009
+
+\drop
+\num{3}
+P.\ Rogaway and T.\ Shrimpton, ``A Provable-Security Treatment of the
+Key-Wrap Problem'', {\pf Advances in Cryptology -- EUROCRYPT~2006,
+Lecture Notes in Computer Science}, vol.\ 4004, pp.\ 373-390,
+Springer, 2006
+
+\drop
+\num{4}
+P.\ Rogaway and T.\ Shrimpton, ``Cryptographic Hash-Function Basics:
+Definitions, Implications, and Separations for Preimage Resistance,
+Second-Preimage Resistance, and Collision Resistance'', {\pf  Fast
+Software Encryption~2004, Lecture Notes in Computer Science}, vol.\
+3017, pp.\ 371-388, Springer-Verlag, 2004
+
+\drop
+\num{5}
+J.~Black, P.~Rogaway, and T.~Shrimpton,
+``Black-Box  Analysis of the Block-Cipher-Based Hash-Function Constructions
+from PGV'',
+{\pf Advances in Cryptology~---~CRYPTO~2002}, Lecture Notes in Computer
+Science, Vol.~2442. pp.\ 320-335, Springer-Verlag, 2002.
+}
+
+
+\resitem{Synergistic Activities}{ 
+Developed courses: Cryptography; Counting, Probability and Computing
+
+\drop
+Broading participation: MS advisor for Ms.\ Erin Chapman, Ms.\ Morgan Miller; PhD committee member for Mrs.\ Nichole Schimanski; advisor for Ms.\ Tashell Kelley
+
+\drop
+Invited or Keynote lecturer: Issac Newton Insitute (Cambridge, UK, 2012), Fast Software Encryption (Seoul, Korea, 2010), Ecrypt Summer School on Provable Security (Barcelona, Spain, September 2009), Ecrypt Autumn School on Cryptographic Hash Functions (Tenerife, Spain, November 2009), Fast Software Encryption 2010 (Seoul, Korea, February 2010).
+
+\drop
+Secretary, International Association for Cryptologic Research (IACR): 2007-2010;
+General Chair, CRYPTO~2011;
+Organizing committee, Real World Cryptography 2013-2017;
+
+Programm committee member:
+Fast Software Encryption~2016, 2015, 2013;
+CRYPTO~2015, 2014, 2012, 2008;
+ASIACRYPT~2013, 2010;
+EUROCRYPT~2016, 2014, 2011, 2009;
+Public Key Cryptography~2011;
+ICDCS~2011;
+International Conference on Applied Cryptography and Network
+Security~2007, 2008;  
+7th International Workshop on Information Security Applications, 
+IEEE Security in Storage Workshop~2005;
+Conference on Information Security and Cryptography~2005
+}
+
+\resitem{Affiliations}{
+{\bf Collaborators}\\
+John Black (CU Boulder, USA),
+Scott Coull (Red Jack, USA),
+Yevgeniy Dodis (NYU, USA),
+Kevin Dyer (Portland State, USA),
+Marc Fischlin (TU-Darmstadt, Germany),
+Will Landecker (Portland State, USA),
+Anja Lehmann (IBM-Zurich, Switzerland),
+Onur \"{O}zen (EPFL, Switzerland),
+Kenneth Paterson (Royal Holloway, UK),
+Thomas Ristenpart (Cornell Tech, USA),
+Phillip Rogaway (UC Davis, USA),
+Hovav Shacham (UC San Diego, USA),
+Martijn Stam (University of Bristol, UK),
+Robert Terashima (Portland State, USA),
+Stefano Tessaro (UC Santa Barbara, USA)
+
+\drop
+{\bf Graduate and Postdoctoral Advisors}\\
+Phillip Rogaway (UC Davis)
+}
+
+
+\end{noindent}
+\end{document}
