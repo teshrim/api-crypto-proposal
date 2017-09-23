@@ -1,6 +1,29 @@
 \section{Project Description}
 \label{sec:intro}
+The modern ``provable security'' approach to cryptrography loosely follows a three-step recipe: define a precise syntax for the abstract primitive under study, define formal notions of security for that primitive, realize the primitive and prove it meets the security notions.  The first step, defining the syntax, essentially defines the component objects that collectively make up the primitive, e.g. ``An encryption scheme $\Pi=(\calK,\calE,\calD)$ is a triple of algorithms...''  The syntax typically describes the number and type of the inputs and outputs of these components, too, e.g. ``The decryption algorithm provides a mapping $\calD\colon\bits^{k}\times\bits^* \to \bits^* \cup \{\bot\}$...'', as well as requirements on the behavior of these components in any correct realization of them.   
+%
 
+In a sense, the syntax for a new primitive provides an API for researchers: for those wishing to realize the primitive (in theory), it makes clear what are the functionalites that must be realized, and what are the assertions that must hold for any realization; for those wishing to use the primitive, it makes clear what ``calls'' will be available to them, and what are the expected inputs and outputs of those calls.  
+%
+Like a real software API, syntax is considered good if it serves the needs of its consumers, i.e. if it supports clear security notions, facilitates the writing (and verification) of proofs, and is easily built upon.  But when a researcher argues for a change to the accepted syntax ---~a new API for a primitive~--- there is no real ``cost'' incurred if it is adopted.  Prior works using the old syntax do not ``break''; in the worst case they may (eventually) be viewed as outdated.  If anything, the new syntax presents an opportunity for researchers revisit prior work and publish updated findings.  
+
+
+
+%Once published, the syntax for a given cryptographic primitive tends to retain much of its original shape over time.  Follow-on work typically adopts the syntax, and concerns itself with ``flashier'' tasks, such as proving tighter security bounds, finding more efficient realizations, or moving from an idealized model (e.g. the random-oracle model) to the standard model.  
+
+
+\paragraph{Motivating problems.}  
+
+\paragraph{Preliminary work.}
+
+\paragraph{Public artifacts and broader impacts.} 
+
+\paragraph{PI Qualifications.}
+
+\paragraph{Proposal Organization and Tasks.}
+
+
+\ignore{
 Contemporary encryption schemes are almost exclusively {\em
 distribution-agnostic}. Their security properties are independent of the
 statistical characteristics of plaintexts, and they yield ciphertexts that are
@@ -471,4 +494,4 @@ will undertake with the visual call-out {\bf Task}.  Our list of tasks serves
 as a compact outline of what we will deliver (at a minimum); a task schedule
 may be found in Section~\ref{sec:collabplan}.
 
-
+}
