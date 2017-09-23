@@ -25,3 +25,6 @@ full  : *.tex
 #	pdflatex transitions
 #	pdflatex transitions
 
+clean :
+	rm *.{aux,bbl,blg,log,out}
+	
