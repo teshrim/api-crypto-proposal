@@ -5,11 +5,21 @@ The modern ``provable security'' approach to cryptrography loosely follows a thr
 
 In a sense, the syntax for a new primitive provides an API for researchers: for those wishing to realize the primitive (in theory), it makes clear what are the functionalites that must be realized, and what are the assertions that must hold for any realization; for those wishing to use the primitive, it makes clear what ``calls'' will be available to them, and what are the expected inputs and outputs of those calls.  
 %
-Like a real software API, syntax is considered good if it serves the needs of its consumers, i.e. if it supports clear security notions, facilitates the writing (and verification) of proofs, and is easily built upon.  But when a researcher argues for a change to the accepted syntax ---~a new API for a primitive~--- there is no real ``cost'' incurred if it is adopted.  Prior works using the old syntax do not ``break''; in the worst case they may (eventually) be viewed as outdated.  If anything, the new syntax presents an opportunity for researchers revisit prior work and publish updated findings.  
+Like a real software API, syntax is considered good if it serves the needs of its consumers, i.e. if it supports clear security notions, facilitates the writing (and verification) of proofs, and is easily built upon.  
+%
+Like a real software API, syntax for a given cryptographic primitive tends to have a long life-time (albeit for very different reasons).
+%Follow-on work typically adopts it, and concerns itself with ``flashier'' tasks, such as proving tighter security bounds, finding more efficient realizations, or moving from an idealized model (e.g. the random-oracle model) to the standard model.  
+Indeed, the idea of syntax-as-API is very useful for building intuition, and as a pedagogical tool.  
+%
+But one must be careful not to let this intuition morph into an belief that what theorists accept as the right syntax for a given primitive actually matches the \emph{real} APIs that crypto libraries expose.... 
+
+%%or that the translation of good, clear syntax to an actual API is a simple software engineering exercise. 
+
+When a researcher argues for a change to the accepted syntax ---~a new API for a primitive~--- there is no real ``cost'' incurred if it is adopted.  Prior works using the old syntax do not ``break''; in the worst case they may (eventually) be viewed as outdated.  If anything, the new syntax presents an opportunity for researchers revisit prior work and publish updated findings.  
 
 
 
-%Once published, the syntax for a given cryptographic primitive tends to retain much of its original shape over time.  Follow-on work typically adopts the syntax, and concerns itself with ``flashier'' tasks, such as proving tighter security bounds, finding more efficient realizations, or moving from an idealized model (e.g. the random-oracle model) to the standard model.  
+
 
 
 \paragraph{Motivating problems.}  
