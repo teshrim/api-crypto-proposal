@@ -16,6 +16,14 @@ This proposal adopts the position that \emph{a primary focus of crypto research 
 \item ease of correct implementation should be treated as a first-class security property, not dismissed as a mere ``programming exercise''
 \end{itemize}
 
+\paragraph{API-centric Cryptography.} \tsnote{Is this really the right umbrella name?  It isn't just about APIs, the list I just gave...}
+The security community has published extensively on the \emph{usability} of APIs.  Intuitively, if an API is easy to use correctly, developers are more likely to build secure applications to top of it.  Thus by building usable APIs, one can hope to close security gaps between applications and the API.  Our approach is complementary, focusing on the relationships between primitives that APIs present (to application developers) and the associated primitives that crypto theory addresses.  We take the position that, in practice, APIs are primarily driven by non-security requirements (e.g. functionality, adoption, deployment).   As such, it is emcumbent upon us to take an \emph{API-centric} view of the primitives we formalize.  
+
+\tsnote{APIs have been widely study from the perspective of usability, e.g., if an API is easy for devs to use, they are more likely to use it correctly.  Our viewpoint is complementary, namely that good crypto theory should ``match'' (or ``respect'') what the APIs actually present to devs.}
+\tsnote{}
+
+
+
 \paragraph{Prior Work.}
 As a first step towards respecting real APIs, we must understand the extent to which the primitives we formalize in theory align with the actual primitives that APIs expose to developers.   For example, recent work by PI Shrimpton~\cite{BPS} revisits the theory of hedged public-key encryption (PKE)~\cite{xxx}.  The motivation for hedged PKE is quite practical: traditional PKE schemes are proved secure under the assumption that they have access to a source of uniform random bits; but in practice, PKE schemes are implemented on systems that have faulty RNGs, or where entropy is difficult to harvest.  In these cases, the security guarantees proved in theory are (at best) voided.  Hedged PKE is designed to satisfy traditional notions of security when provided uniform randomness, and still deliver useful security properties as the quality of randomness degrades.  The most elegant construction of hedged PKE works like this: synthesize fresh random bits by hashing all of the encryption inputs (the public key, the message, the provided randomness), and then use these bits as the randomness for an underlying PKE scheme.  In practice, implementing this simple construction is surprisingly difficult, as the high- and mid-level APIs presented by the most commonly used crypto libraries (e.g. OpenSSL and significant forks thereof) \emph{do not} permit one to specify the per-encryption randomness.   In~\cite{BPS}, the theory of hedged PKE is reconsidered from the perspective of what can be easily constructed given what real APIs expose, and what provable security guarantees these can achieve.
 
@@ -25,14 +33,6 @@ Later work by PI Shrimpton~\cite{NRS} reconsidered the traditional wisdom about 
  
 \tsnote{Summarize Cryptographic API paper.}
 
-\paragraph{API-driven Cryptography.}
-The security community has published extensively on the \emph{usability} of APIs.  Intuitively, if an API is easy to use correctly, developers are more likely to build secure applications to top of it.  Thus by building usable APIs, one can hope to close security gaps between applications and the API.  Our approach is complementary, focusing on the relationships between primitives that APIs present (to application developers) and the associated primitives that crypto theory addresses.  We take the position that, in practice, APIs are primarily driven by non-security requirements (e.g. functionality, adoption, deployment).   As such, it is emcumbent upon us to we call our approach \emph{API-Centric Cryptography}, as w
-
-
-
-
-\tsnote{APIs have been widely study from the perspective of usability, e.g., if an API is easy for devs to use, they are more likely to use it correctly.  Our viewpoint is complementary, namely that good crypto theory should ``match'' (or ``respect'') what the APIs actually present to devs.}
-\tsnote{}
 
 
 \ignore{
