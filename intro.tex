@@ -1,9 +1,28 @@
 \section{Project Description}
 \label{sec:intro}
+
+For years, the cryptography research community has been emploring security engineers and developers to``please stop rolling your own crypto!''  An expanded version of plea might be: cryptography is hard, let the crypto experts handle the crypto; you just worry about implementing what we provide.  There is good sense in this message.  Cryptography \emph{is} hard; the security guarantees that we prove can depend crucially on parameter choices, padding schemes, etc., and in ways that may not be obvious to non-experts; and our research community has developed a collective wisdom that helps guide us to good solutions (or at least to avoid pitfalls).  
+
+To their credit, security engineers and software developers do largely seem to have understood.  But there is a response that, sadly, the research community has heard less clearly: ``correctly implementing your pretty crypto is hard!''  To paraphrase various industry speakers at editions of Real World Crypto (e.g., David McGrew, Daniel Kahn-Gilmore), and Paul Kocher in his invited lecture at Crypto'16:
+%
+Cryptographers need to understand that API/library design is hard work, and that, once fielded, APIs are very slow to change.  (Changes to popular APIs break the applications built upon them, leading to unhappy customers, lost of revenue or reputation, etc.)  So no matter how pretty is your theory, if it is hard to implement with existing APIs, it either won't be implemented, or it is prone to be implemented incorrectly.  \tsnote{I believe that Adi Shamir had a similar message many years ago.}  
+%
+
+This proposal adopts the position that \emph{a primary focus of crypto research should be to deliver primitives and protocols that are as easy as possible to implement, correctly.}  More specifically, that 
+\begin{itemize}
+\item the usefulness and impact of crypto theory will be significantly improved if it endeavors to respect the APIs that crypto libraries expose
+\item wherever possible, crypto theory should be mindful of usability, and forgiving of misuse (even when properly implemented)
+\item ease of correct implementation should be treated as a first-class security property, not dismissed as a mere ``programming exercise''
+\end{itemize}
+
+\tsnote{APIs have been widely study from the perspective of usability, e.g., if an API is easy for devs to use, they are more likely to use it correctly.  Our viewpoint is complementary, namely that good crypto theory should ``match'' (or ``respect'') what the APIs actually present to devs.}
+
+
+\ignore{
 The modern ``provable security'' approach to cryptrography loosely follows a three-step recipe: define a precise syntax for the abstract primitive under study, define formal notions of security for that primitive, realize the primitive and prove it meets the security notions.  The first step, defining the syntax, essentially defines the component objects that collectively make up the primitive, e.g. ``An encryption scheme $\Pi=(\calK,\calE,\calD)$ is a triple of algorithms...''  The syntax typically describes the number and type of the inputs and outputs of these components, too, e.g. ``The decryption algorithm provides a mapping $\calD\colon\bits^{k}\times\bits^* \to \bits^* \cup \{\bot\}$...'', as well as requirements on the behavior of these components in any correct realization of them.   
 %
 
-In a sense, the syntax for a new primitive provides an API for researchers: for those wishing to realize the primitive (in theory), it makes clear what are the functionalites that must be realized, and what are the assertions that must hold for any realization; for those wishing to use the primitive, it makes clear what ``calls'' will be available to them, and what are the expected inputs and outputs of those calls.  
+In a sense, the syntax for a new primitive provides an API for researchers: for those wishing to \emph{realize} the primitive (in theory), it makes clear what are the functionalites that must be realized, and what are the assertions that must hold for any realization; for those wishing to \emph{use} the primitive, it makes clear what ``calls'' will be available to them, and what are the expected inputs and outputs of those calls.  
 %
 Like a real software API, syntax is considered good if it serves the needs of its consumers, i.e. if it supports clear security notions, facilitates the writing (and verification) of proofs, and is easily built upon.  
 %
@@ -16,7 +35,7 @@ But one must be careful not to let this intuition morph into an belief that what
 %%or that the translation of good, clear syntax to an actual API is a simple software engineering exercise. 
 
 When a researcher argues for a change to the accepted syntax ---~a new API for a primitive~--- there is no real ``cost'' incurred if it is adopted.  Prior works using the old syntax do not ``break''; in the worst case they may (eventually) be viewed as outdated.  If anything, the new syntax presents an opportunity for researchers revisit prior work and publish updated findings.  
-
+}
 
 
 
