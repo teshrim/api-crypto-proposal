@@ -5,7 +5,7 @@ For years, the cryptography research community has been emploring security engin
 
 To their credit, security engineers and software developers do largely seem to have understood.  But there is a response that, sadly, the research community has heard less clearly: ``correctly implementing your pretty crypto is hard!''  To paraphrase various industry speakers at editions of Real World Crypto (e.g., David McGrew, Daniel Kahn-Gilmore), and Paul Kocher in his invited lecture at Crypto'16:
 %
-Cryptographers need to understand that API/library design is hard work, and that, once fielded, APIs are very slow to change.  (Changes to popular APIs break the applications built upon them, leading to unhappy customers, lost of revenue or reputation, etc.)  So no matter how pretty is your theory, if it is hard to implement with existing APIs, it either won't be implemented, or it is prone to be implemented incorrectly.  \tsnote{I believe that Adi Shamir had a similar message many years ago.}  
+Cryptographers need to understand that API/library design is hard work, and that, once fielded, APIs are very slow to change.  (Changes to APIs can break the applications built upon them, leading to unhappy customers, lost of revenue or reputation, etc.)  So no matter how pretty is your theory, if it is hard to implement with existing APIs, it either won't be implemented, or it is prone to be implemented incorrectly.  \tsnote{I believe that Adi Shamir had a similar message many years ago.}  
 %
 
 This proposal adopts the position that \emph{a primary focus of crypto research should be to deliver primitives and protocols that are as easy as possible to implement, correctly.}  More specifically, that 
@@ -15,7 +15,16 @@ This proposal adopts the position that \emph{a primary focus of crypto research 
 \item ease of correct implementation should be treated as a first-class security property, not dismissed as a mere ``programming exercise''
 \end{itemize}
 
+As a first step towards respecting real APIs, we must understand the extent to which the primitives we formalize in theory align with the actual primitives that APIs expose to developers.   For example, recent work by PI Shrimpton~\cite{BPS} revisits the theory of hedged public-key encryption (PKE)~\cite{xxx}.  The motivation for hedged PKE is quite practical: traditional PKE schemes are proved secure under the assumption that they have access to a source of uniform random bits; but in practice, PKE schemes are implemented on systems that have faulty RNGs, or where entropy is difficult to harvest.  In these cases, the security guarantees proved in theory are (at best) voided.  Hedged PKE is designed to satisfy traditional notions of security when provided uniform randomness, and still deliver useful security properties as the quality of randomness degrades.  The most elegant construction of hedged PKE works like this: synthesize fresh random bits by hashing all of the encryption inputs (the public key, the message, the provided randomness), and then use these bits as the randomness for an underlying PKE scheme.  In practice, implementing this simple construction is surprisingly difficult, as the high- and mid-level APIs presented by the most commonly used crypto libraries (e.g. OpenSSL and significant forks thereof) \emph{do not} permit one to specify the per-encryption randomness.   In~\cite{BPS}, the theory of hedged PKE is reconsidered from the perspective of what can be easily constructed given what real APIs expose, and what provable security guarantees these can achieve.
+
+Towards the goal of building cryptography that is forgiving of misuse, prior work by PI Shrimpton defined the notion of nonce-misuse-resistant authenticated encryption~\cite{RS06}, and showed how to achieve it using standard symmetric-key tools.  Rogaway had previously argued~\cite{xxx} that the classical viewpoint that symmetric encryption schemes are randomized primitives was misaligned with practice, and what we should be delivering are encryption schemes that are deterministic, surfacing an explicit IV input. (This is an early effort to close the gap between a theoretical primitive and its real-world presentation.)  Moreover, to make schemes easier to use correctly, we should target security when the IV is a non-repeating value ---~a nonce~--- rather than demanding the IV be random.  In~\cite{RS06}, we sought to make these nonce-based encryption schemes even easier to use, by designing them so that their security guarantee degrades gracefully when the nonce IV repeats.
+
+ 
+\tsnote{Mention Reconsidering Generic Composition here?  It isn't really an API-driven thing... more of an implementation driven thing}
+
+
 \tsnote{APIs have been widely study from the perspective of usability, e.g., if an API is easy for devs to use, they are more likely to use it correctly.  Our viewpoint is complementary, namely that good crypto theory should ``match'' (or ``respect'') what the APIs actually present to devs.}
+\tsnote{}
 
 
 \ignore{
