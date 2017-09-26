@@ -17,25 +17,23 @@ This proposal adopts the position that \emph{a primary focus of crypto research 
 \end{itemize}
 
 \paragraph{API-centric Cryptography.} \tsnote{Is this really the right umbrella name?  It isn't just about APIs, the list I just gave...}
-The security community has published extensively on the \emph{usability} of APIs.  Intuitively, if an API is easy to use correctly, developers are more likely to build secure applications to top of it.  Thus by building usable APIs, one can hope to close security gaps between applications and the API.  Our approach is complementary, focusing on the relationships between primitives that APIs present (to application developers) and the associated primitives that crypto theory addresses.  We take the position that, in practice, APIs are primarily driven by non-security requirements (e.g. functionality, adoption, deployment).   As such, it is emcumbent upon us to take an \emph{API-centric} view of the primitives we formalize.  
+The security community has published extensively on the \emph{usability} of APIs.  Intuitively, if an API is easy to use correctly, developers are more likely to build secure applications to top of it.  Our approach is complementary, focusing on the relationships between primitives that APIs present (to application developers) and the associated primitives that crypto theory addresses.  We take the position that, in practice, APIs are primarily driven by non-security requirements (e.g. functionality, adoption, deployment).   As such, it is emcumbent upon us to take an \emph{API-centric} view of the primitives we formalize.  
 
-\tsnote{APIs have been widely study from the perspective of usability, e.g., if an API is easy for devs to use, they are more likely to use it correctly.  Our viewpoint is complementary, namely that good crypto theory should ``match'' (or ``respect'') what the APIs actually present to devs.}
-\tsnote{}
-
-
-
-\paragraph{Prior Work.}
 As a first step towards respecting real APIs, we must understand the extent to which the primitives we formalize in theory align with the actual primitives that APIs expose to developers.   For example, recent work by PI Shrimpton~\cite{BPS} revisits the theory of hedged public-key encryption (PKE)~\cite{xxx}.  The motivation for hedged PKE is quite practical: traditional PKE schemes are proved secure under the assumption that they have access to a source of uniform random bits; but in practice, PKE schemes are implemented on systems that have faulty RNGs, or where entropy is difficult to harvest.  In these cases, the security guarantees proved in theory are (at best) voided.  Hedged PKE is designed to satisfy traditional notions of security when provided uniform randomness, and still deliver useful security properties as the quality of randomness degrades.  The most elegant construction of hedged PKE works like this: synthesize fresh random bits by hashing all of the encryption inputs (the public key, the message, the provided randomness), and then use these bits as the randomness for an underlying PKE scheme.  In practice, implementing this simple construction is surprisingly difficult, as the high- and mid-level APIs presented by the most commonly used crypto libraries (e.g. OpenSSL and significant forks thereof) \emph{do not} permit one to specify the per-encryption randomness.   In~\cite{BPS}, the theory of hedged PKE is reconsidered from the perspective of what can be easily constructed given what real APIs expose, and what provable security guarantees these can achieve.
-
-Towards the goal of building cryptography that is forgiving of misuse, prior work by PI Shrimpton defined the notion of nonce-misuse-resistant authenticated encryption~\cite{RS06}, and showed how to achieve it using standard symmetric-key tools.  Rogaway had previously argued~\cite{xxx} that the classical viewpoint that symmetric encryption schemes are randomized primitives was misaligned with practice, and what we should be delivering are encryption schemes that are deterministic, surfacing an explicit IV input. (This is an early effort to close the gap between a theoretical primitive and its real-world presentation.)  Moreover, to make schemes easier to use correctly, we should target security when the IV is a non-repeating value ---~a nonce~--- rather than demanding the IV be random.  In~\cite{RS06}, we sought to make these nonce-based encryption schemes even easier to use, by designing them so that their security guarantee degrades gracefully when the nonce IV repeats.
-
-Later work by PI Shrimpton~\cite{NRS} reconsidered the traditional wisdom about building authenticated encryption (AE) via generic composition of an encryption scheme and a MAC.   The seminal work by Bellare and Namprempre~\cite{BN} showed that of the three classical compositions ---~encrypt-and-mac, mac-then-encrypt, encrypt-then-mac~--- only the last is secure given any secure encryption scheme and MAC.   This wisdom was heeded by an ISO standard, which would have been a good thing, except that the ISO standard was mandating a nonce-based AE scheme, whereas the Bellare-Namprempre results were about randomized AE.  As a result, the ISO scheme was actually broken, despite the standard's (appaudible) efforts to do what it seemed the crypto community told them.  Here again, the mismatch between theoretical primitives and their real-world realization was problematic.  In~\cite{NRS}, we readdressed generic composition from the nonce-based perspective, finding an interesting (albeit less simple) picture of what compositions are (and are not) generically secure.  (Curiously, one of the secure compositions that our work uncovered was the SIV-mode previously published in~\cite{RS06} as the first nonce-misuse-resistant AE scheme.)
  
 \tsnote{Summarize Cryptographic API paper.}
 
 
+%\paragraph{Prior Work.}
 
-\ignore{
+\paragraph{Misuse-forgiving Cryptography.}
+Towards the goal of building cryptography that is forgiving of misuse, prior work by PI Shrimpton defined the notion of nonce-misuse-resistant authenticated encryption~\cite{RS06}, and showed how to achieve it using standard symmetric-key tools.  Rogaway had previously argued~\cite{xxx} that the classical viewpoint that symmetric encryption schemes are randomized primitives was misaligned with practice, and what we should be delivering are encryption schemes that are deterministic, surfacing an explicit IV input. (This is an early effort to close the gap between a theoretical primitive and its real-world presentation.)  Moreover, to make schemes easier to use correctly, we should target security when the IV is a non-repeating value ---~a nonce~--- rather than demanding the IV be random.  In~\cite{RS06}, we sought to make these nonce-based encryption schemes even easier to use, by designing them so that their security guarantee degrades gracefully when the nonce IV repeats.
+
+Later work by PI Shrimpton~\cite{NRS} reconsidered the traditional wisdom about building authenticated encryption (AE) via generic composition of an encryption scheme and a MAC.   The seminal work by Bellare and Namprempre~\cite{BN} showed that of the three classical compositions ---~encrypt-and-mac, mac-then-encrypt, encrypt-then-mac~--- only the last is secure given any secure encryption scheme and MAC.   This wisdom was heeded by an ISO standard, which would have been a good thing, except that the ISO standard was mandating a nonce-based AE scheme, whereas the Bellare-Namprempre results were about randomized AE.  As a result, the ISO scheme was actually broken, despite the standard's (appaudible) efforts to do what it seemed the crypto community told them.  Here again, the mismatch between theoretical primitives and their real-world realization was problematic.  In~\cite{NRS}, we readdressed generic composition from the nonce-based perspective, finding an interesting (albeit less simple) picture of what compositions are (and are not) generically secure.  (Curiously, one of the secure compositions that our work uncovered was the SIV-mode previously published in~\cite{RS06} as the first nonce-misuse-resistant AE scheme.)
+
+
+
+\paragraph{Syntax as API.}
 The modern ``provable security'' approach to cryptrography loosely follows a three-step recipe: define a precise syntax for the abstract primitive under study, define formal notions of security for that primitive, realize the primitive and prove it meets the security notions.  The first step, defining the syntax, essentially defines the component objects that collectively make up the primitive, e.g. ``An encryption scheme $\Pi=(\calK,\calE,\calD)$ is a triple of algorithms...''  The syntax typically describes the number and type of the inputs and outputs of these components, too, e.g. ``The decryption algorithm provides a mapping $\calD\colon\bits^{k}\times\bits^* \to \bits^* \cup \{\bot\}$...'', as well as requirements on the behavior of these components in any correct realization of them.   
 %
 
@@ -52,15 +50,11 @@ But one must be careful not to let this intuition morph into an belief that what
 %%or that the translation of good, clear syntax to an actual API is a simple software engineering exercise. 
 
 When a researcher argues for a change to the accepted syntax ---~a new API for a primitive~--- there is no real ``cost'' incurred if it is adopted.  Prior works using the old syntax do not ``break''; in the worst case they may (eventually) be viewed as outdated.  If anything, the new syntax presents an opportunity for researchers revisit prior work and publish updated findings.  
-}
 
 
 
 
 
-\paragraph{Motivating problems.}  
-
-\paragraph{Preliminary work.}
 
 \paragraph{Public artifacts and broader impacts.} 
 
