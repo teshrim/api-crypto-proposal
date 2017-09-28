@@ -1,0 +1,64 @@
+@inproceedings{BBN+,
+  author="Bellare, Mihir
+    and Brakerski, Zvika
+    and Naor, Moni
+    and Ristenpart, Thomas
+    and Segev, Gil
+    and Shacham, Hovav
+    and Yilek, Scott",
+  editor="Matsui, Mitsuru",
+  title="Hedged Public-Key Encryption: How to Protect against Bad Randomness",
+  bookTitle="Advances in Cryptology -- ASIACRYPT 2009: 15th International
+    Conference on the Theory and Application of Cryptology and Information
+    Security, Tokyo, Japan, December 6-10, 2009. Proceedings",
+  year="2009",
+  publisher="Springer Berlin Heidelberg",
+  address="Berlin, Heidelberg",
+  pages="232--249",
+  abstract="Public-key encryption schemes rely for their IND-CPA security on
+    per-message fresh randomness. In practice, randomness may be of poor quality
+    for a variety of reasons, leading to failure of the schemes. Expecting the
+      systems to improve is unrealistic. What we show in this paper is that we
+        can, instead, improve the cryptography to offset the lack of possible
+        randomness. We provide public-key encryption schemes that achieve
+        IND-CPA security when the randomness they use is of high quality, but,
+        when the latter is not the case, rather than breaking completely, they
+          achieve a weaker but still useful notion of security that we call
+          IND-CDA. This hedged public-key encryption provides the best possible
+          security guarantees in the face of bad randomness. We provide simple
+          RO-based ways to make in-practice IND-CPA schemes hedge secure with
+          minimal software changes. We also provide non-RO model schemes relying
+          on lossy trapdoor functions (LTDFs) and techniques from deterministic
+          encryption. They achieve adaptive security by establishing and
+          exploiting the anonymity of LTDFs which we believe is of independent
+          interest.",
+        isbn="978-3-642-10366-7",
+        doi="10.1007/978-3-642-10366-7_14",
+        url="https://doi.org/10.1007/978-3-642-10366-7_14"
+}
+
+@inproceedings{BPS,
+  author="Boldyreva, Alexandra
+    and Patton, Christopher
+    and Shrimpton, Thomas",
+  editor="Katz, Jonathan
+    and Shacham, Hovav",
+  title="Hedging Public-Key Encryption in the Real World",
+  bookTitle="Advances in Cryptology -- CRYPTO 2017: 37th Annual International
+    Cryptology Conference, Santa Barbara, CA, USA, August 20--24, 2017,
+  Proceedings, Part III",
+  year="2017",
+  publisher="Springer International Publishing",
+  address="Cham",
+  pages="462--494",
+  abstract="Hedged PKE schemes are designed to provide useful security when the
+    per-message randomness fails to be uniform, say, due to faulty
+    implementations or adversarial actions. A simple and elegant theoretical
+    approach to building such schemes works like this: Synthesize fresh random
+    bits by hashing all of the encryption inputs, and use the resulting hash
+    output as randomness for an underlying PKE scheme.",
+  isbn="978-3-319-63697-9",
+  doi="10.1007/978-3-319-63697-9_16",
+  url="https://doi.org/10.1007/978-3-319-63697-9_16"
+}
+

@@ -1,0 +1,74 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: proposal.aux
+The style file: alpha.bst
+Database file #1: proposal.bib
+Warning--I didn't find a database entry for "SSW"
+Warning--I didn't find a database entry for ""
+Warning--I didn't find a database entry for "RS06"
+Warning--I didn't find a database entry for "xxx"
+Warning--I didn't find a database entry for "NRS"
+Warning--I didn't find a database entry for "BN"
+Warning--I didn't find a database entry for "ZhangEtAl:2014"
+Warning--I didn't find a database entry for "DodisRV12"
+Warning--I didn't find a database entry for "DRSS12:hmac"
+Warning--I didn't find a database entry for "everspaugh2014not"
+Warning--I didn't find a database entry for "checkoway2014practical"
+Warning--I didn't find a database entry for "varadarajan2014scheduler"
+Warning--I didn't find a database entry for "wang2014whowas"
+Warning--I didn't find a database entry for "jellinek2014day"
+Warning--I didn't find a database entry for "DRS09"
+Warning--I didn't find a database entry for "BCS-journal09"
+Warning--I didn't find a database entry for "OSS"
+Warning--I didn't find a database entry for "BRSS10"
+Warning--I didn't find a database entry for "fischlin2010random"
+Warning--I didn't find a database entry for "RSS"
+Warning--I didn't find a database entry for "PRS11"
+Warning--I didn't find a database entry for "dyer2012peek"
+Warning--I didn't find a database entry for "clrw"
+Warning--I didn't find a database entry for "tct"
+Warning--I didn't find a database entry for "Dyer-2013"
+Warning--I didn't find a database entry for "luchaup2014libfte"
+Warning--I didn't find a database entry for "luchaup2014formatted"
+You've used 2 entries,
+            2543 wiz_defined-function locations,
+            617 strings with 5597 characters,
+and the built_in function-call counts, 1387 in all, are:
+= -- 138
+> -- 82
+< -- 2
++ -- 29
+- -- 29
+* -- 105
+:= -- 228
+add.period$ -- 8
+call.type$ -- 2
+change.case$ -- 18
+chr.to.int$ -- 2
+cite$ -- 2
+duplicate$ -- 52
+empty$ -- 87
+format.name$ -- 30
+if$ -- 293
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 2
+newline$ -- 14
+num.names$ -- 10
+pop$ -- 20
+preamble$ -- 1
+purify$ -- 20
+quote$ -- 0
+skip$ -- 45
+stack$ -- 0
+substring$ -- 78
+swap$ -- 20
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 16
+warning$ -- 0
+while$ -- 14
+width$ -- 4
+write$ -- 33
+(There were 27 warnings)

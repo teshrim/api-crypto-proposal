@@ -15,8 +15,8 @@ To their credit, security engineers and software developers do largely seem to
 have understood.  But there is a response that, sadly, the research community
 has heard less clearly: ``correctly implementing your pretty crypto is hard!''
 To paraphrase various industry speakers at editions of Real World Crypto (e.g.,
-David McGrew, Daniel Kahn-Gilmore, Thai Duong\cpnote{RWC'17 Wycheproof talk}), and Paul Kocher in his invited lecture at
-Crypto'16:
+David McGrew, Daniel Kahn-Gilmore, Thai Duong\cpnote{RWC'17 Wycheproof talk}),
+and Paul Kocher in his invited lecture at Crypto'16:
 %
 Cryptographers need to understand that API/library design is hard work and that,
 once fielded, APIs are very slow to change.  (Changes to APIs can break the
@@ -57,8 +57,8 @@ implement, correctly.}  More specifically, that
 
 \subsection{API-centric Cryptography}
 The security community has published extensively on the \emph{usability} of
-APIs.  Intuitively, if an API is easy to use correctly, developers are more
-likely to build secure applications to top of it.  Our approach is
+APIs. Intuitively, if an API is easy to use correctly, developers are more
+likely to build secure applications to top of it~\cite{ABF+}. Our approach is
 complementary, focusing on the relationships between primitives that APIs
 present (to application developers) and the associated primitives that crypto
 theory addresses.  We take the position that, in practice, APIs are primarily
@@ -69,9 +69,9 @@ primitives we formalize.
 \paragraph{Prior Work.}
 As a first step towards respecting real APIs, we must understand the extent to
 which the primitives we formalize in theory align with the actual primitives
-that APIs expose to developers.   For example, recent work by PI
+that APIs expose to developers.  For example, recent work by PI
 Shrimpton~\cite{BPS} revisits the theory of hedged public-key encryption
-(PKE)~\cite{xxx}.  The motivation for hedged PKE is quite practical: traditional
+(PKE)~\cite{BBN+}.  The motivation for hedged PKE is quite practical: traditional
 PKE schemes are proved secure under the assumption that they have access to a
 source of uniform random bits; but in practice, PKE schemes are implemented on
 systems that have faulty RNGs, or where entropy is difficult to harvest.  In
@@ -114,11 +114,14 @@ it may be the case that  \tsnote{finish... corrupt keys are imported, etc.}
 
 \paragraph{Tasks.}
 We will...
-\tsnote{Application developer APIs for secure send/receive of messges (data-in-flight) and secure read/write from storage (data-at-rest).  What are the implied primitives, and what are the security properties that developers assume are provided.}
-\tsnote{Secure-channel APIs for streaming data vs. message-oriented data.  Look at ``data is a stream'' paper.}
-\tsnote{}
-\tsnote{Authenticated key-exchange: examine existing protocols and APIs, distill out design patterns/common features, abstract out the API that one wants as a security engineer. }
-\tsnote{Close open questions from CrAPI paper}
+\tsnote{Application developer APIs for secure send/receive of messges
+(data-in-flight) and secure read/write from storage (data-at-rest).  What are
+the implied primitives, and what are the security properties that developers
+assume are provided.} \tsnote{Secure-channel APIs for streaming data vs.
+message-oriented data.  Look at ``data is a stream'' paper.} \tsnote{}
+\tsnote{Authenticated key-exchange: examine existing protocols and APIs, distill
+out design patterns/common features, abstract out the API that one wants as a
+security engineer. } \tsnote{Close open questions from CrAPI paper}
 
 
 %\paragraph{Prior Work.}
