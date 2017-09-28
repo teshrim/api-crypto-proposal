@@ -165,7 +165,9 @@
 \newcommand{\snote}[1]{\refstepcounter{mynote}{\bf
 \textcolor{\notecolor}{$\ll$SK~\thenote: {\sf #1}$\gg$}}}
 \newcommand{\notetoms}[1]{\note{TomS}{\bf\textcolor{blue}{#1}}}
-\newcommand{\tsnote}{\notetoms} 
+\newcommand{\tsnote}{\notetoms}
+\definecolor{darkgreen}{RGB}{50,127,0}
+\newcommand{\cpnote}[1]{\note{Chris}{\textnormal{\textcolor{blue}{#1}}}}
 \newcommand{\notetomr}[1]{\note{TomR}{#1}}
 \newcommand{\tnote}[1]{\ifnum\authnotes=1\refstepcounter{mynote}{\bf\textcolor{cyan}{$\ll$TCR~\thenote: {\sf #1}$\gg$}}\fi}
 \newcommand{\noteari}[1]{\note{Ari}{#1}}
