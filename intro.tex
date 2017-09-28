@@ -5,7 +5,7 @@ For years, the cryptography research community has been emploring security
 engineers and developers to ``please stop rolling your own crypto!''  An
 expanded version of plea might be: cryptography is hard, so let the crypto experts
 handle the crypto; you just worry about implementing what we provide.  There is
-good sense in this message. Cryptography \emph{is} hard; the security
+good sense in this message.  Cryptography \emph{is} hard.  And the security
 guarantees that we prove can depend crucially on parameter choices, padding
 schemes, etc., and in ways that may not be obvious to non-experts. Our
 research community has developed a collective wisdom that helps guide us to good
@@ -13,7 +13,7 @@ solutions (or at least to avoid pitfalls).
 
 To their credit, security engineers and software developers do largely seem to
 have understood.  But there is a response that, sadly, the research community
-has heard less clearly: ``correctly implementing your pretty crypto is hard!''
+has heard less clearly: ``correctly implementing your theoretical crypto is hard!''
 To paraphrase various industry speakers at editions of Real World Crypto (e.g.,
 David McGrew, Daniel Kahn-Gilmore, Thai Duong\cpnote{RWC'17 Wycheproof talk}),
 and Paul Kocher in his invited lecture at Crypto'16:
@@ -25,8 +25,7 @@ reputation, etc. \cpnote{The most important point we can make here is that
 having to change applications using the API costs \emph{real} money. The other
 points you make are secondary.})  So no matter how pretty your theory is, if it
 is hard to implement with existing APIs, it either won't be implemented, or it
-is prone to be implemented incorrectly.  \tsnote{I believe that Adi Shamir had a
-similar message many years ago.}
+is prone to be implemented incorrectly.  
 
 This proposal adopts the position that \emph{a primary focus of crypto research
 should be to deliver primitives and protocols that are as easy as possible to
@@ -50,7 +49,8 @@ implement, correctly.}  More specifically, that
     %
     \cpnote{I guess this is the ``pie-in-the-sky''? I'll look at the SWE
     literature and see if I can dig up a way to measure \emph{implementation
-    complexity}.}
+    complexity}.}\tsnote{Yep.  But have a look at Rogaway's Partially
+  Specified Protocols/Authentication without Ellision paper}
 \end{enumerate}
 
 \tsnote{finish out this intro}
@@ -130,7 +130,7 @@ real APIs expose, and what provable security guarantees these can achieve.
 \begin{itemize}
 \item As a first step towards respecting real APIs, we must understand the extent to
 which the primitives we formalize in theory align with the actual primitives
-that APIs expose to developers.
+that APIs expose to developers. {Survey, SoK-type work.}
 \item {Application developer APIs for secure send/receive of messges
 (data-in-flight) and secure read/write from storage (data-at-rest).  What are
 the implied primitives, and what are the security properties that developers
@@ -180,9 +180,20 @@ compositions are (and are not) generically secure.  (Curiously, one of the
 secure compositions that our work uncovered was the SIV-mode previously
 published in~\cite{RS06} as the first nonce-misuse-resistant AE scheme.)
 
+\tsnote{Hey Chris: what other types of misuse might be considered?
+  Think about not just how one might misuse the inputs (say) to a
+  primitive, but also how a primitive might be ``misused'' within an
+  application, e.g. there may parallel communication channels, there
+  may be metadata in the clear, there may be downgrading or other
+  things that happen ``under the hood'' from the application's perspective, etc.}
+
 \paragraph{Tasks.}
 \begin{itemize}
-\item ...
+\item {Follow-on work to hedging paper}\todo{Chris}
+\item {Malleabilty models ideas?}
+\item {Survey/user study to find out what things people don't
+    understand, want to abuse, find annoying when using libraries/when
+  trying to translate theory syntax into APIs}\todo{?}
 \end{itemize}
 
 \subsection{Syntax as API}
@@ -238,7 +249,18 @@ revisit prior work and publish updated findings.
 be translated into an API.
 }
 
-\paragraph{Prior Work.} \tsnote{Not sure what we can give here.}
+\tsnote{Random ideas: translating syntax into something more like an API.
+  What underlying methods are needed for AEAD, or
+  some other common primitive?  For example, decryption:
+  RetrieveContext (i.e. some AD may be sent, some might be locally
+  stored), ParseCtxt, IsValid,... Also, what about explicitly separating quantities that
+  are for ``internal'' use only from those that are ``releasable''?
+  This could be especially useful for very high-level primitives/APIs}
+
+\paragraph{Prior Work.} 
+
+\todo{Look at Rogaway's online-AE paper.  I seem to remember him
+  saying that the main contribution of that paper was API oriented}
 
 \paragraph{Tasks.}
 \begin{itemize}
@@ -248,13 +270,13 @@ be translated into an API.
 \subsection{Ease of Correct Implemenation as Security Property}
 
 \paragraph{Prior Work.}
-\todo{Rogaway's partially elided protocols paper}
-
-\tsnote{Need to do some digging outside of crypto here!}
 
 \tsnote{This thread has
 the biggest risk of failure.  But also has potential for large return, as it
 would change the way we think about security in the community}
+\tsnote{Need to do some digging outside of crypto here!}
+
+\todo{Rogaway's Authentication without Ellision paper}
 
 \paragraph{Tasks.}
 \begin{itemize}
