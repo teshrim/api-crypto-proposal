@@ -148,58 +148,7 @@ security engineer. }
 
 %\paragraph{Prior Work.}
 
-\subsection{Misuse-Forgiving Cryptography}
-
-\paragraph{Prior Work.}
-Towards the goal of building cryptography that is forgiving of misuse, prior
-work by PI Shrimpton defined the notion of nonce-misuse-resistant authenticated
-encryption~\cite{RS06}, and showed how to achieve it using standard
-symmetric-key tools.  Rogaway had previously argued~\cite{xxx} that the
-classical viewpoint that symmetric encryption schemes are randomized primitives
-was misaligned with practice, and what we should be delivering are encryption
-schemes that are deterministic, surfacing an explicit IV input. (This is an
-early effort to close the gap between a theoretical primitive and its real-world
-presentation.)  Moreover, to make schemes easier to use correctly, we should
-target security when the IV is a non-repeating value ---~a nonce~--- rather than
-demanding the IV be random.  In~\cite{RS06}, we sought to make these nonce-based
-encryption schemes even easier to use, by designing them so that their security
-guarantee degrades gracefully when the nonce IV repeats.  Nonce-misuse
-resistance has been recognized as an important goal,  
-
-Later work by PI Shrimpton~\cite{NRS} reconsidered the traditional wisdom about
-building authenticated encryption (AE) via generic composition of an encryption
-scheme and a MAC.   The seminal work by Bellare and Namprempre~\cite{BN} showed
-that of the three classical compositions ---~encrypt-and-mac, mac-then-encrypt,
-encrypt-then-mac~--- only the last is secure given any secure encryption scheme
-and MAC.   This wisdom was heeded by an ISO standard, which would have been a
-good thing, except that the ISO standard was mandating a nonce-based AE scheme,
-whereas the Bellare-Namprempre results were about randomized AE.  As a result,
-the ISO scheme was actually broken, despite the standard's (appaudible) efforts
-to do what it seemed the crypto community told them.  Here again, the mismatch
-between theoretical primitives and their real-world realization was problematic.
-In~\cite{NRS}, we readdressed generic composition from the nonce-based
-perspective, finding an interesting (albeit less simple) picture of what
-compositions are (and are not) generically secure.  (Curiously, one of the
-secure compositions that our work uncovered was the SIV-mode previously
-published in~\cite{RS06} as the first nonce-misuse-resistant AE scheme.)
-
-\tsnote{Hey Chris: what other types of misuse might be considered?
-  Think about not just how one might misuse the inputs (say) to a
-  primitive, but also how a primitive might be ``misused'' within an
-  application, e.g. there may parallel communication channels, there
-  may be metadata in the clear, there may be downgrading or other
-  things that happen ``under the hood'' from the application's perspective, etc.}
-
-\paragraph{Tasks.}
-\begin{itemize}
-\item {Follow-on work to hedging paper}\todo{Chris}
-\item {Malleabilty models ideas?}
-\item {Survey/user study to find out what things people don't
-    understand, want to abuse, find annoying when using libraries/when
-  trying to translate theory syntax into APIs}\todo{?}
-\end{itemize}
-
-\subsection{Syntax as API}
+\subsection{Implementation-considerate Formalisms}
 \tsnote{Most of this came from an earlier approach to writing the
   intro/motivation.  Very drafty.  (As is everything, really, at this point.)}
 The modern ``provable security'' approach to cryptrography loosely follows a
@@ -270,6 +219,57 @@ be translated into an API.
 \item ...
 \end{itemize}
 
+
+\subsection{Misuse-Forgiving Primitives}
+
+\paragraph{Prior Work.}
+Towards the goal of building cryptography that is forgiving of misuse, prior
+work by PI Shrimpton defined the notion of nonce-misuse-resistant authenticated
+encryption~\cite{RS06}, and showed how to achieve it using standard
+symmetric-key tools.  Rogaway had previously argued~\cite{xxx} that the
+classical viewpoint that symmetric encryption schemes are randomized primitives
+was misaligned with practice, and what we should be delivering are encryption
+schemes that are deterministic, surfacing an explicit IV input. (This is an
+early effort to close the gap between a theoretical primitive and its real-world
+presentation.)  Moreover, to make schemes easier to use correctly, we should
+target security when the IV is a non-repeating value ---~a nonce~--- rather than
+demanding the IV be random.  In~\cite{RS06}, we sought to make these nonce-based
+encryption schemes even easier to use, by designing them so that their security
+guarantee degrades gracefully when the nonce IV repeats.  Nonce-misuse
+resistance has been recognized as an important goal,  
+
+Later work by PI Shrimpton~\cite{NRS} reconsidered the traditional wisdom about
+building authenticated encryption (AE) via generic composition of an encryption
+scheme and a MAC.   The seminal work by Bellare and Namprempre~\cite{BN} showed
+that of the three classical compositions ---~encrypt-and-mac, mac-then-encrypt,
+encrypt-then-mac~--- only the last is secure given any secure encryption scheme
+and MAC.   This wisdom was heeded by an ISO standard, which would have been a
+good thing, except that the ISO standard was mandating a nonce-based AE scheme,
+whereas the Bellare-Namprempre results were about randomized AE.  As a result,
+the ISO scheme was actually broken, despite the standard's (appaudible) efforts
+to do what it seemed the crypto community told them.  Here again, the mismatch
+between theoretical primitives and their real-world realization was problematic.
+In~\cite{NRS}, we readdressed generic composition from the nonce-based
+perspective, finding an interesting (albeit less simple) picture of what
+compositions are (and are not) generically secure.  (Curiously, one of the
+secure compositions that our work uncovered was the SIV-mode previously
+published in~\cite{RS06} as the first nonce-misuse-resistant AE scheme.)
+
+\tsnote{Hey Chris: what other types of misuse might be considered?
+  Think about not just how one might misuse the inputs (say) to a
+  primitive, but also how a primitive might be ``misused'' within an
+  application, e.g. there may parallel communication channels, there
+  may be metadata in the clear, there may be downgrading or other
+  things that happen ``under the hood'' from the application's perspective, etc.}
+
+\paragraph{Tasks.}
+\begin{itemize}
+\item {Follow-on work to hedging paper}\todo{Chris}
+\item {Malleabilty models ideas?}
+\item {Survey/user study to find out what things people don't
+    understand, want to abuse, find annoying when using libraries/when
+  trying to translate theory syntax into APIs}\todo{?}
+\end{itemize}
 \subsection{Ease of Correct Implemenation as Security Property}
 
 \paragraph{Prior Work.}
