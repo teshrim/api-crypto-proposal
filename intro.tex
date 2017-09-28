@@ -57,21 +57,27 @@ implement, correctly.}  More specifically, that
 
 \subsection{API-centric Cryptography}
 The security community has published extensively on the \emph{usability} of
-APIs. Intuitively, if an API is easy to use correctly, developers are more
-likely to build secure applications to top of it~\cite{ABF+}. Our approach is
-complementary, focusing on the relationships between primitives that APIs
-present (to application developers) and the associated primitives that crypto
-theory addresses.  We take the position that, in practice, APIs are primarily
-driven by non-security requirements (e.g. functionality, adoption, deployment).
+APIs~\cite{ABF+}. Intuitively, if an API is easy to use correctly, developers
+are more likely to build secure applications to top of it.
+%
+Our approach is complementary, focusing on the relationships between
+functionalities that APIs present (to application developers) and the primitives
+that crypto theory provides. We take the position that, in practice, APIs are
+primarily driven by non-security requirements (e.g. functionality, adoption,
+deployment).
+%
 As such, it is emcumbent upon us to take an \emph{API-centric} view of the
 primitives we formalize.
 
 \paragraph{Prior Work.}
 As a first step towards respecting real APIs, we must understand the extent to
 which the primitives we formalize in theory align with the actual primitives
-that APIs expose to developers.  For example, recent work by PI
-Shrimpton~\cite{BPS} revisits the theory of hedged public-key encryption
-(PKE)~\cite{BBN+}.  The motivation for hedged PKE is quite practical: traditional
+that APIs expose to developers.
+%
+For example, recent work by PI Shrimpton~\cite{BPS} revisits the theory of
+hedged public-key encryption (PKE)~\cite{BBN+}.
+%
+The motivation for hedged PKE is quite practical: traditional
 PKE schemes are proved secure under the assumption that they have access to a
 source of uniform random bits; but in practice, PKE schemes are implemented on
 systems that have faulty RNGs, or where entropy is difficult to harvest.  In
