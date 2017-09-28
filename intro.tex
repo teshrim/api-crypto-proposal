@@ -77,11 +77,13 @@ that APIs expose to developers.
 For example, recent work by PI Shrimpton~\cite{BPS} revisits the theory of
 hedged public-key encryption (PKE)~\cite{BBN+}.
 %
-The motivation for hedged PKE is quite practical: traditional
+The motivation for hedged PKE is quite practical. Traditional
 PKE schemes are proved secure under the assumption that they have access to a
 source of uniform random bits; but in practice, PKE schemes are implemented on
 systems that have faulty RNGs, or where entropy is difficult to harvest.  In
-these cases, the security guarantees proved in theory are (at best) voided.
+these cases, the security guarantees proved in theory are, at best, voided; at
+worst, failure of the RNG can lead to recovery of the plaintext.
+%
 Hedged PKE is designed to satisfy traditional notions of security when provided
 uniform randomness, and still deliver useful security properties as the quality
 of randomness degrades.  The most elegant construction of hedged PKE works like
@@ -97,7 +99,7 @@ real APIs expose, and what provable security guarantees these can achieve.
 
 In~\cite{SSW}, PI Shrimpton gave a provable-security treatment to the design and
 analysis of so-called ``cryptographic APIs'', standardized in the PKCS\#11
-document\cite{}.  That standard details an interface by which one may interact
+document\cite{pkcs11}.  That standard details an interface by which one may interact
 cryptographic tokens (e.g. smart cards, USB devices, enterprise-grade HSMs) that
 are trusted to perform key-manangement duties, enforcement of policies for the
 use of stored keys, and a limited number of asymmetric- and symmetric-key crypto
