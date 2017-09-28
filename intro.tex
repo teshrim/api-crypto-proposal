@@ -57,8 +57,9 @@ implement, correctly.}  More specifically, that
 
 \subsection{API-centric Cryptography}
 The security community has published extensively on the \emph{usability} of
-APIs~\cite{ABF+}. Intuitively, if an API is easy to use correctly, developers
-are more likely to build secure applications to top of it.
+APIs~\cite{ABF+}\todo{we should have more than one citation}. 
+Intuitively, if an API is easy to use correctly, developers are more
+likely to build secure applications to top of it.  
 %
 Our approach is complementary, focusing on the relationships between
 functionalities that APIs present (to application developers) and the primitives
@@ -70,12 +71,40 @@ As such, it is emcumbent upon us to take an \emph{API-centric} view of the
 primitives we formalize.
 
 \paragraph{Prior Work.}
-As a first step towards respecting real APIs, we must understand the extent to
-which the primitives we formalize in theory align with the actual primitives
-that APIs expose to developers.
+In~\cite{SSW}, PI Shrimpton gave a provable-security treatment to the design and
+analysis of so-called ``cryptographic APIs'', standardized in the PKCS\#11
+document\cite{xxx}.  That standard details an interface by which one may interact
+cryptographic tokens (e.g. smart cards, USB devices, enterprise-grade HSMs) that
+are trusted to perform key-manangement duties, enforcement of policies for the
+use of stored keys, and a limited number of asymmetric- and symmetric-key crypto
+operations.  These tokens support a variety of applications, including
+certification authorities, SSL/TLS acceleration, and interbank communication.
+
+Our approach in this paper was API-centric, in that we took the PKCS\#11
+standard as the reference point, and defined from it a new cryptographic-API
+primitive.  We then formalized some of the intuitive notions of security for a
+cryptographic API.  This was a complex undertaking, as one of the core
+key-management functionalities is to allow the exporting and importing of keys
+via ``key (un)wrapping'' operations.  (This supports, among other things, the
+transportation of cryptographically protected keys between tokens.)  These keys
+may have a variety of attributes associated to them that proscribe
+their usage, e.g. this key may/may not be used to encrypt data (via a given API
+call), this key may/may not be wrapped for future export.  Thus, the internal
+state of the key-management functionality changes as an attacker carries out
+permitted API calls. \todo{Mention the API-attack papers by Graham
+  Steele.} 
+Moreover, a real adversary may be in possession of one or
+more tokens ---~keep in mind that these may be physically vulnerable
+devices, such as USB sticks or smart cards~--- and these are subject
+to corruption.  As a result, a victim token is asked to
+import adverasarially-known keys.  This can cause many other keys
+under management by the victim to become (effectively) corrupted, 
+e.g. if the attributes of the imported key allow it to be used for wrapping.
+
+
 %
-For example, recent work by PI Shrimpton~\cite{BPS} revisits the theory of
-hedged public-key encryption (PKE)~\cite{BBN+}.
+Recent work by PI Shrimpton~\cite{BPS} revisits the theory of
+hedged public-key encryption (PKE)~\cite{BBN+} from an API-centric perspective.
 %
 The motivation for hedged PKE is quite practical. Traditional
 PKE schemes are proved secure under the assumption that they have access to a
@@ -97,40 +126,22 @@ per-encryption randomness.   In~\cite{BPS}, the theory of hedged PKE is
 reconsidered from the perspective of what can be easily constructed given what
 real APIs expose, and what provable security guarantees these can achieve.
 
-In~\cite{SSW}, PI Shrimpton gave a provable-security treatment to the design and
-analysis of so-called ``cryptographic APIs'', standardized in the PKCS\#11
-document\cite{pkcs11}.  That standard details an interface by which one may interact
-cryptographic tokens (e.g. smart cards, USB devices, enterprise-grade HSMs) that
-are trusted to perform key-manangement duties, enforcement of policies for the
-use of stored keys, and a limited number of asymmetric- and symmetric-key crypto
-operations.  These tokens support a variety of applications, including
-certification authorities, SSL/TLS acceleration, and interbank communication.
-Our approach in this paper was API-centric, in that we took the PKCS\#11
-standard as the reference point, and defined from it a new cryptographic-API
-primitive.  We then formalized some of the intuitive notions of security for a
-cryptographic API.  This was a complex undertaking, as one of the core
-key-management functionalities is to allow the exporting and importing of keys
-via ``key (un)wrapping'' operations.  (This supports, among other things, the
-transportation of cryptographically protected keys between tokens.)  These keys
-may have a variety of pre-defined attributes associated to them, proscribing
-their usage, e.g. this key may/may not be used to encrypt data (via a given API
-call), this key may/may not be wrapped for future export.  Thus the effective
-state of the key-management functionality may change as an attacker carries out
-permitted API calls.  Moreover, a real adversary may be in possession of one or
-more tokens ---~keep in mind that these may be USB sticks or smart cards~--- so
-it may be the case that  \tsnote{finish... corrupt keys are imported, etc.}
-
-\paragraph{Tasks.}
-We will...
-\tsnote{Application developer APIs for secure send/receive of messges
+\paragraph{Tasks.} \tsnote{List of possible tasks}
+\begin{itemize}
+\item As a first step towards respecting real APIs, we must understand the extent to
+which the primitives we formalize in theory align with the actual primitives
+that APIs expose to developers.
+\item {Application developer APIs for secure send/receive of messges
 (data-in-flight) and secure read/write from storage (data-at-rest).  What are
 the implied primitives, and what are the security properties that developers
-assume are provided.} \tsnote{Secure-channel APIs for streaming data vs.
-message-oriented data.  Look at ``data is a stream'' paper.} \tsnote{}
-\tsnote{Authenticated key-exchange: examine existing protocols and APIs, distill
+assume are provided.} 
+\item {Secure-channel APIs for streaming data vs.
+message-oriented data.  Look at ``data is a stream'' paper.} 
+\item  {Authenticated key-exchange: examine existing protocols and APIs, distill
 out design patterns/common features, abstract out the API that one wants as a
-security engineer. } \tsnote{Close open questions from CrAPI paper}
-
+security engineer. } 
+\item {Close open questions from CrAPI paper}
+\end{itemize}
 
 %\paragraph{Prior Work.}
 
@@ -170,7 +181,9 @@ secure compositions that our work uncovered was the SIV-mode previously
 published in~\cite{RS06} as the first nonce-misuse-resistant AE scheme.)
 
 \paragraph{Tasks.}
-We will...
+\begin{itemize}
+\item ...
+\end{itemize}
 
 \subsection{Syntax as API}
 The modern ``provable security'' approach to cryptrography loosely follows a
@@ -218,17 +231,25 @@ revisit prior work and publish updated findings.
 \paragraph{Prior Work.} \tsnote{Not sure what we can give here.}
 
 \paragraph{Tasks.}
-We will...
+\begin{itemize}
+\item ...
+\end{itemize}
 
 \subsection{Ease of Correct Implemenation as Security Property}
 
 \paragraph{Prior Work.}
 \tsnote{Rogaway's partially elided protocols paper}
-\tsnote{Need to do some digging outside of crypto here!}\tsnote{This thread has
+
+\tsnote{Need to do some digging outside of crypto here!}
+
+\tsnote{This thread has
 the biggest risk of failure.  But also has potential for large return, as it
 would change the way we think about security in the community}
 
 \paragraph{Tasks.}
+\begin{itemize}
+\item ...
+\end{itemize}
 
 \subsection{Public artifacts and broader impacts}
 

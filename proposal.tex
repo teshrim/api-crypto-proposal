@@ -161,16 +161,13 @@
 \newcommand{\thenote}{\thesection.\arabic{mynote}}
 \newcommand{\note}[2]{\refstepcounter{mynote}{\bf \textcolor{\notecolor}{$\ll$#1: {\textcolor{black}{\sf #2}}$\gg$}}}
 \newcommand{\mnote}[1]{\refstepcounter{mynote}{\bf \textcolor{\notecolor}{$\ll$MB~\thenote: {\sf #1}$\gg$}}}
-\newcommand{\fixme}[1]{\ifnum\authnotes=1\textbf{\textcolor{red}{[FIXME: #1]}}\fi}
+\newcommand{\todo}[1]{\ifnum\authnotes=1\textbf{\textcolor{red}{[To-Do: #1]}}\fi}
 \newcommand{\snote}[1]{\refstepcounter{mynote}{\bf
 \textcolor{\notecolor}{$\ll$SK~\thenote: {\sf #1}$\gg$}}}
-\newcommand{\notetoms}[1]{\note{TomS}{\bf\textcolor{blue}{#1}}}
+\newcommand{\notetoms}[1]{\note{\sf \textcolor{magenta}{TomS}}{\textcolor{magenta}{#1}}}
 \newcommand{\tsnote}{\notetoms}
 \definecolor{darkgreen}{RGB}{50,127,0}
 \newcommand{\cpnote}[1]{\note{Chris}{\textnormal{\textcolor{blue}{#1}}}}
-\newcommand{\notetomr}[1]{\note{TomR}{#1}}
-\newcommand{\tnote}[1]{\ifnum\authnotes=1\refstepcounter{mynote}{\bf\textcolor{cyan}{$\ll$TCR~\thenote: {\sf #1}$\gg$}}\fi}
-\newcommand{\noteari}[1]{\note{Ari}{#1}}
 
 %\newcommand{\assign}[2]{\fixme{\hl{\bf Assigned to #1:} #2}}
 %\newcommand{\assigntom}[1]{\assign{Tom}{#1}}
