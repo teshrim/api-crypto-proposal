@@ -1,30 +1,116 @@
 \section{Project Description}
 \label{sec:intro}
 
-For years, the cryptography research community has been emploring security engineers and developers to ``please stop rolling your own crypto!''  An expanded version of plea might be: cryptography is hard, let the crypto experts handle the crypto; you just worry about implementing what we provide.  There is good sense in this message.  Cryptography \emph{is} hard; the security guarantees that we prove can depend crucially on parameter choices, padding schemes, etc., and in ways that may not be obvious to non-experts; and our research community has developed a collective wisdom that helps guide us to good solutions (or at least to avoid pitfalls).  
+For years, the cryptography research community has been emploring security
+engineers and developers to ``please stop rolling your own crypto!''  An
+expanded version of plea might be: cryptography is hard, so let the crypto experts
+handle the crypto; you just worry about implementing what we provide.  There is
+good sense in this message. Cryptography \emph{is} hard; the security
+guarantees that we prove can depend crucially on parameter choices, padding
+schemes, etc., and in ways that may not be obvious to non-experts. Our
+research community has developed a collective wisdom that helps guide us to good
+solutions (or at least to avoid pitfalls).
 
-To their credit, security engineers and software developers do largely seem to have understood.  But there is a response that, sadly, the research community has heard less clearly: ``correctly implementing your pretty crypto is hard!''  To paraphrase various industry speakers at editions of Real World Crypto (e.g., David McGrew, Daniel Kahn-Gilmore), and Paul Kocher in his invited lecture at Crypto'16:
+To their credit, security engineers and software developers do largely seem to
+have understood.  But there is a response that, sadly, the research community
+has heard less clearly: ``correctly implementing your pretty crypto is hard!''
+To paraphrase various industry speakers at editions of Real World Crypto (e.g.,
+David McGrew, Daniel Kahn-Gilmore, Thai Duong\cpnote{RWC'17 Wycheproof talk}), and Paul Kocher in his invited lecture at
+Crypto'16:
 %
-Cryptographers need to understand that API/library design is hard work and that, once fielded, APIs are very slow to change.  (Changes to APIs can break the applications built upon them, leading to unhappy customers, lost of revenue or reputation, etc.)  So no matter how pretty is your theory, if it is hard to implement with existing APIs, it either won't be implemented, or it is prone to be implemented incorrectly.  \tsnote{I believe that Adi Shamir had a similar message many years ago.}  
-%
+Cryptographers need to understand that API/library design is hard work and that,
+once fielded, APIs are very slow to change.  (Changes to APIs can break the
+applications built upon them, leading to unhappy customers, lost of revenue or
+reputation, etc. \cpnote{The most important point we can make here is that
+having to change applications using the API costs \emph{real} money. The other
+points you make are secondary.})  So no matter how pretty your theory is, if it
+is hard to implement with existing APIs, it either won't be implemented, or it
+is prone to be implemented incorrectly.  \tsnote{I believe that Adi Shamir had a
+similar message many years ago.}
 
-This proposal adopts the position that \emph{a primary focus of crypto research should be to deliver primitives and protocols that are as easy as possible to implement, correctly.}  More specifically, that 
-\begin{itemize}
-\item the usefulness and impact of crypto theory will be significantly improved if it endeavors to respect the APIs that crypto libraries expose
-\item wherever possible, crypto theory should be mindful of usability, and forgiving of misuse (even when properly implemented)
-\item when theory gives formal syntax for a primitive, it should be clearly suggestive of an actual API that is aligned with what developers want \tsnote{not sure that this is the right wording, or even that it belongs in this list (seems a bit more down it the weeds than the others)}
-\item ease of correct implementation should be treated as a first-class security property, not dismissed as a mere ``programming exercise''
-\end{itemize}
+This proposal adopts the position that \emph{a primary focus of crypto research
+should be to deliver primitives and protocols that are as easy as possible to
+implement, correctly.}  More specifically, that
+\begin{enumerate}
+  \item the usefulness and impact of crypto theory will be significantly
+    improved if it endeavors to respect the APIs that crypto libraries expose;
+
+  \item wherever possible, crypto theory should be mindful of usability, and
+    forgiving of misuse (even when properly implemented);
+
+  \item when theory gives formal syntax for a primitive, it should be clearly
+    suggestive of an actual API that is aligned with what developers want; and
+    %
+    \tsnote{not sure that this is the right wording, or even that it belongs in
+    this list (seems a bit more down it the weeds than the others)}
+    \cpnote{Agreed. We could say that this is one way to achieve item~2.}
+
+  \item ease of correct implementation should be treated as a first-class
+    security property, not dismissed as a mere ``programming exercise''.
+    %
+    \cpnote{I guess this is the ``pie-in-the-sky''? I'll look at the SWE
+    literature and see if I can dig up a way to measure \emph{implementation
+    complexity}.}
+\end{enumerate}
 
 \tsnote{finish out this intro}
 
-\subsection{API-centric Cryptography} 
-The security community has published extensively on the \emph{usability} of APIs.  Intuitively, if an API is easy to use correctly, developers are more likely to build secure applications to top of it.  Our approach is complementary, focusing on the relationships between primitives that APIs present (to application developers) and the associated primitives that crypto theory addresses.  We take the position that, in practice, APIs are primarily driven by non-security requirements (e.g. functionality, adoption, deployment).   As such, it is emcumbent upon us to take an \emph{API-centric} view of the primitives we formalize.  
+\subsection{API-centric Cryptography}
+The security community has published extensively on the \emph{usability} of
+APIs.  Intuitively, if an API is easy to use correctly, developers are more
+likely to build secure applications to top of it.  Our approach is
+complementary, focusing on the relationships between primitives that APIs
+present (to application developers) and the associated primitives that crypto
+theory addresses.  We take the position that, in practice, APIs are primarily
+driven by non-security requirements (e.g. functionality, adoption, deployment).
+As such, it is emcumbent upon us to take an \emph{API-centric} view of the
+primitives we formalize.
 
 \paragraph{Prior Work.}
-As a first step towards respecting real APIs, we must understand the extent to which the primitives we formalize in theory align with the actual primitives that APIs expose to developers.   For example, recent work by PI Shrimpton~\cite{BPS} revisits the theory of hedged public-key encryption (PKE)~\cite{xxx}.  The motivation for hedged PKE is quite practical: traditional PKE schemes are proved secure under the assumption that they have access to a source of uniform random bits; but in practice, PKE schemes are implemented on systems that have faulty RNGs, or where entropy is difficult to harvest.  In these cases, the security guarantees proved in theory are (at best) voided.  Hedged PKE is designed to satisfy traditional notions of security when provided uniform randomness, and still deliver useful security properties as the quality of randomness degrades.  The most elegant construction of hedged PKE works like this: synthesize fresh random bits by hashing all of the encryption inputs (the public key, the message, the provided randomness), and then use these bits as the randomness for an underlying PKE scheme.  In practice, implementing this simple construction is surprisingly difficult, as the high- and mid-level APIs presented by the most commonly used crypto libraries (e.g. OpenSSL and significant forks thereof) \emph{do not} permit one to specify the per-encryption randomness.   In~\cite{BPS}, the theory of hedged PKE is reconsidered from the perspective of what can be easily constructed given what real APIs expose, and what provable security guarantees these can achieve.
- 
-In~\cite{SSW}, PI Shrimpton gave a provable-security treatment to the design and analysis of so-called ``cryptographic APIs'', standardized in the PKCS\#11 document\cite{}.  That standard details an interface by which one may interact cryptographic tokens (e.g. smart cards, USB devices, enterprise-grade HSMs) that are trusted to perform key-manangement duties, enforcement of policies for the use of stored keys, and a limited number of asymmetric- and symmetric-key crypto operations.  These tokens support a variety of applications, including certification authorities, SSL/TLS acceleration, and interbank communication.  Our approach in this paper was API-centric, in that we took the PKCS\#11 standard as the reference point, and defined from it a new cryptographic-API primitive.  We then formalized some of the intuitive notions of security for a cryptographic API.  This was a complex undertaking, as one of the core key-management functionalities is to allow the exporting and importing of keys via ``key (un)wrapping'' operations.  (This supports, among other things, the transportation of cryptographically protected keys between tokens.)  These keys may have a variety of pre-defined attributes associated to them, proscribing their usage, e.g. this key may/may not be used to encrypt data (via a given API call), this key may/may not be wrapped for future export.  Thus the effective state of the key-management functionality may change as an attacker carries out permitted API calls.  Moreover, a real adversary may be in possession of one or more tokens ---~keep in mind that these may be USB sticks or smart cards~--- so it may be the case that  \tsnote{finish... corrupt keys are imported, etc.}
+As a first step towards respecting real APIs, we must understand the extent to
+which the primitives we formalize in theory align with the actual primitives
+that APIs expose to developers.   For example, recent work by PI
+Shrimpton~\cite{BPS} revisits the theory of hedged public-key encryption
+(PKE)~\cite{xxx}.  The motivation for hedged PKE is quite practical: traditional
+PKE schemes are proved secure under the assumption that they have access to a
+source of uniform random bits; but in practice, PKE schemes are implemented on
+systems that have faulty RNGs, or where entropy is difficult to harvest.  In
+these cases, the security guarantees proved in theory are (at best) voided.
+Hedged PKE is designed to satisfy traditional notions of security when provided
+uniform randomness, and still deliver useful security properties as the quality
+of randomness degrades.  The most elegant construction of hedged PKE works like
+this: synthesize fresh random bits by hashing all of the encryption inputs (the
+public key, the message, the provided randomness), and then use these bits as
+the randomness for an underlying PKE scheme.  In practice, implementing this
+simple construction is surprisingly difficult, as the high- and mid-level APIs
+presented by the most commonly used crypto libraries (e.g. OpenSSL and
+significant forks thereof) \emph{do not} permit one to specify the
+per-encryption randomness.   In~\cite{BPS}, the theory of hedged PKE is
+reconsidered from the perspective of what can be easily constructed given what
+real APIs expose, and what provable security guarantees these can achieve.
+
+In~\cite{SSW}, PI Shrimpton gave a provable-security treatment to the design and
+analysis of so-called ``cryptographic APIs'', standardized in the PKCS\#11
+document\cite{}.  That standard details an interface by which one may interact
+cryptographic tokens (e.g. smart cards, USB devices, enterprise-grade HSMs) that
+are trusted to perform key-manangement duties, enforcement of policies for the
+use of stored keys, and a limited number of asymmetric- and symmetric-key crypto
+operations.  These tokens support a variety of applications, including
+certification authorities, SSL/TLS acceleration, and interbank communication.
+Our approach in this paper was API-centric, in that we took the PKCS\#11
+standard as the reference point, and defined from it a new cryptographic-API
+primitive.  We then formalized some of the intuitive notions of security for a
+cryptographic API.  This was a complex undertaking, as one of the core
+key-management functionalities is to allow the exporting and importing of keys
+via ``key (un)wrapping'' operations.  (This supports, among other things, the
+transportation of cryptographically protected keys between tokens.)  These keys
+may have a variety of pre-defined attributes associated to them, proscribing
+their usage, e.g. this key may/may not be used to encrypt data (via a given API
+call), this key may/may not be wrapped for future export.  Thus the effective
+state of the key-management functionality may change as an attacker carries out
+permitted API calls.  Moreover, a real adversary may be in possession of one or
+more tokens ---~keep in mind that these may be USB sticks or smart cards~--- so
+it may be the case that  \tsnote{finish... corrupt keys are imported, etc.}
 
 \paragraph{Tasks.}
 We will...
@@ -40,28 +126,83 @@ We will...
 \subsection{Misuse-Forgiving Cryptography}
 
 \paragraph{Prior Work.}
-Towards the goal of building cryptography that is forgiving of misuse, prior work by PI Shrimpton defined the notion of nonce-misuse-resistant authenticated encryption~\cite{RS06}, and showed how to achieve it using standard symmetric-key tools.  Rogaway had previously argued~\cite{xxx} that the classical viewpoint that symmetric encryption schemes are randomized primitives was misaligned with practice, and what we should be delivering are encryption schemes that are deterministic, surfacing an explicit IV input. (This is an early effort to close the gap between a theoretical primitive and its real-world presentation.)  Moreover, to make schemes easier to use correctly, we should target security when the IV is a non-repeating value ---~a nonce~--- rather than demanding the IV be random.  In~\cite{RS06}, we sought to make these nonce-based encryption schemes even easier to use, by designing them so that their security guarantee degrades gracefully when the nonce IV repeats.  Nonce-misuse resistance has been recognized as an important goal,  
+Towards the goal of building cryptography that is forgiving of misuse, prior
+work by PI Shrimpton defined the notion of nonce-misuse-resistant authenticated
+encryption~\cite{RS06}, and showed how to achieve it using standard
+symmetric-key tools.  Rogaway had previously argued~\cite{xxx} that the
+classical viewpoint that symmetric encryption schemes are randomized primitives
+was misaligned with practice, and what we should be delivering are encryption
+schemes that are deterministic, surfacing an explicit IV input. (This is an
+early effort to close the gap between a theoretical primitive and its real-world
+presentation.)  Moreover, to make schemes easier to use correctly, we should
+target security when the IV is a non-repeating value ---~a nonce~--- rather than
+demanding the IV be random.  In~\cite{RS06}, we sought to make these nonce-based
+encryption schemes even easier to use, by designing them so that their security
+guarantee degrades gracefully when the nonce IV repeats.  Nonce-misuse
+resistance has been recognized as an important goal,  
 
-Later work by PI Shrimpton~\cite{NRS} reconsidered the traditional wisdom about building authenticated encryption (AE) via generic composition of an encryption scheme and a MAC.   The seminal work by Bellare and Namprempre~\cite{BN} showed that of the three classical compositions ---~encrypt-and-mac, mac-then-encrypt, encrypt-then-mac~--- only the last is secure given any secure encryption scheme and MAC.   This wisdom was heeded by an ISO standard, which would have been a good thing, except that the ISO standard was mandating a nonce-based AE scheme, whereas the Bellare-Namprempre results were about randomized AE.  As a result, the ISO scheme was actually broken, despite the standard's (appaudible) efforts to do what it seemed the crypto community told them.  Here again, the mismatch between theoretical primitives and their real-world realization was problematic.  In~\cite{NRS}, we readdressed generic composition from the nonce-based perspective, finding an interesting (albeit less simple) picture of what compositions are (and are not) generically secure.  (Curiously, one of the secure compositions that our work uncovered was the SIV-mode previously published in~\cite{RS06} as the first nonce-misuse-resistant AE scheme.)
+Later work by PI Shrimpton~\cite{NRS} reconsidered the traditional wisdom about
+building authenticated encryption (AE) via generic composition of an encryption
+scheme and a MAC.   The seminal work by Bellare and Namprempre~\cite{BN} showed
+that of the three classical compositions ---~encrypt-and-mac, mac-then-encrypt,
+encrypt-then-mac~--- only the last is secure given any secure encryption scheme
+and MAC.   This wisdom was heeded by an ISO standard, which would have been a
+good thing, except that the ISO standard was mandating a nonce-based AE scheme,
+whereas the Bellare-Namprempre results were about randomized AE.  As a result,
+the ISO scheme was actually broken, despite the standard's (appaudible) efforts
+to do what it seemed the crypto community told them.  Here again, the mismatch
+between theoretical primitives and their real-world realization was problematic.
+In~\cite{NRS}, we readdressed generic composition from the nonce-based
+perspective, finding an interesting (albeit less simple) picture of what
+compositions are (and are not) generically secure.  (Curiously, one of the
+secure compositions that our work uncovered was the SIV-mode previously
+published in~\cite{RS06} as the first nonce-misuse-resistant AE scheme.)
 
 \paragraph{Tasks.}
 We will...
 
-
 \subsection{Syntax as API}
-The modern ``provable security'' approach to cryptrography loosely follows a three-step recipe: define a precise syntax for the abstract primitive under study, define formal notions of security for that primitive, realize the primitive and prove it meets the security notions.  The first step, defining the syntax, essentially defines the component objects that collectively make up the primitive, e.g. ``An encryption scheme $\Pi=(\calK,\calE,\calD)$ is a triple of algorithms...''  The syntax typically describes the number and type of the inputs and outputs of these components, too, e.g. ``The decryption algorithm provides a mapping $\calD\colon\bits^{k}\times\bits^* \to \bits^* \cup \{\bot\}$...'', as well as requirements on the behavior of these components in any correct realization of them.   
-%
+The modern ``provable security'' approach to cryptrography loosely follows a
+three-step recipe: define a precise syntax for the abstract primitive under
+study, define formal notions of security for that primitive, realize the
+primitive and prove it meets the security notions.  The first step, defining the
+syntax, essentially defines the component objects that collectively make up the
+primitive, e.g. ``An encryption scheme $\Pi=(\calK,\calE,\calD)$ is a triple of
+algorithms...''  The syntax typically describes the number and type of the
+inputs and outputs of these components, too, e.g. ``The decryption algorithm
+provides a mapping $\calD\colon\bits^{k}\times\bits^* \to \bits^* \cup
+\{\bot\}$...'', as well as requirements on the behavior of these components in
+any correct realization of them.
 
-In a sense, the syntax for a new primitive provides an API for researchers: for those wishing to \emph{realize} the primitive (in theory), it makes clear what are the functionalites that must be realized, and what are the assertions that must hold for any realization; for those wishing to \emph{use} the primitive, it makes clear what ``calls'' will be available to them, and what are the expected inputs and outputs of those calls.  
+In a sense, the syntax for a new primitive provides an API for researchers: for
+those wishing to \emph{realize} the primitive (in theory), it makes clear what
+are the functionalites that must be realized, and what are the assertions that
+must hold for any realization; for those wishing to \emph{use} the primitive, it
+makes clear what ``calls'' will be available to them, and what are the expected
+inputs and outputs of those calls.
 %
-Like a real software API, syntax is considered good if it serves the needs of its consumers, i.e. if it supports clear security notions, facilitates the writing (and verification) of proofs, and is easily built upon.  
+Like a real software API, syntax is considered good if it serves the needs of
+its consumers, i.e. if it supports clear security notions, facilitates the
+writing (and verification) of proofs, and is easily built upon.
 %
-Like a real software API, syntax for a given cryptographic primitive tends to have a long life-time (albeit for very different reasons).
-%Follow-on work typically adopts it, and concerns itself with ``flashier'' tasks, such as proving tighter security bounds, finding more efficient realizations, or moving from an idealized model (e.g. the random-oracle model) to the standard model.  
-Indeed, the idea of syntax-as-API is very useful for building intuition, and as a pedagogical tool.  
+Like a real software API, syntax for a given cryptographic primitive tends to
+have a long life-time (albeit for very different reasons).
 %
+\ignore{
+  Follow-on work typically adopts it, and concerns itself with ``flashier''
+  tasks, such as proving tighter security bounds, finding more efficient
+  realizations, or moving from an idealized model (e.g. the random-oracle model)
+  to the standard model.
+}
+Indeed, the idea of syntax-as-API is very useful for building intuition, and as
+a pedagogical tool.
 
-Of course, this analogy only goes so far.  When a researcher argues for a change to the accepted syntax ---~a new API for a primitive~--- there is no real cost incurred if it is adopted.  Prior works using the old syntax do not suddenly``break''; in the worst case they may (eventually) be viewed as outdated.  If anything, the new syntax presents an opportunity for researchers revisit prior work and publish updated findings.  
+Of course, this analogy only goes so far.  When a researcher argues for a change
+to the accepted syntax ---~a new API for a primitive~--- there is no real cost
+incurred if it is adopted.  Prior works using the old syntax do not
+suddenly``break''; in the worst case they may (eventually) be viewed as
+outdated.  If anything, the new syntax presents an opportunity for researchers
+revisit prior work and publish updated findings.
 
 \paragraph{Prior Work.} \tsnote{Not sure what we can give here.}
 
@@ -70,20 +211,19 @@ We will...
 
 \subsection{Ease of Correct Implemenation as Security Property}
 
-\paragraph{Prior Work.} \tsnote{Rogaway's partially elided protocols paper} \tsnote{Need to do some digging outside of crypto here!}\tsnote{This thread has the biggest risk of failure.  But also has potential for large return, as it would change the way we think about security in the community}
+\paragraph{Prior Work.}
+\tsnote{Rogaway's partially elided protocols paper}
+\tsnote{Need to do some digging outside of crypto here!}\tsnote{This thread has
+the biggest risk of failure.  But also has potential for large return, as it
+would change the way we think about security in the community}
 
 \paragraph{Tasks.}
 
-
-
-
-
-\subsection{Public artifacts and broader impacts} 
+\subsection{Public artifacts and broader impacts}
 
 \subsection{PI Qualifications}
 
 \subsection{Proposal Organization and Tasks}
-
 
 \ignore{
 Contemporary encryption schemes are almost exclusively {\em
@@ -94,7 +234,7 @@ Distribution-agnostic cryptography is conceptually simple and its generality
 is often convenient in practice. It fails, however, to meet basic security needs in
 several important, real-world contexts.  To address these needs, and
 those of applications yet uncovered, we will pursue a line of work centered on
-what we call \emph{distribution-sensitive cryptography}. 
+what we call \emph{distribution-sensitive cryptography}.
 %This will require a new methodology
 %for building context-specific cryptographic schemes, the output of which will be
 %  improved security supported by a blend of empirical and formal analyses.
@@ -106,7 +246,7 @@ what we call \emph{distribution-sensitive cryptography}.
 %to brute-force cracking---especially given the weak passwords typically chosen
 %by users. Similarly, ciphertexts produced using distribution-agnostic encryption
 %are distinguishable from typical plaintext messages and thus fail to conceal the
-%existence of encrypted communications, i.e., support steganography. 
+%existence of encrypted communications, i.e., support steganography.
 
 %A need thus exists to advance beyond conventional approaches and devise
 %innovative and rigorous cryptographic primitives that are specifically tailored
@@ -115,10 +255,10 @@ what we call \emph{distribution-sensitive cryptography}.
 %the conceptual barriers that treat them as isolated notions. We will draw such
 %primitives together within a unifying framework that can inform and expand their
 %range of application, a framework that we call {\em distribution-sensitive
-%cryptography} (DSC). 
+%cryptography} (DSC).
 
-\paragraph{Motivating problems.}  
-%Much of our work will be driven 
+\paragraph{Motivating problems.}
+%Much of our work will be driven
 %by three settings in which conventional cryptographic thinking
 %has missed the mark, because the tools it has delivered are
 %fundamentally mismatched problem presented, or because practical usage
@@ -126,32 +266,34 @@ what we call \emph{distribution-sensitive cryptography}.
 Our research agenda will target important problems
 for which conventional cryptography has failed to yield adequate solutions.
 %tackle several important practical problems for which security
-%has been historically elusive.   
-At first glance, these problems seem unrelated to one another. 
+%has been historically elusive.
+At first glance, these problems seem unrelated to one another.
 %On the contrary, they are connected in a way that calls out for the development of DSC.
 Our research in DSC, however, will surface deep underlying connections and overlapping practical challenges in problems such as:
-  
+
 %simultaneously, there exists opportunities for
-%for DSC to lead us to 
+%for DSC to lead us to
 %improvements.  %Examples include censorship circumvention (steganography), securing
 %password-based encryption (PBE) against brute-force cracking, and managing
 %human-generated (noisy) secrets in authentication. Partial solutions have seen
 %deployment, but tend to overlook research-driven results or incorporate them in
-%an ad hoc way without rigorous security metrics. 
+%an ad hoc way without rigorous security metrics.
 %Conversely, many theoretical
 %solutions remain uninformed by empirical study. We will bridge the gap between
 %theory and practice in key problem areas by designing novel DSC schemes with
 %{\em empirically-driven, provable security}, as for these motivating problems:
 
-\begin{newitemize} 
+\begin{newitemize}
 
-\item{\em Brute-force attacks on password-based encryption.} Users tend to select weak
-passwords. Their password-based encryption (PBE) ciphertexts are thus vulnerable
-to brute-force password cracking attacks that try to decrypt under guessed passwords and
-then check if the resulting plaintext is plausible.  This problem is serious and
-pervasive: In the face of today's frequent compromise of
-mobile devices and cloud systems, PBE is often the last line of defense for
-highly sensitive data.  (Password manager~\cite{whitney11} compromise in the cloud is one example arising in practice.)
+\item{\em Brute-force attacks on password-based encryption.}
+  Users tend to select weak passwords. Their password-based encryption (PBE)
+  ciphertexts are thus vulnerable to brute-force password cracking attacks
+  that try to decrypt under guessed passwords and then check if the resulting
+  plaintext is plausible.  This problem is serious and pervasive: In the face
+  of today's frequent compromise of mobile devices and cloud systems, PBE is
+  often the last line of defense for highly sensitive data.  (Password
+    manager~\cite{whitney11} compromise in the cloud is one example arising in
+    practice.)
 %such as
 %password vaults. 
 %(At least one password
