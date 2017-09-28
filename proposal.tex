@@ -157,14 +157,14 @@
 \def\authnotes{1}
 
 \newcounter{mynote}[section]
-\newcommand{\notecolor}{blue}
+\newcommand{\notecolor}{black}
 \newcommand{\thenote}{\thesection.\arabic{mynote}}
 \newcommand{\note}[2]{\refstepcounter{mynote}{\bf \textcolor{\notecolor}{$\ll$#1: {\textcolor{black}{\sf #2}}$\gg$}}}
 \newcommand{\mnote}[1]{\refstepcounter{mynote}{\bf \textcolor{\notecolor}{$\ll$MB~\thenote: {\sf #1}$\gg$}}}
 \newcommand{\todo}[1]{\ifnum\authnotes=1\textbf{\textcolor{red}{[To-Do: #1]}}\fi}
 \newcommand{\snote}[1]{\refstepcounter{mynote}{\bf
 \textcolor{\notecolor}{$\ll$SK~\thenote: {\sf #1}$\gg$}}}
-\newcommand{\notetoms}[1]{\note{\sf \textcolor{magenta}{TomS}}{\textcolor{magenta}{#1}}}
+\newcommand{\notetoms}[1]{\note{\sf \textcolor{cyan}{TomS}}{\textcolor{cyan}{#1}}}
 \newcommand{\tsnote}{\notetoms}
 \definecolor{darkgreen}{RGB}{50,127,0}
 \newcommand{\cpnote}[1]{\note{Chris}{\textnormal{\textcolor{blue}{#1}}}}

@@ -136,7 +136,7 @@ that APIs expose to developers.
 the implied primitives, and what are the security properties that developers
 assume are provided.} 
 \item {Secure-channel APIs for streaming data vs.
-message-oriented data.  Look at ``data is a stream'' paper.} 
+message-oriented data.}  \todo{Look at ``data is a stream'' paper.} 
 \item  {Authenticated key-exchange: examine existing protocols and APIs, distill
 out design patterns/common features, abstract out the API that one wants as a
 security engineer. } 
@@ -186,6 +186,8 @@ published in~\cite{RS06} as the first nonce-misuse-resistant AE scheme.)
 \end{itemize}
 
 \subsection{Syntax as API}
+\tsnote{Most of this came from an earlier approach to writing the
+  intro/motivation.  Very drafty.  (As is everything, really, at this point.)}
 The modern ``provable security'' approach to cryptrography loosely follows a
 three-step recipe: define a precise syntax for the abstract primitive under
 study, define formal notions of security for that primitive, realize the
@@ -228,6 +230,14 @@ suddenly``break''; in the worst case they may (eventually) be viewed as
 outdated.  If anything, the new syntax presents an opportunity for researchers
 revisit prior work and publish updated findings.
 
+\todo{Can we give an example here?  Say, of how the syntax for
+  encryption does not align with real APIs, and what syntax-as-API
+  might look like?  Note: I'm not even sure that one needs to go so
+  far as to make the syntax look like an API; it might suffice to give
+(say, in an appendix) guidance to implementers on how the syntax might
+be translated into an API.
+}
+
 \paragraph{Prior Work.} \tsnote{Not sure what we can give here.}
 
 \paragraph{Tasks.}
@@ -238,7 +248,7 @@ revisit prior work and publish updated findings.
 \subsection{Ease of Correct Implemenation as Security Property}
 
 \paragraph{Prior Work.}
-\tsnote{Rogaway's partially elided protocols paper}
+\todo{Rogaway's partially elided protocols paper}
 
 \tsnote{Need to do some digging outside of crypto here!}
 
