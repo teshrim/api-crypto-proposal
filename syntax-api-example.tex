@@ -1,0 +1,9 @@
+\newcommand{\algfont}[1]{\textsf{#1}}
+\newcommand{\varfont}[1]{\textrm{\small#1}}
+
+\begin{align*}
+(\varfont{SentContext},C) &\gets \algfont{Parse}(X) \\
+(\varfont{InternalVals, ChannelContext, ExternalVals}) &\gets \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, C)\\
+\varfont{StatusMsg} &\gets \algfont{IsValid}(\varfont{InternalVals})\\
+(\varfont{ChannelContext, ExternalVals}) &\gets \algfont{ErrorHandling}(\varfont{ChannelContext, StatusMsg})
+\end{align*}
