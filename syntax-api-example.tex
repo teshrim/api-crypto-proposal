@@ -1,9 +1,28 @@
+\begin{figure}
+\centering
+\fpage{0.75}{
 \underline{\algfont{Decryption} API:} 
 \begin{align*}
 (\varfont{SentContext},\varfont{Ciphertext}) &\gets \algfont{ParseReceived}(X) \\
-(\varfont{ExternalVals, InternalVals}) &\gets \algfont{Decrypt}(\varfont{RecvrContext, SentContext}, \varfont{Ciphertext})\\
+(\varfont{ExternalVals, InternalVals}) &\gets \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, \varfont{Ciphertext})\\
 \varfont{StatusMsg} &\gets \algfont{IsValid}(\varfont{InternalVals})\\
-(\varfont{RecvrContextUpdates}, \varfont{ExternalVals}) &\gets
-                                  \algfont{ErrorHandling}(\varfont{RecvrContext},
+(\varfont{ChannelContextUpdates}, \varfont{ExternalVals}) &\gets
+                                  \algfont{ErrorHandling}(%\varfont{ChannelContext},
                                   \varfont{StatusMsg}, \varfont{ExternalVals})
 \end{align*}
+} 
+\caption{{\bf Expanding the traditional syntax for symmetric-key decryption $\calD
+  \colon\calK \times \calH \times \bits^* \to \bits^* \cup \{\bot\}$ into an
+  API-like specification.} The input~$X$ is the value received from the
+  channel.  The \varfont{ChannelContext} is
+  receiver-maintained information about the channel, and may contain values shared with the sender
+  (e.g., the key, channel ID), along with local state.  The
+  \varfont{SentContext} is context data associated to this particular
+  ciphertext. The \varfont{ExternalVals} are intended to be released
+  to the external caller, and the \varfont{InternalVals} are intended
+  for use only within the decryption process boundary.  The
+  \varfont{StatusMsg} supports decryption process logic and error
+  handling.  
+  The types of all input and output values are implicit.}
+\label{fig:syntax-api-example}
+\end{figure}
