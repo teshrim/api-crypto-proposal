@@ -380,7 +380,12 @@ published in~\cite{RS06} as the first nonce-misuse-resistant AE scheme.)
 
 \paragraph{Tasks.}
 \begin{itemize}
-\item {Follow-on work to hedging paper}\todo{Chris}
+  \item \emph{Follow-on work to hedging paper.} \todo{Chris}\cpnote{My idea is to
+    reconsider Mihir and Tung's paper on fast, standard-model hedged PKE. The
+    angle is to \emph{directly} model the source of randomness as a PRNG with
+    inputs and see what sort of security we can achieve. This gets around the
+    "touching the coins" problem, since many RNGs let you add entropy to their
+    state even if the encryption API doesn't surface coins.}
 \item {Malleabilty models ideas?}
 \item {Survey/user study to find out what things people don't
     understand, want to abuse, find annoying when using libraries/when
