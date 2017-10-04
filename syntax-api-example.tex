@@ -1,7 +1,9 @@
 \underline{\algfont{Decryption} API:} 
 \begin{align*}
-(\varfont{SentContext},C) &\gets \algfont{Parse}(X) \\
-(\varfont{ChannelContext, ExternalVals, InternalVals}) &\gets \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, C)\\
+(\varfont{SentContext},\varfont{Ciphertext}) &\gets \algfont{ParseReceived}(X) \\
+(\varfont{ExternalVals, InternalVals}) &\gets \algfont{Decrypt}(\varfont{RecvrContext, SentContext}, \varfont{Ciphertext})\\
 \varfont{StatusMsg} &\gets \algfont{IsValid}(\varfont{InternalVals})\\
-(\varfont{ChannelContext, ExternalVals}) &\gets \algfont{ErrorHandling}(\varfont{ChannelContext, StatusMsg})
+(\varfont{RecvrContextUpdates}, \varfont{ExternalVals}) &\gets
+                                  \algfont{ErrorHandling}(\varfont{RecvrContext},
+                                  \varfont{StatusMsg}, \varfont{ExternalVals})
 \end{align*}

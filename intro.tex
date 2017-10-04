@@ -237,7 +237,36 @@ a pedagogical tool.
 %revisit prior work and publish updated findings.
 
 Of course, there is a considerable gap between the formal syntax that
-papers provide and a \emph{real} API...
+papers provide and a \emph{real} API, i.e. the functionalities that
+need to be implemented.  For example, consider the
+the formal syntax for symmetric-key decryption with associated data, $\calD\colon\calK
+\times \calH \times \bits^* \to \bits^* \times \{\cup\}$.  We
+cryptographers would typically write something like $M \gets
+\calD^H_K(C)$ for the decryption of ciphertext~$C\in\bits^*$, with associated
+data~$H \in \calH$, under key~$K \in \calK$.  
+But this quietly assumes a number of implicit functionalities that
+must be attended to in practice.  
+
+First of all, the formal syntax assumes that $H,C$ are simply
+presented as inputs.  In reality the decryption process needs to parse what is recevied from the
+channel into the ciphertext~$C$ and any context information (aka
+associated data) that was sent with~$C$.  Moreover, the overall
+decryption process may depend on both the context that is associated
+to this ciphertext transmission \emph{and} on context that the
+receiver maintains for the channel.  (Note that the syntax is silent
+on the source of the associated data.)  In practice the receiver may
+maintain local message counters, lists of nonces already observed on
+the channel, information about the overall status of the channel
+(e.g. is it still considered active), and so on.  The decryption
+key~$K$ is also part of the context that the receiver maintains.
+
+Next, the formal syntax says that decryption returns a
+string or a distinguished symbol~$\bot$, the latter being
+traditionally understood by cryptographers to mean ``invalid''.  In
+practice, this means that some logic must be implemented to decide
+(in)validity, and that when the decision is ``invalid'' some
+error-handling mechanism ensures that the decryption process returns
+nothing but a distinguished error message.
 
 \todo{Can we give an example here?  Say, of how the syntax for
   encryption does not align with real APIs, and what syntax-as-API
@@ -247,13 +276,6 @@ papers provide and a \emph{real} API...
 be translated into an API.
 }
 
-\tsnote{Random ideas: translating syntax into something more like an API.
-  What underlying methods are needed for AEAD, or
-  some other common primitive?  For example, decryption:
-  RetrieveContext (i.e. some AD may be sent, some might be locally
-  stored), ParseCtxt, IsValid,... Also, what about explicitly separating quantities that
-  are for ``internal'' use only from those that are ``releasable''?
-  This could be especially useful for very high-level primitives/APIs}
 
 
 \begin{figure}
@@ -264,7 +286,7 @@ be translated into an API.
 \caption{{\bf Expanding the traditional syntax for symmetric-key decryption $\calD
   \colon\bits^k \times \bits^* \to \bits^* \cup \{\bot\}$ into an
   API-like specification.} The input~$X$ is the value received from the
-  channel.  The \varfont{ChannelContext} is
+  channel.  The \varfont{RecvrContext} is
   receiver-side state, and may contain values shared with the sender
   (e.g., the key, channel ID), along with local state.  The
   \varfont{SentContext} is context data associated to this particular
@@ -272,7 +294,8 @@ be translated into an API.
   to the external caller, and the \varfont{InternalVals} are intended
   for use only within the decryption process boundary.  The
   \varfont{StatusMsg} supports decryption process logic and error
-  handling.  The types of all input and output values are implicit.}
+  handling.  
+  The types of all input and output values are implicit.}
 \label{fig:syntax-api-example}
 \end{figure}
 
