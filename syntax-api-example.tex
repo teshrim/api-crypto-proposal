@@ -29,7 +29,9 @@
 \begin{figure}
 \hfpages{0.5}
 {
-Given \varfont{ChannelContext}=(Mode Key $K$, PRF Key $L$, Status ``open'') 
+Given \varfont{ChannelContext}=(Mode Key $K$, PRF Key $L$, Status
+``open'') \\
+Given $X=\langle N,H,C \rangle$
 
 \medskip
 Algorithm \algfont{ParseReceived}($X$):\\
@@ -59,11 +61,13 @@ Algorithm \algfont{ErrorHandling}(\varfont{Verdict},\varfont{ExternalVals}):\\
 \nudge Return (\varfont{ChannelContextUpdates}, \varfont{ExternalVals})
 }
 {
-Given \varfont{ChannelContext}=(Mode Key $K$, PRF Key $L$, Status ``open'') 
+Given \varfont{ChannelContext}=(Mode Key $K$, PRF Key $L$, Status
+``open'') \\
+Given $X=\langle N,H,C \rangle$
 
 \medskip
 Algorithm \algfont{ParseReceived}($X$):\\
-\nudge Return $\left((X.N,X.H),X.C\right)$
+\nudge Return $\left((X.N, X.H),X.C\right)$
 
 \medskip
 Algorithm \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, \varfont{Ciphertext}):\\
