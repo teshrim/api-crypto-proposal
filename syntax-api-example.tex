@@ -1,28 +1,105 @@
 \begin{figure}
 \centering
 \fpage{0.75}{
-\underline{\algfont{Decryption} API:} 
+\underline{\algfont{DECRYPT}(\varfont{ChannelContext}, $X$):} 
 \begin{align*}
-(\varfont{SentContext},\varfont{Ciphertext}) &\gets \algfont{ParseReceived}(X) \\
-(\varfont{ExternalVals, InternalVals}) &\gets \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, \varfont{Ciphertext})\\
-\varfont{StatusMsg} &\gets \algfont{IsValid}(\varfont{InternalVals})\\
-(\varfont{ChannelContextUpdates}, \varfont{ExternalVals}) &\gets
+&(\varfont{SentContext},\varfont{Ciphertext}) \gets\algfont{ParseReceived}(X)  \\
+&(\varfont{ExternalVals, InternalVals}) \gets \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, \varfont{Ciphertext})\\
+&\varfont{Verdict} \gets \algfont{IsValid}(\varfont{InternalVals})\\
+&(\varfont{ChannelContextUpdates}, \varfont{ExternalVals}) \gets
                                   \algfont{ErrorHandling}(%\varfont{ChannelContext},
-                                  \varfont{StatusMsg}, \varfont{ExternalVals})
+                                  \varfont{Verdict}, \varfont{ExternalVals})\\
+&\varfont{Return} (\varfont{ChannelContextUpdates}, \varfont{ExternalVals})
 \end{align*}
 } 
-\caption{{\bf Expanding the traditional syntax for symmetric-key decryption $\calD
-  \colon\calK \times \calH \times \bits^* \to \bits^* \cup \{\bot\}$ into an
-  API-like specification.} The input~$X$ is the value received from the
+%
+
+\caption{{\bf Expanding the traditional syntax for symmetric-key
+    decryption 
+%$\calD  \colon\calK \times \calH \times \bits^* \to \bits^* \cup
+%\{\bot\}$ 
+into an API-like specification.} The input~$X$ is the value received from the
   channel.  The \varfont{ChannelContext} is
   receiver-maintained information about the channel, and may contain values shared with the sender
   (e.g., the key, channel ID), along with local state.  The
   \varfont{SentContext} is context data associated to this particular
   ciphertext. The \varfont{ExternalVals} are intended to be released
   to the external caller, and the \varfont{InternalVals} are intended
-  for use only within the decryption process boundary.  The
-  \varfont{StatusMsg} supports decryption process logic and error
-  handling.  
+  for use only within the decryption process boundary.  
   The types of all input and output values are implicit.}
 \label{fig:syntax-api-example}
+\end{figure}
+
+\begin{figure}
+\hfpages{0.5}
+{
+Given \varfont{ChannelContext}=(Mode Key $K$, PRF Key $L$, Status ``open'') 
+
+\medskip
+Algorithm \algfont{ParseReceived}($X$):\\
+\nudge Return $\left((X.N,X.H),X.C\right)$
+
+\medskip
+Algorithm \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, \varfont{Ciphertext}):\\
+\nudge Parse \varfont{Ciphertext} into tag $T$ and remainder $Z$\\ 
+\nudge if $F_L(N,A,Z) \neq T$ then\\
+\nudge\nudge \varfont{InternalVals} $\gets$ ``TagFail''\\
+\nudge\varfont{ExternalVals} $\gets \calD_K^{N}(Z)$\\
+\nudge Return (\varfont{ExternalVals},\varfont{InternalVals})
+
+\medskip
+Algorithm \algfont{IsValid}(\varfont{InternalVals}):\\
+\nudge \varfont{Verdict} $\gets$ ``Valid''\\
+\nudge if \varfont{InternalVals} =  ``TagFail'' then\\ 
+\nudge\nudge \varfont{Verdict} $\gets$ ``Invalid''\\
+\nudge Return \varfont{Verdict}
+
+\medskip
+Algorithm \algfont{ErrorHandling}(\varfont{Verdict},\varfont{ExternalVals}):\\
+\nudge if \varfont{Verdict} = ``Invalid'' then \\
+\nudge\nudge \varfont{ExternalVals} $\gets$ ``Invalid'' \\
+\nudge\nudge \varfont{ChannelContextUpdates} $\gets \langle
+\mbox{Status ``closed"} \rangle$\\
+\nudge Return (\varfont{ChannelContextUpdates}, \varfont{ExternalVals})
+}
+{
+Given \varfont{ChannelContext}=(Mode Key $K$, PRF Key $L$, Status ``open'') 
+
+\medskip
+Algorithm \algfont{ParseReceived}($X$):\\
+\nudge Return $\left((X.N,X.H),X.C\right)$
+
+\medskip
+Algorithm \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, \varfont{Ciphertext}):\\
+\nudge Parse \varfont{Ciphertext} into tag $T$ and remainder $Z$\\ 
+\nudge if $F_L(N,A,Z) \neq T$ then\\
+\nudge\nudge \varfont{InternalVals} $\gets$ ``TagFail''\\
+\nudge\varfont{ExternalVals} $\gets \calD_K^{N}(Z)$\\
+\nudge Return (\varfont{ExternalVals},\varfont{InternalVals})
+
+\medskip
+Algorithm \algfont{IsValid}(\varfont{InternalVals}):\\
+\nudge \varfont{Verdict} $\gets$ ``Valid''\\
+\nudge if \varfont{InternalVals} =  ``TagFail'' then\\ 
+\nudge\nudge \varfont{Verdict} $\gets$ ``Warning: TagFail''\\
+\nudge Return \varfont{Verdict}
+
+\medskip
+Algorithm \algfont{ErrorHandling}(\varfont{Verdict},\varfont{ExternalVals}):\\
+\nudge \varfont{ExternalVals} $\gets$ (\varfont{ExternalVals},\varfont{Verdict})\\
+\nudge \varfont{ChannelContextUpdates} $\gets$ none \\
+\nudge Return (\varfont{ChannelContextUpdates}, \varfont{ExternalVals})
+} 
+\caption{Specifications of Encrypt-then-MAC decryption over a nonce-based
+  symmetric-key decryption $\calD$ and vector-input PRF~$F$.  {\bf
+    Left:} A specification in which a tag-check failure results in the
+suppression of all plaintext output and a single error message.  Also,
+in the event of a tag-check failure, the error-handling algorithm
+suggests that the Status of the channel context be updated to
+``closed''. {\bf
+  Right: } A specification in which the plaintext is always released,
+and a tag-check failure results in a warning being attached to the
+plaintext, with no suggested updates to the channel context
+(i.e. fail open).}
+\label{fig:EtM-aead}
 \end{figure}
