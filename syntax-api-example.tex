@@ -14,12 +14,8 @@
 } 
 %
 
-\caption{{\bf Expanding the traditional syntax for symmetric-key
-    decryption 
-%$\calD  \colon\calK \times \calH \times \bits^* \to \bits^* \cup
-%\{\bot\}$ 
-into an API-like specification.} The input~$X$ is the value received from the
-  channel.  The \varfont{ChannelContext} is
+\caption{Describing symmetric-key decryption of received value~$X$ in terms of explicit
+  functionalities that must be realized. The \varfont{ChannelContext} is
   receiver-maintained information about the channel, and may contain values shared with the sender
   (e.g., the key, channel ID), along with local state.  The
   \varfont{SentContext} is context data associated to this particular
@@ -93,13 +89,19 @@ Algorithm \algfont{ErrorHandling}(\varfont{Verdict},\varfont{ExternalVals}):\\
 \caption{Specifications of Encrypt-then-MAC decryption over a nonce-based
   symmetric-key decryption $\calD$ and vector-input PRF~$F$.  {\bf
     Left:} A specification in which a tag-check failure results in the
-suppression of all plaintext output and a single error message.  Also,
+suppression of all plaintext/errors output by $\calD^N_K(Z)$, and
+causes a single error message to be exposed.  Also,
 in the event of a tag-check failure, the error-handling algorithm
 suggests that the Status of the channel context be updated to
-``closed''. {\bf
+``closed''.  Note that this specification carries out decryption
+$\calD^N_K(Z)$ even if there is a tag-check failure, thereby hiding a
+potential timing side-channel. 
+%
+{\bf
   Right: } A specification in which the plaintext is always released,
 and a tag-check failure results in a warning being attached to the
 plaintext, with no suggested updates to the channel context
-(i.e. fail open).}
+(i.e. fail open).  Note that this specification violates the intended
+semantics of \varfont{InternalVals}.}
 \label{fig:EtM-aead}
 \end{figure}
