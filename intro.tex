@@ -4,7 +4,7 @@
 For years, the cryptography research community has been emploring security
 engineers and developers to ``please stop rolling your own crypto!''  An
 expanded version of plea might be: cryptography is hard, so let the crypto experts
-handle the crypto; you just worry about implementing what we provide.  There is
+handle the crypto; you (just) worry about implementing what we provide.  There is
 good sense in this message.  Cryptography \emph{is} hard.  And the security
 guarantees that we prove can depend crucially on parameter choices, padding
 schemes, etc., and in ways that may not be obvious to non-experts. Our
@@ -134,7 +134,7 @@ real APIs expose, and what provable security guarantees these can achieve.
 \begin{itemize}
 \item As a first step towards respecting real APIs, we must understand the extent to
 which the primitives we formalize in theory align with the actual primitives
-that APIs expose to developers. {Survey, SoK-type work.}
+that APIs expose to developers. \tsnote{Survey, SoK-type work.}
 \item {Application developer APIs for secure send/receive of messges
 (data-in-flight) and secure read/write from storage (data-at-rest).  What are
 the implied primitives, and what are the security properties that developers
@@ -292,7 +292,14 @@ be returned for a given \varfont{StatusMsg}, and what
 security-relevant information might be leaked by them?  How should the
 \varfont{ChannelContext} be updated for a given \varfont{StatusMsg}?
 In Figure~\ref{fig:EtM-aead} we give to potential realizations of the
-functions needed for decryption... [[HERE]]
+functions needed for decryption, in particular of an Encrypt-then-MAC
+style AEAD decrpytion.  On the left side of the figure, we
+give a realization that follows what we theoreticians consider as best
+practice.  Namely, if the tag check fails, then one should label the
+ciphertext as invalid, and suppress all output other than the (single)
+error message ``Invalid'' (or $\bot$ in typical syntax).
+
+
 \tsnote{Say that this may seem like overkill for ``simple'' primitives
 like symmetric-key decryption, but that (1) it only seems that way
 because we are already implicitly thinking about what it means for
