@@ -51,11 +51,12 @@ implement, correctly.}  More specifically, that
   \item ease of correct implementation should be treated as a first-class
     security property, not dismissed as a mere ``programming exercise''.
     %
-    \cpnote{I guess this is the ``pie-in-the-sky''? I'll look at the SWE
-    literature and see if I can dig up a way to measure \emph{implementation
-    complexity}.}\todo{SWE literature search?} 
-\tsnote{Look at Rogaway's Partially
-  Specified Protocols/Authentication without Ellision paper}
+  \tsnote{Look at Rogaway's Partially
+    Specified Protocols/Authentication without Ellision paper}
+    \cpnote{This paper is about making it easier to design protocols around
+    crypto. An extension is that if you're implementing the protocol, and all
+    the crypto you need is available via APIs, then it should be easy to do
+    right.}
 \end{enumerate}
 
 \tsnote{finish out this intro}
@@ -63,7 +64,6 @@ implement, correctly.}  More specifically, that
 \paragraph{API-centric Cryptography.}
 \todo{Summarize body section, focusing on tasks and (very briefly)
   prior work by me.}
-
 
 
 \paragraph{Implementation-considerate Formalisms.}
