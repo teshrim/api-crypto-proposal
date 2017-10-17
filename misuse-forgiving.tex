@@ -1,6 +1,4 @@
 \section{Misuse-Forgiving Primitives}
-
-\paragraph{Prior Work.}
 Towards the goal of building cryptography that is forgiving of misuse, prior
 work by PI Shrimpton defined the notion of nonce-misuse-resistant authenticated
 encryption~\cite{RS06}, and showed how to achieve it using standard
@@ -14,7 +12,8 @@ target security when the IV is a non-repeating value ---~a nonce~--- rather than
 demanding the IV be random.  In~\cite{RS06}, we sought to make these nonce-based
 encryption schemes even easier to use, by designing them so that their security
 guarantee degrades gracefully when the nonce IV repeats.  Nonce-misuse
-resistance has been recognized as an important goal,  
+resistance has been recognized as an important goal in practice, and was one of the
+desiderata of the CAESAR competition~\cite{xxx}
 
 Later work by PI Shrimpton~\cite{NRS} reconsidered the traditional wisdom about
 building authenticated encryption (AE) via generic composition of an encryption
@@ -40,11 +39,13 @@ published in~\cite{RS06} as the first nonce-misuse-resistant AE scheme.)
   may be metadata in the clear, there may be downgrading or other
   things that happen ``under the hood'' from the application's perspective, etc.}
 
-\paragraph{Tasks.}
-\begin{itemize}
-\item {Follow-on work to hedging paper}\todo{Chris}
-\item {Malleabilty models ideas?}
-\item {Survey/user study to find out what things people don't
+\todo{Each task needs some lead-in text.} 
+\begin{task} 
+Malleabilty models ideas?
+\end{task}
+
+\begin{task}
+{Survey/user study to find out what things people don't
     understand, want to abuse, find annoying when using libraries/when
-  trying to translate theory syntax into APIs}\todo{?}
-\end{itemize}
+  trying to translate theory syntax into APIs}
+\end{task}
