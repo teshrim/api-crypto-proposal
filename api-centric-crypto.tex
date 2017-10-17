@@ -12,25 +12,41 @@ deployment).
 %
 As such, it is emcumbent upon us to take an \emph{API-centric} view of the
 primitives and protocols that we formalize.  
-
-It is important to recognize that there are at least two types of ``customers'' to consider 
-when taking an API-centric viewpoint on cryptography.   The first we have already mentioned, 
-namely application developers.  Application developers are largely concerned about functionality,
-and are likely to have relatively little expertise in cryptography.  They are likely to want a simple,
-semantically intuitive interface [...]
-%
-The second type of consumer is a security engineer.  We expect security engineers to have (at least)
-a reasonable understanding of basic cryptography and cryptographic/security hygiene.  They are
-likely to want some degree of control over algorithmic and parameter choices [...]
-%
-
-
-
-
-
 In the remainder of this section, we discuss specific
 areas to which we will apply this API-centric perspective.  
 %Note that this is a preliminary list of areas, based on prior results and current considerations.
+
+\paragraph{Understanding an APIs customers. }
+It is important to recognize that there are at least two types of ``customers'' to consider 
+when taking an API-centric viewpoint on cryptography.   The first we have already mentioned, 
+namely application developers.  Application developers are largely concerned about functionality,
+and have relatively little expertise in cryptography.  They are likely to want a simple,
+semantically intuitive, high-level interface, e.g. 
+\begin{align*}
+\varfont{SocketHandle}&\gets\algfont{SecureOpen}(\varfont{ReceiverID}), \\
+\varfont{Status}&\gets\algfont{SecureSend}(\varfont{SocketHandle, Msg}),\\
+\varfont{Msg}&\gets\algfont{SecureReceive}(\varfont{SocketHandle}), \\
+\varfont{Status}&\gets\algfont{SecureClose}(\varfont{SocketHandle}).
+\end{align*}
+%
+where the type and structure of the data object \varfont{Msg} would be separately specified, e.g. it may 
+include associated data or attributes, in addition to the actual plaintext.
+%
+The second type of consumer is a security engineer.  We expect security engineers to have (at least)
+a reasonable understanding of basic cryptography and cryptographic/security hygiene.  They are
+likely to want some degree of control over algorithmic and parameter choices.  Security engineers also
+need the API to be flexible enough to support a broad range of applications.   [...]
+%
+
+
+\begin{task}
+ As a first step towards respecting real APIs, we must understand the extent to
+which the primitives we formalize in theory align with the actual primitives
+that APIs expose to developers. \tsnote{Survey, SoK-type work.}
+\end{task}
+
+
+
 
 \paragraph{Standardized APIs. }
 In~\cite{SSW}, PI Shrimpton gave a provable-security treatment to the design and
@@ -96,12 +112,6 @@ real APIs expose, and what provable security guarantees these can achieve.
 
 \begin{task}
 \todo{CHRIS: can you please write up a short (2-3 paragraph) discussion about the follow-on work we want to do for the hedged crypto effort?}
-\end{task}
-
-\begin{task}
- As a first step towards respecting real APIs, we must understand the extent to
-which the primitives we formalize in theory align with the actual primitives
-that APIs expose to developers. \tsnote{Survey, SoK-type work.}
 \end{task}
 
 \paragraph{Secure Channels. }
