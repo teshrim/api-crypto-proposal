@@ -11,7 +11,26 @@ primarily driven by non-security requirements (e.g. functionality, adoption,
 deployment).
 %
 As such, it is emcumbent upon us to take an \emph{API-centric} view of the
-primitives we formalize.
+primitives and protocols that we formalize.  
+
+It is important to recognize that there are at least two types of ``customers'' to consider 
+when taking an API-centric viewpoint on cryptography.   The first we have already mentioned, 
+namely application developers.  Application developers are largely concerned about functionality,
+and are likely to have relatively little expertise in cryptography.  They are likely to want a simple,
+semantically intuitive interface [...]
+%
+The second type of consumer is a security engineer.  We expect security engineers to have (at least)
+a reasonable understanding of basic cryptography and cryptographic/security hygiene.  They are
+likely to want some degree of control over algorithmic and parameter choices [...]
+%
+
+
+
+
+
+In the remainder of this section, we discuss specific
+areas to which we will apply this API-centric perspective.  
+%Note that this is a preliminary list of areas, based on prior results and current considerations.
 
 \paragraph{Standardized APIs. }
 In~\cite{SSW}, PI Shrimpton gave a provable-security treatment to the design and
@@ -31,11 +50,12 @@ key-management functionalities is to allow the exporting and importing of keys
 via ``key (un)wrapping'' operations.  (This supports, among other things, the
 transportation of cryptographically protected keys between tokens.)  These keys
 may have a variety of attributes associated to them that proscribe
-their usage, e.g. this key may/may not be used to encrypt data (via a given API
+their usage, e.g.\ this key may/may not be used to encrypt data (via a given API
 call), this key may/may not be wrapped for future export.  Thus, the internal
 state of the key-management functionality changes as an attacker carries out
-permitted API calls. \todo{Mention the API-attack papers by Graham
-  Steele.} 
+permitted API calls. (We note that works by Steele and coauthors~\cite{xxx,yyy,zzz} exploit this
+changing of internal state, sometimes in concert with underspecification in standards and device documentation,
+to cause catastrophic security breaks in HSMs.)
 Moreover, a real adversary may be in possession of one or
 more tokens ---~keep in mind that these may be physically vulnerable
 devices, such as USB sticks or smart cards~--- and these are subject
@@ -43,7 +63,7 @@ to corruption.  As a result, a victim token is asked to
 import adverasarially-known keys.  This can cause many other keys
 under management by the victim to become (effectively) corrupted, 
 e.g. if the attributes of the imported key allow it to be used for wrapping.
-\tsnote{Write something about open questions from that paper.}
+\todo{Write something about open questions from that paper.}
 
 \begin{task}
 [Close open questions from CrAPI paper]
