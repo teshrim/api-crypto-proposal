@@ -36,7 +36,15 @@ The second type of consumer is a security engineer.  We expect security engineer
 a reasonable understanding of basic cryptography and cryptographic/security hygiene.  They are
 likely to want some degree of control over algorithmic and parameter choices.  Security engineers also
 need the API to be flexible enough to support a broad range of applications.   [...]
-\cpnote{Why discuss the two customers? Who are we trying to help?}
+\cpnote{Why discuss the two customers? Who are we trying to
+  help?}\tsnote{I wanted to draw out the distinction the APIs (and
+  hence the effective primitives exposed, and the intuitive security
+  properties that are assumed) that application developers want/need
+  and the one that more sophisticated customers want/need.  Originally
+I was going to write about the difference between encryption for app
+developers (no explicit IV exposed, shouldn't have to worry about
+that) and for security engineers/library developers (explicit IV
+exposed).  But then it just kind of went a different direction...}
 
 
 \begin{task}
