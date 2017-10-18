@@ -23,6 +23,28 @@
   ISSN={},
 }
 
+@inproceedings{BH05,
+  author = {Barak, Boaz and Halevi, Shai},
+  title = {A Model and Architecture for Pseudo-random Generation with
+  Applications to /Dev/Random},
+  booktitle = {Proceedings of the 12th ACM Conference on Computer and
+  Communications Security},
+  series = {CCS '05},
+  year = {2005},
+  isbn = {1-59593-226-7},
+  location = {Alexandria, VA, USA},
+  pages = {203--212},
+  numpages = {10},
+  url = {http://doi.acm.org/10.1145/1102120.1102148},
+  doi = {10.1145/1102120.1102148},
+  acmid = {1102148},
+  publisher = {ACM},
+  address = {New York, NY, USA},
+  keywords = {dev/random, entropy, mixing functions,
+  pseudo-randomness, smart-cards, true randomness},
+}
+
+
 @inproceedings{BBN+,
   author="Bellare, Mihir
     and Brakerski, Zvika
@@ -80,6 +102,37 @@
   url="https://doi.org/10.1007/978-3-319-63697-9_16"
 }
 
+@inproceedings{BH15,
+  author="Bellare, Mihir
+    and Hoang, Viet Tung",
+  editor="Oswald, Elisabeth
+    and Fischlin, Marc",
+  title="Resisting Randomness Subversion: Fast Deterministic and Hedged
+    Public-Key Encryption in the Standard Model",
+  bookTitle="Advances in Cryptology - EUROCRYPT 2015: 34th Annual International
+    Conference on the Theory and Applications of Cryptographic Techniques,
+  Sofia, Bulgaria, April 26-30, 2015, Proceedings, Part II",
+  year="2015",
+  publisher="Springer Berlin Heidelberg",
+  address="Berlin, Heidelberg",
+  pages="627--656",
+  abstract="This paper provides the first efficient, standard-model,
+  fully-secure schemes for some related and challenging forms of public-key
+    encryption (PKE), namely deterministic and hedged PKE. These forms of PKE
+    defend against subversion of random number generators, an end given new
+    urgency by recent revelations on the nature and extent of such subversion.We
+    resolve the (recognized) technical challenges in reaching these goals via a
+    new paradigm that combines UCEs (universal computational extractors) with
+    LTDFs (lossy trapdoor functions). Crucially, we rely only on a weak form of
+    UCE, namely security for statistically (rather than computationally)
+    unpredictable sources. We then define and achieve unique-ciphertext PKE as a
+    way to defend against implementation subversion via algorithm-substitution
+    attacks.",
+  isbn="978-3-662-46803-6",
+  doi="10.1007/978-3-662-46803-6_21",
+  url="https://doi.org/10.1007/978-3-662-46803-6_21"
+}
+
 @misc{pkcs11,
   shorthand={PKCS11},
   editor={Susan Gleeson and Chris Zimman and Robert Griffin and Tim Hudson},
@@ -108,3 +161,35 @@
   doi="10.1007/978-3-662-53018-4_11",
   url="https://doi.org/10.1007/978-3-662-53018-4_11"
 }
+
+@inproceedings{ST15,
+  author="Shrimpton, Thomas
+    and Terashima, R. Seth",
+  editor="Oswald, Elisabeth
+    and Fischlin, Marc",
+  title="A Provable-Security Analysis of Intel's Secure Key RNG",
+  bookTitle="Advances in Cryptology -- EUROCRYPT 2015: 34th Annual International
+    Conference on the Theory and Applications of Cryptographic Techniques,
+  Sofia, Bulgaria, April 26-30, 2015, Proceedings, Part I",
+  year="2015",
+  publisher="Springer Berlin Heidelberg",
+  address="Berlin, Heidelberg",
+  pages="77--100",
+  abstract="We provide the first provable-security analysis of the Intel Secure
+    Key hardware RNG (ISK-RNG), versions of which have appeared in Intel
+    processors since late 2011. To model the ISK-RNG, we generalize the
+    PRNG-with-inputs primitive, introduced by Dodis et al. at CCS'13 for their
+    /dev/[u]random analysis. The concrete security bounds we uncover tell a
+    mixed story. We find that ISK-RNG lacks backward-security altogether, and
+    that the forward-security bound for the ``truly random'' bits fetched by the
+    {\$}{\$}{\backslash}mathtt {\{}RDSEED{\}}{\$}{\$}
+  instruction is potentially worrisome. On the other hand, we are able to prove
+    stronger forward-security bounds for the pseudorandom bits fetched by the
+    {\$}{\$}{\backslash}mathtt {\{}RDRAND{\}}{\$}{\$}
+  instruction. En route to these results, our main technical efforts focus on
+    the way in which ISK-RNG employs CBCMAC as an entropy extractor.",
+        isbn="978-3-662-46800-5",
+        doi="10.1007/978-3-662-46800-5_4",
+        url="https://doi.org/10.1007/978-3-662-46800-5_4"
+}
+
