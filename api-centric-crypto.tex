@@ -118,6 +118,14 @@ wrapping.
 \end{task}
 %
 
+\begin{task}
+ \todo{This needs lead in text!}
+Application developer APIs for secure send/receive of messges
+(data-in-flight) and secure read/write from storage (data-at-rest).  What are
+the implied primitives, and what are the security properties that developers
+assume are provided.
+\end{task}
+
 \paragraph{Hedged Cryptography. }
 Recent work by PI Shrimpton~\cite{BPS} revisits the theory of
 hedged public-key encryption (PKE)~\cite{BBN+} from an API-centric perspective.
@@ -143,6 +151,9 @@ PKE is reconsidered from the perspective of what can be easily constructed given
 what real APIs expose, and what provable security guarantees these can achieve.
 
 \begin{task}
+  \cpnote{This task supports the goal of making crypto easier to implement by
+  \emph{respecting existing APIs}.}
+  %
   Another tack is to reconsider the construction of~\cite{BBN+,BH15} directly
   from an API-centric perspective.
   %
@@ -264,7 +275,10 @@ incumbent on them to implement this protocol \emph{precisely}, and if the
 protocol needs to be changed (say, to address some engineering constraint), then
 the cryptographer needs to provide a fresh proof.
 
-\begin{task}
+\begin{task}\label{task:sc}
+  \cpnote{This task supports the gaol of making \emph{crypto APIs easier to use
+  securely}.}
+  %
   A beautiful, yet largely-overlooked work by Rogaway and Stegers~\cite{RS09}
   affords an opportunity to bridge this gap. Their observation is that when
   cryptographers design protocols, they provide an abstraction that omits many
@@ -289,58 +303,63 @@ the cryptographer needs to provide a fresh proof.
   providing guidance in the design of the TLS 1.3 record layer.
 \end{task}
 
-\begin{task}
- \todo{This needs lead in text!}
-Application developer APIs for secure send/receive of messges
-(data-in-flight) and secure read/write from storage (data-at-rest).  What are
-the implied primitives, and what are the security properties that developers
-assume are provided.
-\end{task}
+\paragraph{Authenticated Key-Exchange. }
+%
+Task~\ref{task:sc} deals with communicants who share a key, but a crucial aspect
+component of a secure channel is the initial key exchange.
+%
+Since the seminal work of Bellare and Rogaway~\cite{BR93}, the setting in which
+authenticated key exchange is studied has not changed much; meanwhile, the needs of
+real-world protocols have evolved substantially over the years. Take the TLS
+handshake  as an example.
+%
+First, the vast majority of the literature has focused on the case of
+\emph{mutual} AKE (MAKE), where both client and server wish to authenticate
+the other. In fact, virtually all TLS handshakes on the Internet are only
+\emph{unilaterally} authenticated (UAKE)~\cite{xxx}. (The client wishes to
+verify the server's identity.)
+%
+Second, TLS offers features that break with the Bellare-Rogaway model
+altogether. For example, Bhargavan et al.~\cite{bhargavan2014proving} point
+out (a) that handshakes share states \emph{across session} (in
+Bellare-Rogaway each session has its own state), and that (b) the same
+material may be used by the same entity in \emph{different protocols}
+(requires the underlying algorithms be \emph{agile}, a
+la~\cite{acar2010cryptographic}).
+%
+Third, an important consideration in the upcoming TLS 1.3
+specification~\cite{tls13} is \emph{session resumption}, where the goal is
+to piggy-back a fresh key exchange on the data channel between a client and
+server who have already performed the full handshake. This feature is
+crucial from an engineering perspective, but as is well-known~\cite{xxx}, we
+cannot provide the same level of security for the message on which we are
+piggy-backing the exchange as is possible for subsequent messages.
 
-\paragraph{Authenticated Key-Exchange. } \tsnote{Chris' text.}
-    Bellare and Rogaway~\cite{bellare1993entity} were the first to formalize the
-    goal of authenticated key exchange. Since their seminal work (Crypto `93),
-    the setting in which we analyze the security of these protocols has not
-    changed much; meanwhile, the needs of real-world protocols have evolved
-    substantially over the years. Take TLS as an example.
-    %
-    First, the vast majority of the literature has focused on the case of
-    \emph{mutual} AKE (MAKE), where both client and server wish to authenticate the
-    other. In fact, virtually all TLS handshakes on the Internet are only
-    \emph{unilaterally} authenticated (UAKE)~\cite{xxx}. (The client
-    wishes to verify the server's identity.)
-    %
-    Second, TLS offers features that break with the Bellare-Rogaway model
-    altogether. For example, Bhargavan et al.~\cite{bhargavan2014proving} point
-    out (a) that handshakes share states \emph{across session} (in
-    Bellare-Rogaway each session has its own state), and that (b) the same
-    material may be used by the same entity in \emph{different protocols}
-    (requires the underlying algorithms be \emph{agile}, a
-    la~\cite{acar2010cryptographic}).
-    %
-    Third, an important consideration in the upcoming TLS 1.3
-    specification~\cite{tls13} is \emph{session resumption}, where the goal is
-    to piggy-back a fresh key exchange on the data channel between a client and
-    server who have already performed the full handshake. This feature is
-    crucial from an engineering perspective, but as is well-known~\cite{xxx}, we
-    cannot provide the same level of security for the message on which we are
-    piggy-backing the exchange as is possible for subsequent messages.
-
-    These issues (and a myriad of others) point to a gap between how programmers
-    expect they should be able to use cryptography, and how cryptography
-    is to be used securely. This presents an opportunity to distill from design
-    patterns in existing KE protocols (TLS, IPSec, Signal, Noise, etc.) an
-    abstraction (and corresponding API) that cleanly captures the needs of
-    software engineers.
-    %
-    A promising direction is to begin with Dodis and
-    Fiore~\cite{dodis2017unilateral}, who show that security in this setting is
-    much easier to model than the more general MAKE setting of Bellare-Rogaway.
-    Motivated by the design of TLS 1.3, Krawczyk
-    recently~\cite{krawczyk2016unilateral-to-mutual} showed how to transform any
-    (natural) UAKE scheme to a MAKE scheme.
+These issues (and a myriad of others) point to a gap between how programmers
+expect they should be able to use cryptography, and how cryptography is to
+be used securely. This presents an opportunity to distill from design
+patterns in existing KE protocols (TLS, IPSec, Signal, Noise, etc.) an
+abstraction (and corresponding API) that cleanly captures the needs of
+software engineers.
 
 \begin{task}
-\todo{CHRIS: can you pull out a concrete task?}
+  A promising direction is to begin with Dodis and
+  Fiore~\cite{dodis2017unilateral}, who show that security in this setting is
+  much easier to model than the more general MAKE setting of Bellare-Rogaway.
+  An approach by Krawczyk~\cite{krawczyk2016unilateral-to-mutual} can be
+  employed to transform a UAKE scheme to a MAKE scheme.
+  %
+  Dodis and Fiore define a natural primitive they call
+  \emph{comfirmed encryption} for KEM-based UAKE, which has an API that, we
+  feel, is intuitive for security engineers.
+  %
+  A limitation, however, is that comfirmed encryption cannot provide forward
+  secrecy on its own. We propose to elucidate the syntax and security for DH-based
+  UAKE whose API is similarly intuitive.
 \end{task}
-    %
+
+\begin{task}
+  In their paper on entity authentication, Rogaway and Stegers~\cite{RS09}
+  suggest their methodology could be extended to AKE. We find it remarkable that
+  this task has not been undertaken, and we propose to do so.
+\end{task}
