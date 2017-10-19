@@ -1,28 +1,48 @@
 \begin{figure}
-\centering
+\begin{center}
 \fpage{0.75}{
-\underline{\algfont{DECRYPT}(\varfont{ChannelContext}, $X$):} 
+  \todo{Specify \algfont{ENCRYPT} for completeness.}
+  %
+  \\
+\underline{\algfont{DECRYPT}(\varfont{ChannelContext}, $X$):}
 \begin{align*}
-&(\varfont{SentContext},\varfont{Ciphertext}) \gets\algfont{ParseReceived}(X)  \\
-&(\varfont{ExternalVals, InternalVals}) \gets \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, \varfont{Ciphertext})\\
-&\varfont{Verdict} \gets \algfont{IsValid}(\varfont{InternalVals})\\
-&(\varfont{ChannelContextUpdates}, \varfont{ExternalVals}) \gets
+  &(\varfont{SentContext},\varfont{Ciphertext}) \gets\algfont{ParseReceived}(X)\\
+  &(\varfont{ExternalVals, InternalVals}) \gets \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, \varfont{Ciphertext})\\
+  &\varfont{Verdict} \gets \algfont{IsValid}(\varfont{InternalVals})\\
+  &(\varfont{ChannelContextUpdates}, \varfont{ExternalVals}) \gets
                                   \algfont{ErrorHandling}(%\varfont{ChannelContext},
                                   \varfont{Verdict}, \varfont{ExternalVals})\\
-&\varfont{Return} (\varfont{ChannelContextUpdates}, \varfont{ExternalVals})
+  &\varfont{Return} (\varfont{ChannelContextUpdates}, \varfont{ExternalVals})
 \end{align*}
-} 
+}
+\end{center}
 %
-
-\caption{Describing symmetric-key decryption of received value~$X$ in terms of explicit
-  functionalities that must be realized. The \varfont{ChannelContext} is
-  receiver-maintained information about the channel, and may contain values shared with the sender
-  (e.g., the key, channel ID), along with local state.  The
-  \varfont{SentContext} is context data associated to this particular
-  ciphertext. The \varfont{ExternalVals} are intended to be released
-  to the external caller, and the \varfont{InternalVals} are intended
-  for use only within the decryption process boundary.  
-  The types of all input and output values are implicit.}
+\cpnote{I would call these \algfont{SendMessage} and \algfont{ReceiveMessage}
+instead of \algfont{ENCRYPT} and \algfont{DECRYPT}.}
+\cpnote{$\algfont{ParseReceived}$ would be called $\algfont{Unmarshal}$ or
+$\algfont{Deserialize}$ in modern programming languages. (To me this is like
+deserializing a protocol buffer.)}
+%
+\cpnote{Does \varfont{ExternalVals} encode the message?}
+%
+\cpnote{I suggest changing the semantics of \varfont{ChannelContext} and
+  \varfont{ChannelContextUpdates}. A programmer would think of having a
+  \emph{pointer} to this context that is updated by the call to
+  \algfont{DECRYPT}. A nice way to do this is to adopt the ``call-by-reference''
+  semantics of Rogaway-Stegers. So the interface looks something like this:
+  \[
+    \algfont{DECRYPT}(\rwordfont{var} \varfont{ChannelContext}, X)
+  \]
+}
+\caption{Describing symmetric-key decryption of received value~$X$ in terms of
+  explicit functionalities that must be realized. The \varfont{ChannelContext}
+  is receiver-maintained information about the channel, and may contain values
+  shared with the sender (e.g., the key, channel ID), along with local state.
+  The \varfont{SentContext} is context data associated to this particular
+  ciphertext. The \varfont{ExternalVals} are intended to be released to the
+  external caller, and the \varfont{InternalVals} are intended for use only
+within the decryption process boundary.  The types of all input and output
+values are implicit.}
 \label{fig:syntax-api-example}
 \end{figure}
 
