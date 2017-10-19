@@ -13,7 +13,10 @@ demanding the IV be random.  In~\cite{RS06}, we sought to make these nonce-based
 encryption schemes even easier to use, by designing them so that their security
 guarantee degrades gracefully when the nonce IV repeats.  Nonce-misuse
 resistance has been recognized as an important goal in practice, and was one of the
-desiderata of the CAESAR competition~\cite{xxx}
+desiderata of the CAESAR competition~\cite{xxx}.
+%
+\cpnote{Note that I talk about misuse-resistant and robust AE under the ``Secure
+channels'' heading.}
 
 Later work by PI Shrimpton~\cite{NRS} reconsidered the traditional wisdom about
 building authenticated encryption (AE) via generic composition of an encryption
@@ -23,7 +26,7 @@ encrypt-then-mac~--- only the last is secure given any secure encryption scheme
 and MAC.   This wisdom was heeded by an ISO standard, which would have been a
 good thing, except that the ISO standard was mandating a nonce-based AE scheme,
 whereas the Bellare-Namprempre results were about randomized AE.  As a result,
-the ISO scheme was actually broken, despite the standard's (appaudible) efforts
+the ISO scheme was actually broken, despite the standard's (applaudible) efforts
 to do what it seemed the crypto community told them.  Here again, the mismatch
 between theoretical primitives and their real-world realization was problematic.
 In~\cite{NRS}, we readdressed generic composition from the nonce-based
@@ -38,9 +41,12 @@ published in~\cite{RS06} as the first nonce-misuse-resistant AE scheme.)
   application, e.g. there may parallel communication channels, there
   may be metadata in the clear, there may be downgrading or other
   things that happen ``under the hood'' from the application's perspective, etc.}
+\cpnote{Good fodder for this question might be the underhanded crypto
+  competition. Many submissions put forward APIs that look easy to use, but
+actually are broken.}
 
-\todo{Each task needs some lead-in text.} 
-\begin{task} 
+\todo{Each task needs some lead-in text.}
+\begin{task}
 Malleabilty models ideas?
 \end{task}
 
