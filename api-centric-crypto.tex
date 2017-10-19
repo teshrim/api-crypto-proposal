@@ -152,7 +152,7 @@ what real APIs expose, and what provable security guarantees these can achieve.
   internal state.
   %
   We propose to consider constructions similar in spirit to prior work
-  (\cite{BBN+,BH15}), that compose a standard PKE scheme with a PRNG with input.
+  that compose a standard PKE scheme with a PRNG with input.
 \end{task}
 
 \paragraph{Secure Channels. }
@@ -161,22 +161,27 @@ challenges, providing a secure channel remains far and away its most mportant
 task.
 %
 Today, TLS is deployed by ??\% of web servers and protects ??\% of
-communications on the Internet. As such, this crucial code has been scrutinized
+communications on the Internet.
+%
+\todo{Get figures.}
+%
+As such, this crucial code has been scrutinized
 from top to bottom, including the crypto, the protocol specification,
 implementations, and its deployment.\footnote{ See the \textsc{miTLS} project
 for an overview: \url{https://www.mitls.org}.}
 %
-Academic papers on the (in)security of TLS fall braodly into three categories:
-those focusing on the TLS \emph{handshake} (unilateral- or
-mutually-authenticated key exchange)~\cite{BNF+14,others}, the \emph{record
-layer} (the protocol encapsulating application data)~\cite{PRS11}, or the
-composition of the two~\cite{JKSS12,KPW13}. This work will focus on the TLS
-record layer.
+\ignore{
+  Academic papers on the (in)security of TLS fall broadly into three categories:
+  those focusing on the TLS \emph{handshake} (unilateral- or
+  mutually-authenticated key exchange)~\cite{BNF+14,others}, the \emph{record
+  layer} (the protocol encapsulating application data)~\cite{PRS11}, or the
+  composition of the two~\cite{JKSS12,KPW13}.
+}
 
 Over the last decade or so, \emph{authenticated encryption with associated data}
 (AEAD) has emerged as an important ingredient for constructing secure channels.
 %
-Its syntax is easy to reason about from a theoretical point of view, but is
+Its syntax is easy to reason about from a theoretical point of view, and yet is
 robust enough to encompass most tasks that practitioners encounter. Moreover,
 notions like \emph{nonce-misuse resistant}~\cite{RS07} and
 \emph{robust}~\cite{HKR14} authenticated encryption make AEAD schemes difficult
@@ -184,9 +189,6 @@ to (inadvertently) use incorrectly. These properties make AEAD an attractive
 tool for designing protocols; indeed, schemes like AES-GCM and
 ChaCha20\mbox{-}Poly1305 are baked into the upcoming TLS 1.3
 specification.\footnote{ See \url{https://tlswg.github.io/tls13-spec}.}
-%
-\cpnote{AFAIK AES-GCM is \emph{not} nonce-misuse resistant ... not sure about
-ChaCha20. Are there other AEADs in the spec?}
 %
 It is tempting to think that AEAD, on its own, provides a secure channel. In
 fact, for the thing to be useful for communicating over a network, we need to
@@ -198,20 +200,17 @@ exploited to \emph{completely circumvent} the security provided by the
 underlying crypto~\cite{BKN02}. These attacks point to a substantial gap between
 crypto theory and the complexity of protocol logic.
 
-We are by no means the first to point out this gap. It was recenlty observed by
-Badertscher \etal~\cite{BMM+15} that the implicit goal of the TLS 1.3
-record layer protocol is to construct an ``augmented'' secure channel (ASC), which
+We are by no means the first to point out this gap. It was recently observed by
+Badertscher \etal~\cite{BMM+15} that the implicit goal of the TLS 1.3 record
+layer protocol is to construct an ``augmented'' secure channel (ASC), which
 provide the capability of sending a message with two parts: the first being
 private, and both parts being authenticated. They emphasize that classical
-security notions, such as those for AEAD, ``do not capture in which contexts a
-scheme satisyfying them can securely be used. They consider a specific attack
-model and give certain capabilitiles to an adversry that tries to win some game,
-but it is not \apriori clear which capababilities an adversary has in a
-particular application, or even what her final goal is.'' \cite[pp. 2]{BMM+15}.
-Nevertheless, this work (and others like it~\cite{BKN02,PRS11}) omit an important
-detail.
+security notions, such as those for AEAD ``do not capture in which contexts a
+scheme satisyfying them can securely be used'' \cite[pp. 2]{BMM+15}.
+Nevertheless, this work and others, such as the highly influential SSH
+paper~\cite{BKN02} and the analysis the TLS record layer by PI
+Shrimtpon~\cite{PRS11}, omit an important detail.
 
-\emph{Data is a stream \cite{FPMG15}.}
 Providing a reliable (but not secure) channel between any two hosts on the Internet
 is the job of the TCP/IP protocol stack. TCP in particular is designed so that
 application developers need not worry about the details at all.
@@ -244,13 +243,50 @@ same semantics as \codefont{send()} and \codefont{recv()} defined above. Thus,
 the programmer can use this API just as she would use the lower-level
 functionality for reliable transport, but with the added assurance that the
 channel is secure.
+%
+Fischlin \etal~\cite{FPMG15} were the first (atleast in the cryptographic
+community) to elucidate secure channels as data streams.
+%
+Their security notion models an adversary who transmits ciphertext ``fragments''
+over the channel, and may inject and reorder fragments at will. (Concretely, we
+might think of these fragments as being packets.) Their construction is based on
+AEAD.
 
-Fischlin \etal~\cite{FPMG15} were the first (at least in our community) to
-elucidate secure channels as a data stream. \cpnote{This is still a work in
-progress.}
+We regard the work of Fischlin \etal as an important step in an API-centric
+treatment of secure channels.
+%
+However, there remains a wide gap between their work and cryptographic practice.
+In order to apply their methodology to a real protocol, one would need to
+precisely specify it as a streaming secure channel (according to their
+formalism) and provide a proof of security. This on its own is a complex
+undertaking, but it also places a heavy burden on the security engineers. It is
+incumbent on them to implement this protocol \emph{precisely}, and if the
+protocol needs to be changed (say, to address some engineering constraint), then
+the cryptographer needs to provide a fresh proof.
 
 \begin{task}
-Secure-channel APIs for streaming data vs.message-oriented data. 
+  A beautiful, yet largely-overlooked work by Rogaway and Stegers~\cite{RS09}
+  affords an opportunity to bridge this gap. Their observation is that when
+  cryptographers design protocols, they provide an abstraction that omits many
+  details relevant to implementing them on real systems. (They necessarily do
+  so for the reasons given above.)
+  %
+  They provide a framework for analyzing \emph{partially-specified protocols},
+  where the ``cryptographic core'' of the protocol is separated from the
+  ``protocol details'' relevant to engineers. In the analysis, one assumes the
+  latter is utterly controlled by the adversary. This  allows the security
+  engineer a large degree of flexibility in designing the protocol without
+  compromising security.
+  %
+  Rogaway and Stegers apply their methodology to mutual entity authentication
+  and reconsider the security of the classical NSL
+  %
+  \todo{Explain acronym and add a reference.}
+  %
+  protocol.
+  %
+  We propose to apply this methodology to streaming secure channels towards
+  providing guidance in the design of the TLS 1.3 record layer.
 \end{task}
 
 \begin{task}
