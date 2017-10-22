@@ -35,43 +35,41 @@ separately specified, e.g. it may include associated data or attributes, in
 addition to the actual plaintext.
 %
 \cpnote{What about status? Was the connection
-severed?}
+severed?}\tsnote{Don't understand.}
 %
 The second type of consumer is a security engineer. We expect security engineers
 to have (at least) a reasonable understanding of basic cryptography and
-cryptographic/security hygiene. They are likely to want some degree of control
-over algorithmic and parameter choices.
-%
-\cpnote{A stronger statement: ``Given the intricacies of
+cryptographic/security hygiene. Given the intricacies of
 protocol design and the complexity of real systems, we expect that they would
-require some degree of control over algorithmic and/or paremter choices.''}
+require some degree of control over algorithmic and paremter choices.
 %
-Security engineers also need the API to be flexible enough to support a broad
-range of applications. [...]
-%
-\cpnote{Why discuss the two customers? Who are we trying to
-  help?}\tsnote{I wanted to draw out the distinction the APIs (and
-  hence the effective primitives exposed, and the intuitive security
-  properties that are assumed) that application developers want/need
-  and the one that more sophisticated customers want/need.  Originally
-I was going to write about the difference between encryption for app
-developers (no explicit IV exposed, shouldn't have to worry about
-that) and for security engineers/library developers (explicit IV
-exposed).  But then it just kind of went a different
-direction... Anyway, at this point I think it's most a lead in to the
-task below it.}
-\cpnote{Ack. It might be helpful to give an example of something exposed to the
-``security engineer.''}
-
+\cpnote{It might be helpful to give an example of something exposed to the
+``security engineer.''}\tsnote{Agreed.  So what would be the
+corresponding API for security engineers?  I'm not sure, myself.  I
+would think that the SE actually has an API for the components that
+are needed to build up things like $\algfont{SecureSend}$, not a
+version of $\algfont{SecureSend}$ that surfaces more inputs/outputs.
+But if you look at that ``semantic API'' paper, the API they give to
+the security engineer is very spartan, with all of the crypto actually
+assumed in a Java library.  So I'm not sure what the right thing to do
+is, here.  Thoughts?}
+ 
+\todo{Need to finish out this text before leading into the task...}
 \begin{task}
-  As a first step towards respecting real APIs, we must understand the extent to
-  which the primitives we formalize in theory align with the actual primitives
-  that APIs expose to developers. \tsnote{Survey, SoK-type work.}
+  Carry out a detailed survey of existing APIs exposed by
+  cryptographic libraries.  The goals will be to understand exactly
+  what are the effective primitves being exported, to build a
+  framework within with patterns across libraries can be established,
+  to set metrics for comparing the complexity of the primitives
+  exposed, and so on.  This will support multiple subsequent
+  tasks.
 \end{task}
 
 \paragraph{Standardized APIs. }
 \cpnote{Do you think there's too much detail here? The hedged PKE stuff has a
-lot less...}
+lot less...}\tsnote{There may ultimately be too much here, but I don't
+know yet.  Anyway, it's fine to have some sections more detailed than
+others, especially if some allow you to really trumpet the PI's chops.}
 %
 In~\cite{SSW}, PI Shrimpton gave a provable-security treatment to the design and
 analysis of so-called ``cryptographic APIs'', standardized in the PKCS\#11
@@ -83,13 +81,17 @@ asymmetric- and symmetric-key crypto operations.  These tokens support a variety
 of applications, including certification authorities, SSL/TLS acceleration, and
 interbank communication.
 %
-\cpnote{We should mention authentication as an explicit goal here.}
+\cpnote{We should mention authentication as an explicit goal
+  here.}\tsnote{Go ahead!}
 
 Our approach in this paper was API-centric, in that we took the PKCS\#11
 standard as the reference point, and defined from it a new cryptographic-API
 primitive.
 %
-\cpnote{Why ``cryptographic API primitive'' instead of ``cryptographic API''?}
+\cpnote{Why ``cryptographic API primitive'' instead of ``cryptographic
+  API''?}\tsnote{Because I have never liked calling the object whose
+  syntax we established, and whose security notions we developed, a
+  cryptographic API.  A crpytographic API exposes some effective primitive.}
 %
 We then formalized some of the intuitive notions of security for a
 cryptographic API.  This was a complex undertaking, as one of the core
@@ -111,10 +113,25 @@ cause many other keys under management by the victim to become (effectively)
 corrupted, e.g. if the attributes of the imported key allow it to be used for
 wrapping.
 %
-\todo{Write something about open questions from that paper.}
 
-\begin{task}
-[Close open questions from CrAPI paper]
+While~\cite{SSW} makes important progress in the analysis of
+cryptographic APIs (in particular PKCS\#11), they do leave open some
+interesting avenues.  For exmaple, their handling of attributes is
+quite abstract, only indicating their influence on tokens as part of
+the execution model.  But what one really wants are formal mechanisms and
+security notions for reasoning about the enforcement of specific
+policies, e.g. that certain keys may be used only by certain entities
+and only for a given set of cryptographic operations.  Also,
+\cite{SSW} does not consider the public-key primitives that are
+typically exposed by tokens.  Finally, it would be useful to
+understand the extent to which real tokens respect PKCS\#11 and, if we
+find the model of~\cite{SSW} to be significantly disconnected from
+these tokens (say, because tokens often take liberties with PKCS\#11,
+or because other standards are gaining traction) then we should
+revisit the models.
+
+\begin{task} We will explore these interesting and important
+  extensions to~\cite{SSW}. 
 \end{task}
 %
 
