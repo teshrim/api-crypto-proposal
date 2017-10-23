@@ -66,12 +66,13 @@ is, here.  Thoughts?}
 \end{task}
 
 \paragraph{Standardized APIs. }
-\cpnote{Do you think there's too much detail here? The hedged PKE stuff has a
-lot less...}\tsnote{There may ultimately be too much here, but I don't
-know yet.  Anyway, it's fine to have some sections more detailed than
-others, especially if some allow you to really trumpet the PI's chops.}
+%\cpnote{Do you think there's too much detail here? The hedged PKE stuff has a
+%lot less...}
+%\tsnote{There may ultimately be too much here, but I don't
+%know yet.  Anyway, it's fine to have some sections more detailed than
+%others, especially if some allow you to really trumpet the PI's chops.}
 %
-In~\cite{SSW}, PI Shrimpton gave a provable-security treatment to the design and
+In~\cite{SSW}, PI Shrimpton and coauthors gave a provable-security treatment to the design and
 analysis of so-called ``cryptographic APIs'', standardized in the PKCS\#11
 document\cite{xxx}.  That standard details an interface by which one may
 interact with cryptographic tokens (e.g. smart cards, USB devices,
@@ -82,16 +83,16 @@ of applications, including certification authorities, SSL/TLS acceleration, and
 interbank communication.
 %
 \cpnote{We should mention authentication as an explicit goal
-  here.}\tsnote{Go ahead!}
+  here.}\todo{Go ahead!}
 
 Our approach in this paper was API-centric, in that we took the PKCS\#11
 standard as the reference point, and defined from it a new cryptographic-API
 primitive.
 %
-\cpnote{Why ``cryptographic API primitive'' instead of ``cryptographic
-  API''?}\tsnote{Because I have never liked calling the object whose
-  syntax we established, and whose security notions we developed, a
-  cryptographic API.  A crpytographic API exposes some effective primitive.}
+%\cpnote{Why ``cryptographic API primitive'' instead of ``cryptographic
+%  API''?}\tsnote{Because I have never liked calling the object whose
+%  syntax we established, and whose security notions we developed, a
+%  cryptographic API.  A cryptographic API exposes some effective primitive.}
 %
 We then formalized some of the intuitive notions of security for a
 cryptographic API.  This was a complex undertaking, as one of the core
@@ -144,7 +145,7 @@ assume are provided.
 \end{task}
 
 \paragraph{Hedged Cryptography. }
-Recent work by PI Shrimpton~\cite{BPS} revisits the theory of
+Recent work by PI Shrimpton and coauthors~\cite{BPS} revisits the theory of
 hedged public-key encryption (PKE)~\cite{BBN+} from an API-centric perspective.
 %
 The motivation for hedged PKE is quite practical. Traditional
@@ -359,11 +360,15 @@ that supports what applications expect, etc.}
 
 \paragraph{Authenticated Key-Exchange. }
 %
-Task~\ref{task:sc} deals with communicants who share a key, but a crucial aspect
-component of a secure channel is the initial key exchange.
+%Task~\ref{task:sc} deals with communication between parties who share
+%a key.  
+%In practice, a  component of a secure channel is the initial key exchange.
 %
 Since the seminal work of Bellare and Rogaway~\cite{BR93}, the setting in which
-authenticated key exchange is studied has not changed much; meanwhile, the needs of
+authenticated key exchange (AKE) is studied has not changed
+much~\tsnote{what do you mean by ``the setting'' in which it is
+  studied?  And can you justify your claim that it (whatever it is)
+  has not changed much?}; meanwhile, the needs of
 real-world protocols have evolved substantially over the years. Take the TLS
 handshake  as an example.
 %
@@ -389,7 +394,7 @@ crucial from an engineering perspective, but as is well-known~\cite{xxx}, we
 cannot provide the same level of security for the message on which we are
 piggy-backing the exchange as is possible for subsequent messages.
 
-These issues (and a myriad of others) point to a gap between how programmers
+These issues are some of the many that point to a gap between how programmers
 expect they should be able to use cryptography, and how cryptography is to
 be used securely. This presents an opportunity to distill from design
 patterns in existing KE protocols (TLS~\cite{xxx}, IPSec~\cite{xxx}, Signal~\cite{xxx}, Noise~\cite{xxx}, etc.) an
