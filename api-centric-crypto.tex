@@ -56,7 +56,7 @@ is, here.  Thoughts?}
  
 \todo{Need to finish out this text before leading into the task...}
 \begin{task}
-  Carry out a detailed survey of existing APIs exposed by
+  We will carry out a detailed survey of existing APIs exposed by
   cryptographic libraries.  The goals will be to understand exactly
   what are the effective primitves being exported, to build a
   framework within with patterns across libraries can be established,
@@ -163,11 +163,17 @@ then use these bits as the randomness for an underlying PKE scheme.  In
 practice, implementing this simple construction is surprisingly difficult, as
 the high- and mid-level APIs presented by the most commonly used crypto
 libraries (e.g. OpenSSL and significant forks thereof) \emph{do not} permit one
-to specify the per-encryption randomness. In~\cite{BPS}, the theory of hedged
+to specify the per-encryption randomness.  
+
+Other constructions of hedged PKE that do not explicit require the
+ability to manipulate the encryption coins are, likewise, difficult or
+impossible to implement via existing high- and mid-level APIs.  In
+their cases, it is because the primitives that are needed do not exist
+in common llibraries.
+
+In~\cite{BPS}, the theory of hedged
 PKE is reconsidered from the perspective of what can be easily constructed given
 what real APIs expose, and what provable security guarantees these can achieve.
-
-\begin{task}
   \cpnote{This task supports the goal of making crypto easier to implement by
   \emph{respecting existing APIs}.}
   %
@@ -178,8 +184,10 @@ what real APIs expose, and what provable security guarantees these can achieve.
   inputs}~\cite{BH05,ST15} for providing random bits to library code and
   applications. These allow the programmer to add entropy into the PRNG's
   internal state.
-  %
-  We propose to consider constructions similar in spirit to prior work
+
+
+\begin{task}
+  We will consider constructions similar in spirit to prior work
   that compose a standard PKE scheme with a PRNG with input.
 \end{task}
 
