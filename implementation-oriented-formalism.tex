@@ -1,7 +1,5 @@
 \section{Implementation-considerate Formalisms}
-\tsnote{Most of this came from an earlier approach to writing the
-  intro/motivation.  Very drafty.  (As is everything, really, at this point.)}
-The modern ``provable security'' approach to cryptrography loosely follows a
+The modern ``provable security'' approach to cryptography loosely follows a
 three-step recipe: define a precise syntax for the abstract primitive under
 study, define formal notions of security for that primitive, realize the
 primitive and prove it meets the security notions.  The first step, defining the
@@ -13,23 +11,21 @@ provides a mapping $\calD\colon\bits^{k}\times\bits^* \to \bits^* \cup
 \{\bot\}$...'', as well as requirements on the behavior of these components in
 any correct realization of them.
 
-\cpnote{This is great.}
+%\cpnote{This is great.}
 %
 In a sense, the syntax for a new primitive provides an API for researchers: for
 those wishing to \emph{realize} the primitive (in theory), it makes clear what
 are the functionalites that must be realized, and what are the assertions that
 must hold for any realization; for those wishing to \emph{use} the primitive, it
-makes clear what ``calls'' will be available to them, and what are the expected
+makes clear what calls will be available to them, and what are the expected
 inputs and outputs of those calls.
 %
 Like a real software API, syntax is considered good if it serves the needs of
-its consumers, i.e. if it supports clear security notions, facilitates the
+its ``customers''; in this case, if it supports clear security notions, facilitates the
 writing (and verification) of proofs, and is easily built upon.
 %
-\cpnote{You use the word ``customer'' above instead of ``consumer.''}
-%
-Like a real software API, syntax for a given cryptographic primitive tends to
-have a long life-time (albeit for very different reasons).
+%Like a real software API, syntax for a given cryptographic primitive tends to
+%have a long life-time (albeit for very different reasons).
 %
 \ignore{
   Follow-on work typically adopts it, and concerns itself with ``flashier''
@@ -37,8 +33,10 @@ have a long life-time (albeit for very different reasons).
   realizations, or moving from an idealized model (e.g. the random-oracle model)
   to the standard model.
 }
-Indeed, the idea of \emph{syntax-as-API} is very useful for building intuition, and as
-a pedagogical tool.
+\footnote{As an aside, PI Shrimpton has found the analogy of
+  \emph{syntax-as-API} as a useful pedagogical tool.  Computer science
+  students often seem far more familiar and comfortable with
+  programming abstractions than with mathematical ones.}
 
 %Of course, this analogy only goes so far.  When a researcher argues for a change
 %to the accepted syntax ---~a new API for a primitive~--- there is no real cost
