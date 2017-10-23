@@ -392,12 +392,9 @@ piggy-backing the exchange as is possible for subsequent messages.
 These issues (and a myriad of others) point to a gap between how programmers
 expect they should be able to use cryptography, and how cryptography is to
 be used securely. This presents an opportunity to distill from design
-patterns in existing KE protocols (TLS, IPSec, Signal, Noise, etc.) an
+patterns in existing KE protocols (TLS~\cite{xxx}, IPSec~\cite{xxx}, Signal~\cite{xxx}, Noise~\cite{xxx}, etc.) an
 abstraction (and corresponding API) that cleanly captures the needs of
 software engineers.
-
-\begin{task}
-  \cpnote{\emph{Propose an API} for a field that needs one.}
   %
   A promising direction is to begin with Dodis and
   Fiore~\cite{dodis2017unilateral}, who show that security in this setting is
@@ -410,14 +407,26 @@ software engineers.
   feel, is intuitive for security engineers.
   %
   A limitation, however, is that comfirmed encryption cannot provide forward
-  secrecy on its own. We propose to elucidate the syntax and security for DH-based
-  UAKE whose API is similarly intuitive.
-\end{task}
+  secrecy on its own. 
 
 \begin{task}
-  \cpnote{Make it easier to use APIs correctly.}
-  %
-  In their paper on entity authentication, Rogaway and Stegers~\cite{RS09}
-  suggest their methodology could be extended to AKE. We find it remarkable that
-  this task has not been undertaken, and we propose to do so.
+%\cpnote{\emph{Propose an API} for a field that needs one.}
+We will elucidate \tsnote{``Elucidate'', or establish?} the syntax and
+security for DH-based UAKE whose API is similarly
+intuitive. 
 \end{task}
+
+Going in a different direction, Rogaway and Stegers~\cite{RS09} 
+  suggest their methodology could be extended from entity
+  authentication to AKE. We find it somewhat remarkable that this task
+  has not been undertaken, and we propose to do so. \todo{This needs a
+    bit more lead-in.}
+\begin{task}
+%\cpnote{Make it easier to use APIs correctly.}
+We will apply the partially-specified-protocol methodology of~\cite{RS09} to authenticated key-exchange.
+  %
+\end{task}
+
+\todo{Is there more here?  What about the ideas that
+  Trevor Perrin suggested, specifically for AKE?  I feel like we are
+  missing a chance to build in more tasks and show more vision}
