@@ -175,7 +175,8 @@ what real APIs expose, and what provable security guarantees these can achieve.
 Still, \cite{BPS} leaves open some important matters.  First of all,
 the randomness sources in their models are stateless. 
 Most crypto libraries export \emph{pseudorandom number generators with
-  inputs}~\cite{BH05,ST15} for providing random bits to library code and
+  inputs}~\cite{BH05,ST15}\todo{Need to cite Dodis paper, too. You
+  can grab the reference from \cite{ST15}} for providing random bits to library code and
   applications. These allow the programmer to add entropy into the PRNG's
   internal state.  
 Additionally, \cite{BPS} only considers PKE.
