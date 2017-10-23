@@ -163,33 +163,39 @@ then use these bits as the randomness for an underlying PKE scheme.  In
 practice, implementing this simple construction is surprisingly difficult, as
 the high- and mid-level APIs presented by the most commonly used crypto
 libraries (e.g. OpenSSL and significant forks thereof) \emph{do not} permit one
-to specify the per-encryption randomness.  
-
-Other constructions of hedged PKE that do not explicit require the
+to specify the per-encryption randomness.\footnote{Other constructions of hedged PKE that do not explicit require the
 ability to manipulate the encryption coins are, likewise, difficult or
 impossible to implement via existing high- and mid-level APIs.  In
 their cases, it is because the primitives that are needed do not exist
-in common llibraries.
-
+in common llibraries.}  
 In~\cite{BPS}, the theory of hedged
 PKE is reconsidered from the perspective of what can be easily constructed given
 what real APIs expose, and what provable security guarantees these can achieve.
-  \cpnote{This task supports the goal of making crypto easier to implement by
-  \emph{respecting existing APIs}.}
-  %
-  Another tack is to reconsider the construction of~\cite{BBN+,BH15} directly
-  from an API-centric perspective.
-  %
-  Most crypto libraries export \emph{pseudorandom number generators with
+
+Still, \cite{BPS} leaves open some important matters.  First of all,
+the randomness sources in their models are stateless. 
+Most crypto libraries export \emph{pseudorandom number generators with
   inputs}~\cite{BH05,ST15} for providing random bits to library code and
   applications. These allow the programmer to add entropy into the PRNG's
-  internal state.
+  internal state.  
+Additionally, \cite{BPS} only considers PKE.
 
 
 \begin{task}
-  We will consider constructions similar in spirit to prior work
-  that compose a standard PKE scheme with a PRNG with input.
+We will push hedged PKE closer to practice by exploring the
+consequences of sources that are PRNGs with input.  Minimally, this will require
+a reconsideration of security notions and new constructions.  We will
+implement the best schemes to evaluate performance (e.g. overhead
+relative to plain PKE and the schemes from~\cite{BPS}) and interact
+with library maintainers to facilitate deployment of our constructions.
 \end{task}
+
+\begin{task}
+We will work to hedge other primitives against faulty randomness,
+using appropriate models of the randomness sources, all from the
+viewpoint of what real-world APIs expose.
+\end{task}
+
 
 \paragraph{Secure Channels. }
 Even as the theory of cryptography grows to encompass newer and more exotic
