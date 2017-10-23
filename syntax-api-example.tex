@@ -4,9 +4,9 @@
   \todo{Specify \algfont{ENCRYPT} for completeness.}
   %
   \\
-\underline{\algfont{DECRYPT}(\varfont{ChannelContext}, $X$):}
+\underline{\algfont{DECRYPT}(\varfont{ChannelContext}, \varfont{Msg}):}
 \begin{align*}
-  &(\varfont{SentContext},\varfont{Ciphertext}) \gets\algfont{ParseReceived}(X)\\
+  &(\varfont{SentContext},\varfont{Ciphertext}) \gets\algfont{Deserialize}(\varfont{Msg})\\
   &(\varfont{ExternalVals, InternalVals}) \gets \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, \varfont{Ciphertext})\\
   &\varfont{Verdict} \gets \algfont{IsValid}(\varfont{InternalVals})\\
   &(\varfont{ChannelContextUpdates}, \varfont{ExternalVals}) \gets
@@ -17,13 +17,14 @@
 }
 \end{center}
 %
-\cpnote{I would call these \algfont{SendMessage} and \algfont{ReceiveMessage}
-instead of \algfont{ENCRYPT} and \algfont{DECRYPT}.}
-\cpnote{$\algfont{ParseReceived}$ would be called $\algfont{Unmarshal}$ or
-$\algfont{Deserialize}$ in modern programming languages. (To me this is like
-deserializing a protocol buffer.)}
+%\cpnote{I would call these \algfont{SendMessage} and \algfont{ReceiveMessage}
+%instead of \algfont{ENCRYPT} and \algfont{DECRYPT}.}
+%\cpnote{$\algfont{ParseReceived}$ would be called $\algfont{Unmarshal}$ or
+%$\algfont{Deserialize}$ in modern programming languages. (To me this is like
+%deserializing a protocol buffer.)}
 %
-\cpnote{Does \varfont{ExternalVals} encode the message?}
+\cpnote{Does \varfont{ExternalVals} encode the message?}\tsnote{It
+  encodes whatever is to be returned, so yeah, typically the message.}
 %
 \cpnote{I suggest changing the semantics of \varfont{ChannelContext} and
   \varfont{ChannelContextUpdates}. A programmer would think of having a
@@ -34,7 +35,7 @@ deserializing a protocol buffer.)}
     \algfont{DECRYPT}(\rwordfont{var} \varfont{ChannelContext}, X)
   \]
 }
-\caption{Describing symmetric-key decryption of received value~$X$ in terms of
+\caption{Describing symmetric-key decryption of received message~\varfont{Msg} in terms of
   explicit functionalities that must be realized. The \varfont{ChannelContext}
   is receiver-maintained information about the channel, and may contain values
   shared with the sender (e.g., the key, channel ID), along with local state.
@@ -51,18 +52,18 @@ values are implicit.}
 {
 Given \varfont{ChannelContext}=(Mode Key $K$, PRF Key $L$, Status
 ``open'') \\
-Given $X=\langle N,H,C \rangle$
+Given $\varfont{Msg} =\langle V,H,C \rangle$
 
 \medskip
-Algorithm \algfont{ParseReceived}($X$):\\
-\nudge Return $\left((X.N,X.H),X.C\right)$
+Algorithm \algfont{ParseReceived}(\varfont{Msg}):\\
+\nudge Return $\left((\varfont{Msg}.V,\varfont{Msg}.H),\varfont{Msg}.C\right)$
 
 \medskip
 Algorithm \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, \varfont{Ciphertext}):\\
 \nudge Parse \varfont{Ciphertext} into tag $T$ and remainder $Z$\\ 
-\nudge if $F_L(N,A,Z) \neq T$ then\\
+\nudge if $F_L(V,A,Z) \neq T$ then\\
 \nudge\nudge \varfont{InternalVals} $\gets$ ``TagFail''\\
-\nudge\varfont{ExternalVals} $\gets \calD_K^{N}(Z)$\\
+\nudge\varfont{ExternalVals} $\gets \calD_K^{V}(Z)$\\
 \nudge Return (\varfont{ExternalVals},\varfont{InternalVals})
 
 \medskip
@@ -83,18 +84,18 @@ Algorithm \algfont{ErrorHandling}(\varfont{Verdict},\varfont{ExternalVals}):\\
 {
 Given \varfont{ChannelContext}=(Mode Key $K$, PRF Key $L$, Status
 ``open'') \\
-Given $X=\langle N,H,C \rangle$
+Given $\varfont{Msg} =\langle V,H,C \rangle$
 
 \medskip
-Algorithm \algfont{ParseReceived}($X$):\\
-\nudge Return $\left((X.N, X.H),X.C\right)$
+Algorithm \algfont{ParseReceived}(\varfont{Msg}):\\
+\nudge Return $\left((\varfont{Msg}.V, \varfont{Msg}.H),\varfont{Msg}.C\right)$
 
 \medskip
 Algorithm \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, \varfont{Ciphertext}):\\
 \nudge Parse \varfont{Ciphertext} into tag $T$ and remainder $Z$\\ 
-\nudge if $F_L(N,A,Z) \neq T$ then\\
+\nudge if $F_L(V,A,Z) \neq T$ then\\
 \nudge\nudge \varfont{InternalVals} $\gets$ ``TagFail''\\
-\nudge\varfont{ExternalVals} $\gets \calD_K^{N}(Z)$\\
+\nudge\varfont{ExternalVals} $\gets \calD_K^{V}(Z)$\\
 \nudge Return (\varfont{ExternalVals},\varfont{InternalVals})
 
 \medskip
@@ -113,12 +114,12 @@ Algorithm \algfont{ErrorHandling}(\varfont{Verdict},\varfont{ExternalVals}):\\
 \caption{Specifications of Encrypt-then-MAC decryption over a nonce-based
   symmetric-key decryption $\calD$ and vector-input PRF~$F$.  {\bf
     Left:} A specification in which a tag-check failure results in the
-suppression of all plaintext/errors output by $\calD^N_K(Z)$, and
+suppression of all plaintext/errors output by $\calD^V_K(Z)$, and
 causes a single error message to be exposed.  Also,
 in the event of a tag-check failure, the error-handling algorithm
 suggests that the Status of the channel context be updated to
 ``closed''.  Note that this specification carries out decryption
-$\calD^N_K(Z)$ even if there is a tag-check failure, thereby hiding a
+$\calD^V_K(Z)$ even if there is a tag-check failure, thereby hiding a
 potential timing side-channel. 
 %
 {\bf
