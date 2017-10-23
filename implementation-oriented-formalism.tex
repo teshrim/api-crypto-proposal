@@ -110,7 +110,7 @@ style AEAD decrpytion.  On the left side of the figure, we
 give a realization that follows what we theoreticians consider as best
 practice.  Namely, if the tag check fails, then one should label the
 ciphertext as invalid, and suppress all output other than the (single)
-error message ``Invalid'' (or $\bot$ in typical syntax).\footnote{A
+error message ``Invalid'' (or $\bot$ in typical syntax).~\footnote{A
   variation on this would compute the ciphertext only if the tag check
 succeeds.}
 %
@@ -125,7 +125,13 @@ that in both cases there is a single \emph{explicit} error message,
 ``Invalid'' on the left, ``Warning: TagFail'' on the right,
 which is in keeping with the formal syntax (i.e.\ $\bot$).  But the
 differing security implications of the two realizations is made more
-visible with this API-like presentation.  
+visible with this API-like presentation.  Most obviously, on the right
+the application to which the plaintext (and warning) is delivered must
+implement its own logic for handling warnings.  Less obviously, while
+the realization returns a single error message, if the
+underlying~$\calD^{V,H}(C)$ returns an \varfont{ExternalVals} that
+contains some other error message, then this will be exposed.  Neither
+of these is true on the left.
 
 \tsnote{Say that this may seem like overkill for ``simple'' primitives
 like symmetric-key decryption, but that (1) it only seems that way
