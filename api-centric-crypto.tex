@@ -198,11 +198,11 @@ viewpoint of what real-world APIs expose.
 \end{task}
 
 
-\paragraph{Secure Channels. }
-Even as the theory of cryptography grows to encompass newer and more exotic
-challenges, providing a secure channel remains far and away its most mportant
-task.
+\paragraph{Secure Channels. }  One of the most basic and practically
+important cryptographic functionalites is the secure channel.
+Intuitively, a secure channel is the formalization
 %
+\ignore{
 Today, TLS is deployed by ??\% of web servers and protects ??\% of
 communications on the Internet.
 %
@@ -220,7 +220,7 @@ for an overview: \url{https://www.mitls.org}.}
   layer} (the protocol encapsulating application data)~\cite{PRS11}, or the
   composition of the two~\cite{JKSS12,KPW13}.
 }
-
+}
 Over the last decade or so, \emph{authenticated encryption with associated data}
 (AEAD) has emerged as an important ingredient for constructing secure channels.
 %
@@ -232,11 +232,23 @@ to (inadvertently) use incorrectly. These properties make AEAD an attractive
 tool for designing protocols; indeed, schemes like AES-GCM and
 ChaCha20\mbox{-}Poly1305 are baked into the upcoming TLS 1.3
 specification.\footnote{ See \url{https://tlswg.github.io/tls13-spec}.}
-%
-It is tempting to think that AEAD, on its own, provides a secure channel. In
+
+It is tempting to think that AEAD, on its own, provides a secure
+channel.  \todo{I like that you are making this point.  But I think
+  the writing that follows is missing the mark.  Why?  Because you
+  talk about protocols and implementations, but there's no clear
+  reason that any of \emph{that} provides a secure channel either!
+  The point I think you are trying to make is that a secure channel
+  should provide a lot more than what an AEAD scheme does, and I
+  agree: so explicitly say what a secure channel is supposed to provide!
+  What do applications expect from them?  Give it another try :-) And
+  tighten it up, too, please.  Set up the problem, pull out the
+  surprising/important nuggets, make it clear what are the directions
+  they suggest, and then write a couple of clear tasks.}
+ In
 fact, for the thing to be useful for communicating over a network, we need to
 specify a protocol in which it is used. The choice of protocol is driven largely
-by engineering considerations, such as bandwidth constrains, computational
+by engineering considerations, such as bandwidth constraints, computational
 resources, and implementation complexity. However, the choice is also crucial
 for security; time and time again, bugs in the \emph{protocol logic} have been
 exploited to \emph{completely circumvent} the security provided by the
@@ -312,7 +324,8 @@ abouit?}
 
 \begin{task}\label{task:sc}
   \cpnote{This task supports the gaol of making \emph{crypto APIs easier to use
-  securely}.}
+  securely}.} \todo{Too much text within one task.  Pull out the
+build-up text, then give a crisp task statement.}
   %
   A beautiful, yet largely-overlooked work by Rogaway and Stegers~\cite{RS09}
   affords an opportunity to bridge this gap. Their observation is that when
@@ -337,6 +350,12 @@ abouit?}
   We propose to apply this methodology to streaming secure channels towards
   providing guidance in the design of the TLS 1.3 record layer.
 \end{task}
+
+\todo{I feel like we are missing an important task here, having to do
+  with understanding what are the current APIs for secure channels,
+  how those align with theoreticians' viewpoint(s) on secure channels,
+looking for the ``right'' API/syntax for secure channels, i.e. one
+that supports what applications expect, etc.}
 
 \paragraph{Authenticated Key-Exchange. }
 %
