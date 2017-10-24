@@ -4,15 +4,15 @@
  % \todo{Specify \algfont{ENCRYPT} for completeness.}
   %
   %\\
-\underline{\algfont{DECRYPT}(\varfont{ChannelContext}, \varfont{Msg}):}
+\underline{\algfont{DECRYPT}(\rwordfont{var}\varfont{ChannelContext}, \varfont{Msg}):}
 \begin{align*}
   &(\varfont{SentContext},\varfont{Ciphertext}) \gets\algfont{Deserialize}(\varfont{Msg})\\
-  &(\varfont{ExternalVals, InternalVals}) \gets \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, \varfont{Ciphertext})\\
+  &(\varfont{ExternalVals, InternalVals}) \gets \algfont{Decrypt}(\rwordfont{var}\varfont{ChannelContext},\varfont{SentContext}, \varfont{Ciphertext})\\
   &\varfont{Verdict} \gets \algfont{IsValid}(\varfont{InternalVals})\\
-  &(\varfont{ChannelContextUpdates}, \varfont{ExternalVals}) \gets
-                                  \algfont{ErrorHandling}(%\varfont{ChannelContext},
+  &\varfont{ExternalVals} \gets
+                                  \algfont{ErrorHandling}(\rwordfont{var}\varfont{ChannelContext},
                                   \varfont{Verdict}, \varfont{ExternalVals})\\
-  &\varfont{Return} (\varfont{ChannelContextUpdates}, \varfont{ExternalVals})
+  &\varfont{Return} \varfont{ ExternalVals}
 \end{align*}
 }
 \end{center}
@@ -26,14 +26,8 @@
 \cpnote{Does \varfont{ExternalVals} encode the message?}\tsnote{It
   encodes whatever is to be returned, so yeah, typically the message.}
 %
-\cpnote{I suggest changing the semantics of \varfont{ChannelContext} and
-  \varfont{ChannelContextUpdates}. A programmer would think of having a
-  \emph{pointer} to this context that is updated by the call to
-  \algfont{DECRYPT}. A nice way to do this is to adopt the ``call-by-reference''
-  semantics of Rogaway-Stegers. So the interface looks something like this:
-  $
-    \algfont{DECRYPT}(\rwordfont{var} \varfont{ChannelContext}, X)
-  $
+\todo{Note adoption of the ``call-by-reference''
+  semantics of Rogaway-Stegers. 
 }
 \caption{Describing symmetric-key decryption of received message~\varfont{Msg} in terms of
   explicit functionalities that must be realized. The \varfont{ChannelContext}
@@ -48,19 +42,24 @@ values are implicit.}
 \end{figure}
 
 \begin{figure}
-\hfpages{0.5}
+\hfpages{0.55}
 {
-Given \varfont{ChannelContext}=(Mode Key $K$, PRF Key $L$, Status
-``open'') \\
-Given $\varfont{Msg} =\langle V,H,C \rangle$
+Given \varfont{ChannelContext}=\\[-0.5ex]
+\nudge\nudge$\langle$ModeKey $K$, PRFKey $L$, ChannelStatus
+``open''$\rangle$ 
+%Given $\varfont{Msg} =\langle V,H,C \rangle$
 
 \medskip
 Algorithm \algfont{Deserialize}(\varfont{Msg}):\\
-\nudge Return $\left((\varfont{Msg}.V,\varfont{Msg}.H),\varfont{Msg}.C\right)$
+\nudge $V \gets \varfont{Msg}.V$; $H \gets \varfont{Msg}.H$; $C \gets
+\varfont{Msg}.C$\\
+\nudge Return $\left((V, H),C\right)$
 
 \medskip
-Algorithm \algfont{Decrypt}(\varfont{ChannelContext},$(V,H)$, $C$):\\
-\nudge Parse \varfont{Ciphertext} into tag $T$ and remainder $Z$\\ 
+Algorithm \algfont{Decrypt}({\bf var} \varfont{ChannelContext},$(V,H)$, $C$):\\
+\nudge Parse $C$ into tag $T$ and remainder $Z$\\ 
+%\nudge $K \gets \varfont{ChannelContext.ModeKey}$\\
+%\nudge $L \gets \varfont{ChannelContext.PRFKey}$\\
 \nudge if $F_L(V,A,Z) \neq T$ then \varfont{InternalVals} $\gets$ ``TagFail''\\
 \nudge\varfont{ExternalVals} $\gets \calD_K^{V}(Z)$\\
 \nudge Return (\varfont{ExternalVals},\varfont{InternalVals})
@@ -72,42 +71,61 @@ Algorithm \algfont{IsValid}(\varfont{InternalVals}):\\
 \nudge Return \varfont{Verdict}
 
 \medskip
-Algorithm \algfont{ErrorHandling}(\varfont{Verdict},\varfont{ExternalVals}):\\
+Algorithm \algfont{ErrorHandling}({\bf var} \varfont{ChannelContext},\varfont{Verdict},\varfont{ExternalVals}):\\
 \nudge if \varfont{Verdict} = ``Invalid'' then \\
 \nudge\nudge \varfont{ExternalVals} $\gets$ ``Invalid'' \\
-\nudge\nudge \varfont{ChannelContextUpdates} $\gets \langle
+\nudge\nudge \varfont{ChannelContext.ChannelStatus} $\gets \langle
 \mbox{Status ``closed"} \rangle$\\
-\nudge Return (\varfont{ChannelContextUpdates}, \varfont{ExternalVals})
+\nudge Return \varfont{ExternalVals}
 }
+%
 {
-Given \varfont{ChannelContext}=(Mode Key $K$, PRF Key $L$, Status
-``open'') \\
-Given $\varfont{Msg} =\langle V,H,C \rangle$
+Given \varfont{ChannelContext}=\\[-0.5ex]
+\nudge\nudge $\langle$ModeKey $K$, PRFKey $L$, ChannelStatus ``open'',
+TokenList $ TL\rangle$
+%Given $\varfont{Msg} =\langle V,H,C \rangle$
 
 \medskip
 Algorithm \algfont{Deserialize}(\varfont{Msg}):\\
-\nudge Return $\left((\varfont{Msg}.V, \varfont{Msg}.H),\varfont{Msg}.C\right)$
+\nudge $V \gets \varfont{Msg}.V$; $H \gets \varfont{Msg}.H$; $C \gets \varfont{Msg}.C$\\
+\nudge $\mathrm{sid} \gets H.\varfont{StreamID}$\\
+\nudge Return $\left((V, H, \mathrm{sid}),C\right)$
+%\nudge Return $\left((V, H),C\right)$
 
 \medskip
-Algorithm \algfont{Decrypt}(\varfont{ChannelContext},$(V,H)$,$C$):\\
-\nudge Parse \varfont{Ciphertext} into tag $T$ and remainder $Z$\\ 
-\nudge if $F_L(V,A,Z) \neq T$ then \varfont{InternalVals} $\gets$ ``TagFail''\\
-\nudge\varfont{ExternalVals} $\gets \calD_K^{V}(Z)$\\
+Algorithm \algfont{Decrypt}({\bf var} \varfont{ChannelContext},$(V,H,\mathrm{sid})$, $C$):\\
+%\nudge $\varfont{ExternalVals} \gets H.\varfont{StreamID}$\\
+\nudge Parse $C$ into tag $T$ and remainder $Z$\\ 
+%\nudge $K \gets \varfont{ChannelContext.ModeKey}$\\
+%\nudge $L \gets \varfont{ChannelContext.PRFKey}$\\
+\nudge if $F_L(V,H,Z) \neq T$ then \varfont{InternalVals} $\gets$ ``TagFail''\\
+\nudge $\mathrm{tid} \concat M \gets \calD_K^{V}(Z)$\\
+\nudge if $\mathrm{tid}\not\in TL$ then\\
+\nudge\nudge \varfont{InternalVals} $\gets \langle
+\varfont{InternalVals}, \mbox{``BadToken"}, \mathrm{tid} \rangle$\\
+\nudge \varfont{ExternalVals} $\gets \langle \mathrm{sid}, M \rangle$\\
 \nudge Return (\varfont{ExternalVals},\varfont{InternalVals})
 
 \medskip
 Algorithm \algfont{IsValid}(\varfont{InternalVals}):\\
 \nudge \varfont{Verdict} $\gets$ ``Valid''\\
-\nudge if \varfont{InternalVals} =  ``TagFail'' then \\varfont{Verdict} $\gets$ ``Warning: TagFail''\\
+\nudge if ``TagFail'' $\in$ \varfont{InternalVals} then \varfont{Verdict} $\gets$ ``Invalid''\\
+\nudge if ``BadToken'' $\in$ \varfont{InternalVals} then \varfont{Verdict} $\gets \langle
+\varfont{Verdict},\mbox{``BadToken"} \rangle$\\
 \nudge Return \varfont{Verdict}
 
 \medskip
-Algorithm \algfont{ErrorHandling}(\varfont{Verdict},\varfont{ExternalVals}):\\
-\nudge \varfont{ExternalVals} $\gets$ (\varfont{ExternalVals},\varfont{Verdict})\\
-\nudge \varfont{ChannelContextUpdates} $\gets$ none \\
-\nudge Return (\varfont{ChannelContextUpdates}, \varfont{ExternalVals})
+Algorithm \algfont{ErrorHandling}({\bf var} \varfont{ChannelContext},\varfont{Verdict},\varfont{ExternalVals}):\\
+\nudge if ``Invalid'' $\in$ \varfont{Verdict} then \\
+\nudge\nudge \varfont{ExternalVals} $\gets$ ``Invalid'' \\
+\nudge\nudge \varfont{ChannelContext.ChannelStatus} $\gets \langle
+\mbox{Status ``closed"} \rangle$\\
+\nudge else if ``BadToken'' $\in$ \varfont{Verdict} then \\
+\nudge\nudge \varfont{ExternalVals} $\gets$ ``Invalid'' \\
+\nudge\nudge \varfont{ChannelContext.ChannelStatus} $\gets$ none \\
+\nudge Return \varfont{ExternalVals}
 } 
-\tsnote{Is this actually useful for selling the ideas it is meant to sell?}
+%\tsnote{Is this actually useful for selling the ideas it is meant to sell?}
 \caption{Specifications of Encrypt-then-MAC decryption over IV-based
   symmetric-key decryption $\calD$ and vector-input PRF~$F$.   {\bf
     Left:} A specification in which a tag-check failure results in the
@@ -120,11 +138,7 @@ $\calD^V_K(Z)$ even if there is a tag-check failure, thereby hiding a
 potential timing side-channel. 
 %
 {\bf
-  Right: } A specification in which the plaintext is always released,
-and a tag-check failure results in a warning being attached to the
-plaintext, with no suggested updates to the channel context
-(i.e. fail open).  %Note that this specification violates the intended
-%semantics of \varfont{InternalVals}.
+  Right: } [...]
 }
 \label{fig:EtM-aead}
 \end{figure}
