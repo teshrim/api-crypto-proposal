@@ -70,7 +70,8 @@ realize \algfont{NegotiateKey}, each with varying degrees of security and
 efficiency. Third, modern protocols, such as TLS $1.3$, are designed so that
 application data may be piggy-backed on the handshake. As such, providing an
 opaque interface is likely not desirable. In general, the ``right'' level of
-exposure to the security engineer is likely highly task-dependent.
+exposure to the application developer or security engineer is likely highly
+task-dependent.
 %
 \if{0}
   (Consider for example, the well-known defficiency in TLS version $1.2$ (and
@@ -110,18 +111,18 @@ is, here.  Thoughts?}
 %know yet.  Anyway, it's fine to have some sections more detailed than
 %others, especially if some allow you to really trumpet the PI's chops.}
 %
-In~\cite{SSW}, PI Shrimpton and coauthors gave a provable-security treatment to the design and
-analysis of so-called ``cryptographic APIs'', standardized in the PKCS\#11
-document\cite{xxx}.  That standard details an interface by which one may
-interact with cryptographic tokens (e.g. smart cards, USB devices,
-enterprise-grade HSMs) that are trusted to perform key-manangement duties,
-enforcement of policies for the use of stored keys, and a limited number of
-asymmetric- and symmetric-key crypto operations.  These tokens support a variety
-of applications, including certification authorities, SSL/TLS acceleration, and
-interbank communication.
+In~\cite{SSW}, PI Shrimpton and coauthors gave a provable-security treatment to
+the design and analysis of so-called ``cryptographic APIs'', standardized in the
+PKCS\#11 document.\footnote{See
+\url{https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=pkcs11} for the
+latest spec.} That standard details an interface by which one may interact with
+cryptographic tokens (e.g. smart cards, USB devices, enterprise-grade HSMs) that
+are trusted to perform key-manangement duties, enforcement of policies for the
+use of stored keys, and a limited number of asymmetric- and symmetric-key crypto
+operations.  These tokens support a variety of applications, including entity
+authentication, certification authorization, SSL/TLS acceleration, and interbank
+communication.
 %
-\cpnote{We should mention authentication as an explicit goal
-  here.}\todo{Go ahead!}
 
 Our approach in this paper was API-centric, in that we took the PKCS\#11
 standard as the reference point, and defined from it a new cryptographic-API
@@ -141,7 +142,8 @@ may have a variety of attributes associated to them that proscribe their usage,
 e.g.\ this key may/may not be used to encrypt data (via a given API call), that
 key may or may not be wrapped for future export, etc.  Thus, the internal state of
 the key-management functionality changes as an attacker carries out permitted
-API calls. (We note that works by Steele and coauthors~\cite{xxx,yyy,zzz}
+API calls. (We note that works by Steele and
+coauthors~\cite{KS13}\cpnote{Others?}
 exploit this changing of internal state, sometimes in concert with
 underspecification in standards and device documentation, to cause catastrophic
 security breaks in HSMs.) Moreover, a real adversary may be in possession of one
@@ -169,8 +171,8 @@ these tokens (say, because tokens often take liberties with PKCS\#11,
 or because other standards are gaining traction) then we should
 revisit the models.
 
-\begin{task} We will explore these interesting and important
-  extensions to~\cite{SSW}. 
+\begin{task}
+  We will explore these interesting and important extensions to~\cite{SSW}.
 \end{task}
 %
 
@@ -186,12 +188,12 @@ assume are provided.
 Recent work by PI Shrimpton and coauthors~\cite{BPS} revisits the theory of
 hedged public-key encryption (PKE)~\cite{BBN+} from an API-centric perspective.
 %
-The motivation for hedged PKE is quite practical. Traditional
-PKE schemes are proved secure under the assumption that they have access to a
-source of uniform random bits; but in practice, PKE schemes are implemented on
-systems that have faulty RNGs, or where entropy is difficult to harvest.  In
-these cases, the security guarantees proved in theory are, at best, voided; at
-worst, failure of the RNG can lead to recovery of the plaintext.
+The motivation for hedged PKE is quite practical. Traditional PKE schemes are
+proved secure under the assumption that they have access to a source of uniform
+random bits; but in practice, PKE schemes are implemented on systems that have
+faulty RNGs, or where entropy is difficult to harvest.  In these cases, the
+security guarantees proved in theory are, at best, voided; at worst, failure of
+the RNG can lead to recovery of the plaintext.
 %
 Hedged PKE is designed to satisfy traditional notions of security when provided
 uniform randomness, and still deliver useful security properties as the quality
@@ -202,23 +204,21 @@ then use these bits as the randomness for an underlying PKE scheme.  In
 practice, implementing this simple construction is surprisingly difficult, as
 the high- and mid-level APIs presented by the most commonly used crypto
 libraries (e.g. OpenSSL and significant forks thereof) \emph{do not} permit one
-to specify the per-encryption randomness.\footnote{Other constructions of hedged PKE that do not explicit require the
-ability to manipulate the encryption coins are, likewise, difficult or
-impossible to implement via existing high- and mid-level APIs.  In
-their cases, it is because the primitives that are needed do not exist
-in common llibraries.}  
+to specify the per-encryption randomness.\footnote{Other constructions of hedged
+PKE that do not explicit require the ability to manipulate the encryption coins
+are, likewise, difficult or impossible to implement via existing high- and
+mid-level APIs.  In their cases, it is because the primitives that are needed do
+not exist in common llibraries.}
 In~\cite{BPS}, the theory of hedged
 PKE is reconsidered from the perspective of what can be easily constructed given
 what real APIs expose, and what provable security guarantees these can achieve.
 
-Still, \cite{BPS} leaves open some important matters.  First of all,
-the randomness sources in their models are stateless. 
-Most crypto libraries export \emph{pseudorandom number generators with
-  inputs}~\cite{BH05,ST15}\todo{Need to cite Dodis paper, too. You
-  can grab the reference from \cite{ST15}} for providing random bits to library code and
-  applications. These allow the programmer to add entropy into the PRNG's
-  internal state.  
-Additionally, \cite{BPS} only considers PKE.
+Still, \cite{BPS} leaves open some important matters.  First of all, the
+randomness sources in their models are stateless.  Most crypto libraries export
+\emph{pseudorandom number generators with inputs}~\cite{BH05,DPR+13,ST15} for
+providing random bits to library code and applications. These allow the
+programmer to add entropy into the PRNG's internal state.  Additionally,
+\cite{BPS} only considers PKE.
 
 
 \begin{task}
