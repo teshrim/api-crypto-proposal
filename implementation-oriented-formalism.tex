@@ -91,6 +91,7 @@ than assuming they will be able to correctly tease out this information.
 Conversely, it prompts the theoretician to think in terms of practical
 abstractions.
 %
+
 For both developer and theoretician, this style of presentation can surface a
 clearer picture of what security demands of these functionalities. For example,
 specifying error handling as an explicit functionality
@@ -103,7 +104,15 @@ forces one to ask questions, like, what \varfont{ExternalVals} should
 be returned for a given \varfont{StatusMsg}, and what
 security-relevant information might be leaked by them?  How should the
 \varfont{ChannelContext} be updated for a given \varfont{StatusMsg}?
+
 %
+
+\tsnote{I'm no longer convinced this next bit (and the corresponding
+  figure) is useful.  It's not clear what interesting things the
+  realization on the right surfaces.  It is clearly broken relative to
+  standard integrity notions; it has not one, but a massive number of
+  ``error messages'' (plaintext $\concat$ ``Warning: TagFail'').  Not
+  sure what to do with it -- punt it?  Switch to another primitive?}
 In Figure~\ref{fig:EtM-aead} we give two potential realizations of the
 functions needed for decryption, in particular of an Encrypt-then-MAC
 style AEAD decrpytion.  On the left side of the figure, we
@@ -117,22 +126,21 @@ succeeds.}
 On the right side of the figure is a realization that can be found in
 practice.  Here a tag-check failure results only in a warning message
 being attached to the decrypted plaintext, but in any case the
-plaintext is returned.  (Such behavior may be practically useful, say,
-if the ciphertext is a very short chunk of digitized audio from a much
-longer stream.)  In this realization, it is up to the application to
-decide what should be the consequences of a tag-check failure. Note
-that in both cases there is a single \emph{explicit} error message,
-``Invalid'' on the left, ``Warning: TagFail'' on the right,
-which is in keeping with the formal syntax (i.e.\ $\bot$).  But the
-differing security implications of the two realizations is made more
+plaintext is returned.  Such behavior may be practically useful in
+use-cases (say, a digital audio stream) where a single aberant
+ciphertext is tolerable, but tearing down and reestablishing the
+channel is not.  In this realization, it is up to the application to
+decide what should be the consequences of a tag-check failure.
+%
+The differing security implications of the two realizations is clearly
 visible with this API-like presentation.  Most obviously, on the right
-the application to which the plaintext (and warning) is delivered must
-implement its own logic for handling warnings.  Less obviously, while
-the realization returns a single error message, if the
-underlying~$\calD^{V,H}(C)$ returns an \varfont{ExternalVals} that
-contains some other error message, then this will be exposed.  Neither
-of these is true on the left.
+the decryption process offers only ``soft'' protection against integrity attacks.
+The application to which the plaintext (and warning) is delivered must
+implement its own logic for handling plaintexts that come with
+warnings. On the left, the decryption process provides
+``hard'' protection to the application layer against integrity attacks.
 
+\ignore{
 \tsnote{Say that this may seem like overkill for ``simple'' primitives
 like symmetric-key decryption, but that (1) it only seems that way
 because we are already implicitly thinking about what it means for
@@ -142,6 +150,7 @@ the time --- hindsight is 20-20.}
 
 \tsnote{Need to address head-on the complaint that this is going to
   make for more complicated analysis.}
+}
 
 \include{syntax-api-example}
 

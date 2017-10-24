@@ -1,9 +1,9 @@
 \begin{figure}
 \begin{center}
 \fpage{0.75}{
-  \todo{Specify \algfont{ENCRYPT} for completeness.}
+ % \todo{Specify \algfont{ENCRYPT} for completeness.}
   %
-  \\
+  %\\
 \underline{\algfont{DECRYPT}(\varfont{ChannelContext}, \varfont{Msg}):}
 \begin{align*}
   &(\varfont{SentContext},\varfont{Ciphertext}) \gets\algfont{Deserialize}(\varfont{Msg})\\
@@ -31,9 +31,9 @@
   \emph{pointer} to this context that is updated by the call to
   \algfont{DECRYPT}. A nice way to do this is to adopt the ``call-by-reference''
   semantics of Rogaway-Stegers. So the interface looks something like this:
-  \[
+  $
     \algfont{DECRYPT}(\rwordfont{var} \varfont{ChannelContext}, X)
-  \]
+  $
 }
 \caption{Describing symmetric-key decryption of received message~\varfont{Msg} in terms of
   explicit functionalities that must be realized. The \varfont{ChannelContext}
@@ -111,8 +111,9 @@ Algorithm \algfont{ErrorHandling}(\varfont{Verdict},\varfont{ExternalVals}):\\
 \nudge \varfont{ChannelContextUpdates} $\gets$ none \\
 \nudge Return (\varfont{ChannelContextUpdates}, \varfont{ExternalVals})
 } 
+\tsnote{Is this actually useful for selling the ideas it is meant to sell?}
 \caption{Specifications of Encrypt-then-MAC decryption over IV-based
-  symmetric-key decryption $\calD$ and vector-input PRF~$F$.  {\bf
+  symmetric-key decryption $\calD$ and vector-input PRF~$F$.   {\bf
     Left:} A specification in which a tag-check failure results in the
 suppression of all plaintext/errors output by $\calD^V_K(Z)$, and
 causes a single error message to be exposed.  Also,
