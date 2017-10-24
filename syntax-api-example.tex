@@ -55,22 +55,20 @@ Given \varfont{ChannelContext}=(Mode Key $K$, PRF Key $L$, Status
 Given $\varfont{Msg} =\langle V,H,C \rangle$
 
 \medskip
-Algorithm \algfont{ParseReceived}(\varfont{Msg}):\\
+Algorithm \algfont{Deserialize}(\varfont{Msg}):\\
 \nudge Return $\left((\varfont{Msg}.V,\varfont{Msg}.H),\varfont{Msg}.C\right)$
 
 \medskip
-Algorithm \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, \varfont{Ciphertext}):\\
+Algorithm \algfont{Decrypt}(\varfont{ChannelContext},$(V,H)$, $C$):\\
 \nudge Parse \varfont{Ciphertext} into tag $T$ and remainder $Z$\\ 
-\nudge if $F_L(V,A,Z) \neq T$ then\\
-\nudge\nudge \varfont{InternalVals} $\gets$ ``TagFail''\\
+\nudge if $F_L(V,A,Z) \neq T$ then \varfont{InternalVals} $\gets$ ``TagFail''\\
 \nudge\varfont{ExternalVals} $\gets \calD_K^{V}(Z)$\\
 \nudge Return (\varfont{ExternalVals},\varfont{InternalVals})
 
 \medskip
 Algorithm \algfont{IsValid}(\varfont{InternalVals}):\\
 \nudge \varfont{Verdict} $\gets$ ``Valid''\\
-\nudge if \varfont{InternalVals} =  ``TagFail'' then\\ 
-\nudge\nudge \varfont{Verdict} $\gets$ ``Invalid''\\
+\nudge if \varfont{InternalVals} =  ``TagFail'' then \varfont{Verdict} $\gets$ ``Invalid''\\
 \nudge Return \varfont{Verdict}
 
 \medskip
@@ -87,22 +85,20 @@ Given \varfont{ChannelContext}=(Mode Key $K$, PRF Key $L$, Status
 Given $\varfont{Msg} =\langle V,H,C \rangle$
 
 \medskip
-Algorithm \algfont{ParseReceived}(\varfont{Msg}):\\
+Algorithm \algfont{Deserialize}(\varfont{Msg}):\\
 \nudge Return $\left((\varfont{Msg}.V, \varfont{Msg}.H),\varfont{Msg}.C\right)$
 
 \medskip
-Algorithm \algfont{Decrypt}(\varfont{ChannelContext, SentContext}, \varfont{Ciphertext}):\\
+Algorithm \algfont{Decrypt}(\varfont{ChannelContext},$(V,H)$,$C$):\\
 \nudge Parse \varfont{Ciphertext} into tag $T$ and remainder $Z$\\ 
-\nudge if $F_L(V,A,Z) \neq T$ then\\
-\nudge\nudge \varfont{InternalVals} $\gets$ ``TagFail''\\
+\nudge if $F_L(V,A,Z) \neq T$ then \varfont{InternalVals} $\gets$ ``TagFail''\\
 \nudge\varfont{ExternalVals} $\gets \calD_K^{V}(Z)$\\
 \nudge Return (\varfont{ExternalVals},\varfont{InternalVals})
 
 \medskip
 Algorithm \algfont{IsValid}(\varfont{InternalVals}):\\
 \nudge \varfont{Verdict} $\gets$ ``Valid''\\
-\nudge if \varfont{InternalVals} =  ``TagFail'' then\\ 
-\nudge\nudge \varfont{Verdict} $\gets$ ``Warning: TagFail''\\
+\nudge if \varfont{InternalVals} =  ``TagFail'' then \\varfont{Verdict} $\gets$ ``Warning: TagFail''\\
 \nudge Return \varfont{Verdict}
 
 \medskip
@@ -127,7 +123,8 @@ potential timing side-channel.
   Right: } A specification in which the plaintext is always released,
 and a tag-check failure results in a warning being attached to the
 plaintext, with no suggested updates to the channel context
-(i.e. fail open).  Note that this specification violates the intended
-semantics of \varfont{InternalVals}.}
+(i.e. fail open).  %Note that this specification violates the intended
+%semantics of \varfont{InternalVals}.
+}
 \label{fig:EtM-aead}
 \end{figure}

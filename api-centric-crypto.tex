@@ -435,3 +435,28 @@ We will apply the partially-specified-protocol methodology of~\cite{RS09} to aut
 \todo{Is there more here?  What about the ideas that
   Trevor Perrin suggested, specifically for AKE?  I feel like we are
   missing a chance to build in more tasks and show more vision}
+
+\paragraph{Ease of Correct Implemenation as Security Property. }
+
+%\paragraph{Prior Work.}
+\todo{Write.}\tsnote{Chris, at your suggestion, I've downgraded this
+  former section to a paragraph-subsection within API-centric
+  crpyto. Let's see how it works.}
+
+\tsnote{May need to do some digging outside of crypto here!}
+
+\todo{Rogaway's Authentication without Ellision paper}
+\cpnote{This is what their framework buys us. The full protocol is divided into the
+``protocol core'' (PC) and the ``protocol details'' (PD). The PC is specified
+by the cryptographer and the PD is specified by the engineer. The PC ``calls''
+the PD in the course of the protocols execution. In the security analysis, we
+assume the PD is utterly controlled by the adversary. This allows cryptographers
+to ``partially specify'' a protocol that remains secure even as engineer's
+requirements change; the PC must be implemented precisely, but the PD may change
+to suit the programmers' needs.
+%
+So in this framework we're not formalizing ``implementation risk'' directly;
+instead, we're proving security of protocols that have flexibility in their
+implementation. It says precisely what parts you \emph{must} get right in order
+to have security, and what parts are not crucial.
+}
