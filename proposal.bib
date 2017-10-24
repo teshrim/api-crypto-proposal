@@ -168,6 +168,40 @@
   month={May},
 }
 
+@inproceedings{HKR15,
+  author="Hoang, Viet Tung
+    and Krovetz, Ted
+    and Rogaway, Phillip",
+  editor="Oswald, Elisabeth
+    and Fischlin, Marc",
+  title="Robust Authenticated-Encryption AEZ and the Problem That It Solves",
+  bookTitle="Advances in Cryptology -- EUROCRYPT 2015: 34th Annual International
+    Conference on the Theory and Applications of Cryptographic Techniques,
+  Sofia, Bulgaria, April 26-30, 2015, Proceedings, Part I",
+  year="2015",
+  publisher="Springer Berlin Heidelberg",
+  address="Berlin, Heidelberg",
+  pages="15--44",
+  abstract="With a scheme for robust authenticated-encryption a user can select
+    an arbitrary value 
+    {\$}{\$}{\backslash}lambda {\backslash}!{\backslash}ge 0{\$}{\$}
+  and then encrypt a plaintext of any length into a ciphertext that's 
+    {\$}{\$}{\backslash}lambda {\$}{\$}                   characters longer. The
+  scheme must provide all the privacy and authenticity possible for the
+    requested 
+    {\$}{\$}{\backslash}lambda {\$}{\$}                  . We formalize and
+  investigate this idea, and construct a well-optimized solution, AEZ, from the
+    AES round function. Our scheme encrypts strings at almost the same rate as
+    OCB-AES or CTR-AES (on Haswell, AEZ has a peak speed of about 0.7 cpb). To
+    accomplish this we employ an approach we call prove-then-prune: prove
+    security and then instantiate with a scaled-down primitive (e.g., reducing
+        rounds for blockcipher calls).",
+             isbn="978-3-662-46800-5",
+             doi="10.1007/978-3-662-46800-5_2",
+             url="https://doi.org/10.1007/978-3-662-46800-5_2"
+}
+
+
 @inproceedings{IKND16,
   author = {Indela, Soumya and Kulkarni, Mukul and Nayak, Kartik and
   Dumitra\c{s}, Tudor},
@@ -227,6 +261,39 @@
   note={\url{http://docs.oasis-open.org/pkcs11/pkcs11-base/v2.40/pkcs11-base-v2.40.html}},
 }
 
+@inproceedings{RS06,
+  author="Rogaway, Phillip
+    and Shrimpton, Thomas",
+  editor="Vaudenay, Serge",
+  title="A Provable-Security Treatment of the Key-Wrap Problem",
+  bookTitle="Advances in Cryptology - EUROCRYPT 2006: 24th Annual International
+    Conference on the Theory and Applications of Cryptographic Techniques, St.
+    Petersburg, Russia, May 28 - June 1, 2006. Proceedings",
+  year="2006",
+  publisher="Springer Berlin Heidelberg",
+  address="Berlin, Heidelberg",
+  pages="373--390",
+  abstract="We give a provable-security treatment for the key-wrap problem,
+  providing definitions, constructions, and proofs. We suggest that key-wrap's
+    goal is security in the sense of deterministic authenticated-encryption
+    (DAE), a notion that we put forward. We also provide an alternative notion,
+  a pseudorandom injection (PRI), which we prove to be equivalent. We provide a
+    DAE construction, SIV, analyze its concrete security, develop a
+    blockcipher-based instantiation of it, and suggest that the method makes a
+    desirable alternative to the schemes of the X9.102 draft standard. The
+    construction incorporates a method to turn a PRF that operates on a string
+    into an equally efficient PRF that operates on a vector of strings, a
+    problem of independent interest. Finally, we consider IV-based
+    authenticated-encryption (AE) schemes that are maximally forgiving of
+    repeated IVs, a goal we formalize as misuse-resistant AE. We show that a DAE
+    scheme with a vector-valued header, such as SIV, directly realizes this
+    goal.",
+  isbn="978-3-540-34547-3",
+  doi="10.1007/11761679_23",
+  url="https://doi.org/10.1007/11761679_23"
+}
+
+
 @inproceedings{SSW,
   author="Shrimpton, Thomas
     and Stam, Martijn
@@ -260,21 +327,96 @@
   publisher="Springer Berlin Heidelberg",
   address="Berlin, Heidelberg",
   pages="77--100",
-  abstract="We provide the first provable-security analysis of the Intel Secure
-    Key hardware RNG (ISK-RNG), versions of which have appeared in Intel
-    processors since late 2011. To model the ISK-RNG, we generalize the
-    PRNG-with-inputs primitive, introduced by Dodis et al. at CCS'13 for their
-    /dev/[u]random analysis. The concrete security bounds we uncover tell a
-    mixed story. We find that ISK-RNG lacks backward-security altogether, and
-    that the forward-security bound for the ``truly random'' bits fetched by the
-    {\$}{\$}{\backslash}mathtt {\{}RDSEED{\}}{\$}{\$}
-  instruction is potentially worrisome. On the other hand, we are able to prove
-    stronger forward-security bounds for the pseudorandom bits fetched by the
-    {\$}{\$}{\backslash}mathtt {\{}RDRAND{\}}{\$}{\$}
-  instruction. En route to these results, our main technical efforts focus on
-    the way in which ISK-RNG employs CBCMAC as an entropy extractor.",
-        isbn="978-3-662-46800-5",
-        doi="10.1007/978-3-662-46800-5_4",
-        url="https://doi.org/10.1007/978-3-662-46800-5_4"
 }
 
+@inproceedings{BKN02,
+  author={Mihir Bellare and Tadayoshi Kohno and Chantathip Namprempre},
+  title={Breaking and Provably Repairing the {SSH} Authenticated Encryption
+    Scheme: {A} A case STudy of the {E}ncode-then-{E}encrypt-and-{MAC}
+    Paradigm},
+  year={2002},
+  series={CCS}
+}
+
+@inproceedings{BMM+15,
+  author={Christian Badertscher and Christian Matt and Ueli Maurer and Phillip
+    Rogaway and Bj\"orn Tackmann},
+  title={Agumented Secure Channels and the Goal of the {TLS} 1.3 Record Layer},
+  year={2015},
+  series={ProvSec},
+}
+
+@inproceedings{BNF+14,
+  author={Karthikeyan Bhargavan and C\`edric Fournet and Markulf Kohlweiss and
+    Alfredo Pironti and Pierre-Yves Strub and Santiago Zanella-B\`eguelin},
+  title={Proving the {TLS} Handshake Secure (as it is)},
+  year={2014},
+  series={CRYPTO},
+}
+
+@inproceedings{FPMG15,
+  author={Marc Fischlin and Felix G\"unther and Giorgia Azzurra Marson and
+    Kenneth Paterson},
+  title={Data Is a Stream: {S}ecurity of Stream-Based Channels},
+  year={2015},
+  series={CRYPTO},
+}
+
+@inproceedings{HKR15,
+  author={Viet Tung Hoang and Ted Krovetz and Phillip Rogaway},
+  title={Robust Authenticated-Encryption: {AEZ} and the Problem that it Solves},
+  year={2015},
+  series={EUROCRYPT},
+}
+
+@inproceedings{HRRV15,
+  author="Hoang, Viet Tung
+    and Reyhanitabar, Reza
+    and Rogaway, Phillip
+    and Viz{\'a}r, Damian",
+  title="Online Authenticated-Encryption and its Nonce-Reuse Misuse-Resistance",
+  year={2015},
+  series={CRYPTO}
+}
+
+@inproceedings{JKSS12,
+  author={Tibor Jager and Florian Kohlar and Sven Sch\"age and J\"org Schwenk},
+  title={On the Security of {TLS-DHE} in the Standard Model},
+  year={2012},
+  series={CRYPTO}
+}
+
+% Excellent related work
+@inproceedings{KPW13,
+  author={Hugo Krawczyk and Kenneth G. Paterson and Hoeteck Wee},
+  title={On the Security of the {TLS} Protocol: {A} Systematic Analysis},
+  year={2013},
+  series={CRYPTO}
+}
+
+@inproceedings{PRS11,
+  author={Kenneth G. Paterson and Thomas Ristenpart and Thomas Shrimpton},
+  title={Tag Size \emph{Does} Matter: {A}ttacks and Proofs for the {TLS} Record
+    Protocol},
+  year={2011},
+  series={ASIACRYPT}
+}
+
+@inproceedings{RS06,
+  author={Phillip Rogaway and Thomas Shrimpton},
+  title={A Provable-Security Treatment of the Key-Wrap Problem},
+  year={2006},
+  series={EUROCRYPT}
+}
+
+@inproceedings{RS09,
+  author={Phillip Rogaway and Till Stegers},
+  title={Authentication without Elision},
+  year={2009},
+  series={CSF},
+}
+
+@misc{tls13,
+  author={TLS},
+  title={The {T}ransport {L}ayer {S}ecurity ({TLS}) Protocol Version 1.3},
+  note={\url{https://tlswg.github.io/tls13-spec/draft-ietf-tls-tls13}}
