@@ -126,9 +126,9 @@ Algorithm \algfont{ErrorHandling}({\bf var} \varfont{ChannelContext},\varfont{Ve
 \nudge Return \varfont{ExternalVals}
 } 
 %\tsnote{Is this actually useful for selling the ideas it is meant to sell?}
-\caption{Specifications of Encrypt-then-MAC decryption over IV-based
-  symmetric-key decryption $\calD$ and vector-input PRF~$F$.   {\bf
-    Left:} A specification in which a tag-check failure results in the
+\caption{ {\bf
+    Left:} Specification of Encrypt-then-MAC decryption over IV-based
+  symmetric-key decryption $\calD$ and vector-input PRF~$F$. A tag-check failure results in the
 suppression of all plaintext/errors output by $\calD^V_K(Z)$, and
 causes a single error message to be exposed.  Also,
 in the event of a tag-check failure, the error-handling algorithm
