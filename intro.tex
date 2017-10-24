@@ -3,43 +3,57 @@
 
 For years, the cryptography research community has been emploring security
 engineers and developers to ``please stop rolling your own crypto!''  An
-expanded version of plea might be: cryptography is hard, so let the crypto experts
-handle the crypto; you (just) worry about implementing what we provide.  There is
-good sense in this message.  Cryptography \emph{is} hard.  And the security
-guarantees that we prove can depend crucially on parameter choices, padding
-schemes, etc., and in ways that may not be obvious to non-experts. Our
-research community has developed a collective wisdom that helps guide us to good
-solutions (or at least to avoid pitfalls).
+expanded version of this  plea might be: ``cryptography is hard, so let the
+crypto experts handle the crypto; you just worry about implementing what we
+provide.'' There is good sense in this message.  Cryptography \emph{is} hard.
+And the security guarantees that we prove can depend crucially on parameter
+choices, padding schemes, protocol logic, etc., and in ways that may not be obvious to
+non-experts. Our research community has developed a collective wisdom that helps
+guide us to good solutions (or at least to avoid pitfalls).
 
 To their credit, security engineers and software developers do largely seem to
 have understood.  But there is a response that, sadly, the research community
 has heard less clearly: ``correctly implementing your theoretical crypto is hard!''
 To paraphrase various industry speakers at editions of Real World Crypto (e.g.,
-David McGrew, Daniel Kahn-Gilmore, Thai Duong\cpnote{RWC'17 Wycheproof talk}),
+David McGrew, Daniel Kahn-Gilmore, Thai Duong),
 and Paul Kocher in his invited lecture at Crypto'16:
 %
 Cryptographers need to understand that API/library design is hard work and that,
-once fielded, APIs are very slow to change.  
-%(Changes to APIs can break the applications built upon them, leading to unhappy customers, lost of revenue or
-%reputation, etc. \cpnote{The most important point we can make here is that
-%having to change applications using the API costs \emph{real} money. The other
-%points you make are secondary.})  
-So no matter how pretty your theory is, if it is hard to implement
-with existing APIs, it either won't be implemented, or it
-is prone to be implemented incorrectly.  
+once fielded, APIs are very slow to change.
+%
+\if{0}
+  (Changes to APIs can break the applications built upon them, leading to
+  unhappy customers, lost of revenue or reputation, etc. \cpnote{The most
+  important point we can make here is that having to change applications using
+  the API costs \emph{real} money. The other points you make are secondary.})
+\fi
+%
+So no matter how pretty your theory is, if it is hard to implement with existing
+code, it either won't be implemented, or it is prone to be implemented
+incorrectly.
 
 This proposal adopts the position that \emph{a primary focus of crypto research
 should be to deliver primitives and protocols that are as easy as possible to
-implement, correctly.}  More specifically, that
+implement, correctly.}
+%
+\cpnote{I would say this differently. ``This proposal adopts the position that
+\emph{it is incumbent on cryptographers to bridge this gap between theory and
+implementation complexity}.}
+%
+More specifically, that
 \begin{enumerate}
-  \item the usefulness and impact of crypto theory will be significantly
-    improved if it endeavors to respect the APIs that crypto libraries expose;
+  \item crypto theory is more useful and impactful when it endeavors to respect
+    the APIs that existing crypto libraries expose;
 
   \item wherever possible, crypto theory should be mindful of how
     formalisms are translated into practice;
+    %
+    \cpnote{Remove "wherever possible".}
 
   \item wherever possible, crypto theory should try to deliver
     primitives that are forgiving of misuse (even when properly implemented);
+    %
+    \cpnote{Remove "wherever possible".}
 
 %  \item when theory gives formal syntax for a primitive, it should be clearly
 %    suggestive of an actual API that is aligned with what developers want; and
