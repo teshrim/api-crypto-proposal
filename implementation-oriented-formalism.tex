@@ -6,8 +6,8 @@ primitive and prove it meets the security notions.  The first step, defining the
 syntax, essentially defines the component objects that collectively make up the
 primitive, e.g. ``An encryption scheme $\Pi=(\calK,\calE,\calD)$ is a triple of
 algorithms...''  The syntax typically describes the number and type of the
-inputs and outputs of these components, too, e.g. ``The encryption algorithm
-provides a mapping $\calE \colon\bits^{k}\times\bits^* \to \bits^* \cup
+inputs and outputs of these components, too, e.g. ``The decryption algorithm
+provides a mapping $\calD\colon\bits^{k}\times\bits^* \to \bits^* \cup
 \{\bot\}$...'', as well as requirements on the behavior of these components in
 any correct realization of them.
 
@@ -45,33 +45,30 @@ writing (and verification) of proofs, and is easily built upon.
 %outdated.  If anything, the new syntax presents an opportunity for researchers
 %revisit prior work and publish updated findings.
 
-%\cpnote{I think you should add a nonce to the AEAD syntax below, as I think is
-%usual. This also gives you an opportunity to discuss the issue with nonces in
-%practice: that there's not always an obvious choice for a nonce, programmer's
-%don't know how/why to use them, etc.}
+\cpnote{I think you should add a nonce to the AEAD syntax below, as I think is
+usual. This also gives you an opportunity to discuss the issue with nonces in
+practice: that there's not always an obvious choice for a nonce, programmer's
+don't know how/why to use them, etc.}
 %
 Of course, there is a considerable gap between the formal syntax that papers
 provide and a \emph{real} API, i.e. the functionalities that need to be
-implemented.  For example, consider the syntax $\calD\colon\calK
-\times \calV \times \calH \times \bits^*
-\to \bits^* \cup \{\bot\}$ for the decryption
-algorithm in an IV-based AEAD scheme~\cite{NPS14}.  We cryptographers would typically write something
-like $M \gets \calD^{V,H}_K(C)$ for the decryption of
-ciphertext~$C\in\bits^*$, with IV~$V \in \calV$ and
+implemented.  For example, consider the the formal syntax for symmetric-key
+decryption with associated data, $\calD\colon\calK \times \calH \times \bits^*
+\to \bits^* \cup \{\bot\}$.  We cryptographers would typically write something
+like $M \gets \calD^H_K(C)$ for the decryption of ciphertext~$C\in\bits^*$, with
 associated data~$H \in \calH$, under key~$K \in \calK$.  But this quietly
 assumes a number of implicit functionalities that must be attended to in
 practice.
 
-First of all, the formal syntax assumes that $V,H,C$ are simply presented as
-inputs.  In reality the decryption process needs to parse
-(deserialize) what is received from
-the channel into the ciphertext and any context information (aka associated
-data) that was sent with it.  Moreover, the
+First of all, the formal syntax assumes that $H,C$ are simply presented as
+inputs.  In reality the decryption process needs to parse what is received from
+the channel into the ciphertext~$C$ and any context information (aka associated
+data) that was sent with~$C$.\tsnote{mention serialization?}  Moreover, the
 overall decryption process may depend on both the context that is associated to
-\emph{this} ciphertext transmission \emph{and} on context that the receiver maintains
+this ciphertext transmission \emph{and} on context that the receiver maintains
 for the channel. (Note that the syntax is silent on the source of the associated
 data.)  In practice the receiver may maintain local message counters, lists of
-IVs already observed on the channel, information about the overall status and
+nonces already observed on the channel, information about the overall status and
 health of the channel (e.g. is it still considered active), and so on.  The
 decryption key~$K$ is also part of the context that the receiver maintains.
 
@@ -87,17 +84,17 @@ API-like presentation of decryption.
 %
 Making these implied functionalities more explicit has several benefits.  The
 most obvious is helping developers to see what they need to implement, rather
-than assuming they will be able to correctly tease out this information.
-Conversely, it prompts the theoretician to think in terms of practical
-abstractions.
+than assuming they will be able to correctly tease out what's needed.
+Conversely, it prompts the theoretician to think in terms of abstractions that
+appear in practice.
 %
-
 For both developer and theoretician, this style of presentation can surface a
 clearer picture of what security demands of these functionalities. For example,
 specifying error handling as an explicit functionality
 \[
-(\varfont{ChannelContextUpdates}, \varfont{ExternalVals}) \gets
-                                  \algfont{ErrorHandling}(%\varfont{ChannelContext},
+\varfont{ExternalVals} \gets
+                                  \algfont{ErrorHandling}(\rwordfont{var}
+                                  \varfont{ChannelContext},
                                   \varfont{StatusMsg}, \varfont{ExternalVals})
 \]
 forces one to ask questions, like, what \varfont{ExternalVals} should
@@ -105,42 +102,14 @@ be returned for a given \varfont{StatusMsg}, and what
 security-relevant information might be leaked by them?  How should the
 \varfont{ChannelContext} be updated for a given \varfont{StatusMsg}?
 
-%
-
-\tsnote{I'm no longer convinced this next bit (and the corresponding
-  figure) is useful.  It's not clear what interesting things the
-  realization on the right surfaces.  It is clearly broken relative to
-  standard integrity notions; it has not one, but a massive number of
-  ``error messages'' (plaintext $\concat$ ``Warning: TagFail'').  Not
-  sure what to do with it -- punt it?  Switch to another primitive?}
 In Figure~\ref{fig:EtM-aead} we give two potential realizations of the
 functions needed for decryption, in particular of an Encrypt-then-MAC
 style AEAD decrpytion.  On the left side of the figure, we
 give a realization that follows what we theoreticians consider as best
 practice.  Namely, if the tag check fails, then one should label the
 ciphertext as invalid, and suppress all output other than the (single)
-error message ``Invalid'' (or $\bot$ in typical syntax).~\footnote{A
-  variation on this would compute the ciphertext only if the tag check
-succeeds.}
-%
-On the right side of the figure is a realization that can be found in
-practice.  Here a tag-check failure results only in a warning message
-being attached to the decrypted plaintext, but in any case the
-plaintext is returned.  Such behavior may be practically useful in
-use-cases (say, a digital audio stream) where a single aberant
-ciphertext is tolerable, but tearing down and reestablishing the
-channel is not.  In this realization, it is up to the application to
-decide what should be the consequences of a tag-check failure.
-%
-The differing security implications of the two realizations is clearly
-visible with this API-like presentation.  Most obviously, on the right
-the decryption process offers only ``soft'' protection against integrity attacks.
-The application to which the plaintext (and warning) is delivered must
-implement its own logic for handling plaintexts that come with
-warnings. On the left, the decryption process provides
-``hard'' protection to the application layer against integrity attacks.
+error message ``Invalid'' (or $\bot$ in typical syntax).
 
-\ignore{
 \tsnote{Say that this may seem like overkill for ``simple'' primitives
 like symmetric-key decryption, but that (1) it only seems that way
 because we are already implicitly thinking about what it means for
@@ -150,7 +119,6 @@ the time --- hindsight is 20-20.}
 
 \tsnote{Need to address head-on the complaint that this is going to
   make for more complicated analysis.}
-}
 
 \include{syntax-api-example}
 
