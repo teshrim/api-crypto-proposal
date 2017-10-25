@@ -8,7 +8,7 @@ was misaligned with practice, and what we should be delivering are encryption
 schemes that are deterministic, surfacing an explicit IV input. (This is an
 early effort to close the gap between a theoretical primitive and its real-world
 presentation.)  Moreover, to make schemes easier to use correctly, we should
-target security when the IV is a non-repeating value ---~a nonce~--- rather than
+target security when the IV is a non-repeating value (i.e., a nonce) rather than
 demanding the IV be random.  In~\cite{RS06}, we sought to make these nonce-based
 encryption schemes even easier to use, by designing them so that their security
 guarantee degrades gracefully when the nonce IV repeats.  Nonce-misuse
@@ -17,6 +17,18 @@ desiderata of the CAESAR competition~\cite{xxx}.
 %
 \cpnote{Note that I talk about misuse-resistant and robust AE under the ``Secure
 channels'' heading.}
+
+\begin{task}
+We will leverage institutional and personal connections to industry (Intel,
+Comcast, Honeywell, Harris, Cisco, Agilent, BMW, IBM, Juniper, Mentor
+Graphics, Qualcomm, to name just a few\footnote{See
+  \texttt{http://fics.institute.ufl.edu/sponsors/} for a more complete
+  list.}) to learn what things developers don't understand about the
+primitives that theory provides them (in particular when implementing
+or using them), and how these primitives are commonly abused (knowingly or
+unknowingly).  We will use the lessons learned from this to formalize
+new primitives and new notions of misuse-resistant security.
+\end{task}
 
 Later work by PI Shrimpton~\cite{NRS} reconsidered the traditional wisdom about
 building authenticated encryption (AE) via generic composition of an encryption
@@ -32,8 +44,21 @@ between theoretical primitives and their real-world realization was problematic.
 In~\cite{NRS}, we readdressed generic composition from the nonce-based
 perspective, finding an interesting (albeit less simple) picture of what
 compositions are (and are not) generically secure.  (Curiously, one of the
-secure compositions that our work uncovered was the SIV-mode previously
-published in~\cite{RS06} as the first nonce-misuse-resistant AE scheme.)
+secure compositions that our work uncovered was SIV-mode, which
+appeared in~\cite{RS06} as the first nonce-misuse-resistant AE scheme.)
+
+\begin{task}
+Borrowing tools (and expert colleagues) from NLP and data mining, we
+will examine standards ---~the full body of IEEE and ISO standards,
+minimally~--- to surface those that are likely to contain cryptographic
+errors.\footnote{Very recent work by PI Shrimpton and coauthors finds many
+errrors in an important IEEE standard for protecting electronic
+intellectual property; this will appear at ACM CCS '17.}  We will
+write a survey/systemization-of-knowledge paper based on our findings, and work with standards
+bodies to address the mistakes we find.  
+\end{task}
+
+
 
 \tsnote{Hey Chris: what other types of misuse might be considered?
   Think about not just how one might misuse the inputs (say) to a
@@ -48,10 +73,4 @@ actually are broken.}
 \todo{Each task needs some lead-in text.}
 \begin{task}
 Malleabilty models ideas?
-\end{task}
-
-\begin{task}
-{Survey/user study to find out what things people don't
-    understand, want to abuse, find annoying when using libraries/when
-  trying to translate theory syntax into APIs}
 \end{task}

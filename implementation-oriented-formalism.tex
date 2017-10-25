@@ -45,10 +45,10 @@ writing (and verification) of proofs, and is easily built upon.
 %outdated.  If anything, the new syntax presents an opportunity for researchers
 %revisit prior work and publish updated findings.
 
-\cpnote{I think you should add a nonce to the AEAD syntax below, as I think is
-usual. This also gives you an opportunity to discuss the issue with nonces in
-practice: that there's not always an obvious choice for a nonce, programmer's
-don't know how/why to use them, etc.}
+%\cpnote{I think you should add a nonce to the AEAD syntax below, as I think is
+%usual. This also gives you an opportunity to discuss the issue with nonces in
+%practice: that there's not always an obvious choice for a nonce, programmer's
+%don't know how/why to use them, etc.}
 %
 Of course, there is a considerable gap between the formal syntax that papers
 provide and a \emph{real} API, i.e. the functionalities that need to be
@@ -61,9 +61,10 @@ assumes a number of implicit functionalities that must be attended to in
 practice.
 
 First of all, the formal syntax assumes that $H,C$ are simply presented as
-inputs.  In reality the decryption process needs to parse what is received from
+inputs.  In reality the decryption process needs to parse (aka
+deserialize, unmarshall) what is received from
 the channel into the ciphertext~$C$ and any context information (aka associated
-data) that was sent with~$C$.\tsnote{mention serialization?}  Moreover, the
+data) that was sent with~$C$.  Moreover, the
 overall decryption process may depend on both the context that is associated to
 this ciphertext transmission \emph{and} on context that the receiver maintains
 for the channel. (Note that the syntax is silent on the source of the associated

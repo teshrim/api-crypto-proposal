@@ -1,11 +1,11 @@
 \section{API-centric Cryptography}
 The security community has published extensively on the \emph{usability} of
 APIs; recent publications include \cite{ABF+,HHL+17,IKND16}.  Intuitively, if an
-API is easy to use correctly (and \emph{hard} to use \emph{incorrectly}),
+API is easy to use correctly (and hard to use \emph{incorrectly}),
 developers are more likely to build secure applications on top of it.
 %
 Our approach is complementary, focusing on the relationships between
-functionalities that APIs present (to application developers) and the primitives
+functionalities that APIs present and the primitives
 that crypto theory provides. We take the position that, in practice, API design
 is primarily driven by non-security requirements (e.g. functionality, adoption,
 deployment).
@@ -14,7 +14,7 @@ As such, it is incumbent upon us to take an \emph{API-centric} view of the
 primitives and protocols that we formalize.  In the remainder of this section,
 we discuss specific areas to which we will apply this API-centric perspective.
 %
-\cpnote{I think we need to define \emph{API-centric} in the intro.}
+%\cpnote{I think we need to define \emph{API-centric} in the intro.}
 
 %Note that this is a preliminary list of areas, based on prior results and current considerations.
 
@@ -104,6 +104,18 @@ is, here.  Thoughts?}
   tasks.
 \end{task}
 
+Two of the most important secure functionalities needed by application
+developers are to send and receive messages (data-in-flight), and to
+read and write from storage (data-at-rest).  We will explore [[insert
+places where we expect to find APIs for these]] ...
+
+\begin{task}
+Application developer APIs for secure send/receive of messges
+(data-in-flight) and secure read/write from storage (data-at-rest).  What are
+the implied primitives, and what are the security properties that developers
+assume are provided.
+\end{task}
+
 \paragraph{Standardized APIs. }
 %\cpnote{Do you think there's too much detail here? The hedged PKE stuff has a
 %lot less...}
@@ -172,20 +184,14 @@ or because other standards are gaining traction) then we should
 revisit the models.
 
 \begin{task}
-  We will explore these interesting and important extensions to~\cite{SSW}.
+  We will explore these interesting and important extensions
+  to~\cite{SSW}: (1) formal mechanisms and
+security notions for reasoning about the enforcement of specific
+policies, (2) incorporating the public-key primitives that are
+typically exposed by tokens, (3) establishing how closely tokens
+adhear to PKCS\#11 and revisiting the formal models based on what we find.
 \end{task}
 %
-
-\begin{task}
- \todo{This needs lead in text!}
- \cpnote{This might be a task under the ``understanding an API's customers''
-  heading. To me it's more about peoples' perceptions of cryptography than
-  anything.} 
-Application developer APIs for secure send/receive of messges
-(data-in-flight) and secure read/write from storage (data-at-rest).  What are
-the implied primitives, and what are the security properties that developers
-assume are provided.
-\end{task}
 
 \paragraph{Hedged Cryptography. }
 Recent work by PI Shrimpton and coauthors~\cite{BPS} revisits the theory of
