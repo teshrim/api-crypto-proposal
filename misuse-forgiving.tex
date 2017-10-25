@@ -70,7 +70,23 @@ bodies to address the mistakes we find.
   competition. Many submissions put forward APIs that look easy to use, but
 actually are broken.}
 
-\todo{Each task needs some lead-in text.}
+Going a different direction, the traditional syntax for encryption
+assumes that the plaintext data is a bitstring.  For many practical
+applications this suffices, as structured data can be serialized (or
+``flattened'') prior to application of encryption.  But there are
+important applications in which this won't work.  For example,
+database encryption.  Here the data (i.e. the database) is highly
+structured, and in order to support efficient queries on portions of
+the (encrypted) data, one cannot simply flatten the data into a single
+string and apply traditional IND-CPA-secure encryption.  Instead,
+various works propose to compose different kinds of encryption to
+different columns of the database, e.g. order-revealing
+encryption~\cite{xxx} to some columns, deterministic
+encryption~\cite{xxx} to some columns, and traditional IND-CPA secure encryption
+to the most sensitive columns.  However, as various papers have
+shown~\cite{xxx}\tsnote{What Else is Revealed by Order-Revealing
+  Encryption,...}
+
 \begin{task}
 Malleabilty models ideas?
 \end{task}
