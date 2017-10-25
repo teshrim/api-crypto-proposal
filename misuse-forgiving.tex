@@ -78,15 +78,45 @@ important applications in which this won't work.  For example,
 database encryption.  Here the data (i.e. the database) is highly
 structured, and in order to support efficient queries on portions of
 the (encrypted) data, one cannot simply flatten the data into a single
-string and apply traditional IND-CPA-secure encryption.  Instead,
-various works propose to compose different kinds of encryption to
-different columns of the database, e.g. order-revealing
-encryption~\cite{xxx} to some columns, deterministic
-encryption~\cite{xxx} to some columns, and traditional IND-CPA secure encryption
-to the most sensitive columns.  However, as various papers have
-shown~\cite{xxx}\tsnote{What Else is Revealed by Order-Revealing
-  Encryption,...}
+string and apply traditional IND-CPA-secure encryption.  Various works
+have proposed to use combinations of deterministic
+encryption~\cite{xxx}\tsnote{BBO}, searchable
+encryption~\cite{xxx}\tsnote{Highly-scalable searchable symmetric
+  encryption with support for boolean queries, Crypto'13} and
+order-preserving/revealing encryption~\cite{xxx}{Order-revealing
+  encryption: New constructions, applications and lower bounds,
+  CCS'16}.  All such property-revealing encryption schemes leak some
+information in order to support computations, and typicallly this
+leakage is formally captured with the attendant security notion.  But
+as recent attacks show~\cite{...}\tsnote{Leakage-Abuse Attacks against
+  searchable encryption, CCS'15; Leakage-Abuse Attacks against
+  order-revealing encryption, S and P '17; Inference Attacks on
+  Property Preserving Encryption, CCS'15}, capturing what is leaked
+does not necessarily say anything about how damaging that leakage is,
+in practice.  
+
+We see this as an example of seemingly good theory unknowingly
+``setting up'' developers to misuse it.  What is needed is a proper
+cryptographic primitive for handling highly structured data ---~not
+just databases, but XML and JSON documents, sequences of plaintext
+fragments and their associated headers/metadata, filesystem
+encryption, and the like~--- and a notional framework for reasoning
+about security.  Such a framework will need to capture not only what
+is leaked by the scheme, but also what types of malleability are
+allowed by the scheme.  For the latter, we mean ciphertexts that the
+adversary \emph{should} be able to create given a set of observed
+ciphertexts.  (Think: ciphertexts that decrypt to a reordering of rows
+or columns in a table, ciphertexts of trees that are missing a
+subtree.  For traditional encryption, the adversary should only be
+able to ``create'' replays.)  Having explicit malleability models will allow us to
+reason about active attacks, which have often plagued efforts to
+develop database encryption schemes~\cite{xxx}\tsnote{Why your
+  Encrypted Database is not secure, HotOS'17}. 
 
 \begin{task}
-Malleabilty models ideas?
+We will develop a framework of security notions for primitives that
+encrypt structrued plaintexts.  These notions will capture both what
+is leaked by ciphertexts, and also what explicit malleability models.
+We will establish new primitives for encrypting structured data, with
+support for structural metadata and plaintext associated-data.
 \end{task}
