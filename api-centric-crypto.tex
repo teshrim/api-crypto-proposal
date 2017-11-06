@@ -261,9 +261,8 @@ viewpoint of what real-world APIs expose.
   they suggest, and then write a couple of clear tasks.}
 \fi
 Perhaps the most practically important cryptographic functionality is the
-secure channel.
-%
-\todo{What's a secure channel?}
+secure channel, the task of which is to provide privacy and authenticity for
+message flows between peers.
 %
 Over the last decade or so, \emph{authenticated encryption with associated data}
 (AEAD) has emerged as an important ingredient for constructing secure channels.
@@ -273,61 +272,67 @@ robust enough to encompass most tasks that practitioners encounter. Moreover,
 notions like \emph{nonce-misuse resistant}~\cite{RS06} and
 \emph{robust}~\cite{HKR15} authenticated encryption make AEAD schemes difficult
 to (inadvertently) use incorrectly. These properties make AEAD an attractive
-tool for designing protocols; indeed, schemes like AES-GCM and
-ChaCha20\mbox{-}Poly1305 are baked into the upcoming TLS $1.3$
-specification.\footnote{ See \url{https://tlswg.github.io/tls13-spec}.}
+tool for designing protocols.
+\if{0}{
+  Indeed, schemes like AES-GCM and
+  ChaCha20\mbox{-}Poly1305 are baked into the upcoming TLS $1.3$
+  specification.\footnote{ See \url{https://tlswg.github.io/tls13-spec}.
+}\fi
 
 It is tempting to think that AEAD, on its own, provides a secure channel.  But
 as recently pointed out by Badertscher \etal~\cite{BMM+15}, classical security
 notions, such as those for AEAD ``do not capture in which contexts a scheme
 satisyfying them can securely be used.'' Time and time again, bugs  in the
 \emph{protocol logic} have been exploited to \emph{completely circumvent} the
-security provided by the underlying crypto.  This gap has spurred the study of
+security provided by the underlying crypto. This gap has spurred the study of
 \emph{stateful} authenticate encryption schemes that model secure channels more
 closely, such as the highly influential SSH paper~\cite{BKN02} and the analysis
-of the TLS $1.2$ record layer by PI Shrimtpon~\cite{PRS11}. However, from an
-API-centric perspective, these works omit crucial detail.
+of the TLS $1.2$ record layer by PI Shrimtpon~\cite{PRS11}. Boldyreva
+\etal~\cite{DBPS12} later extended \cite{BKN02} to encompass the protocol-level
+attack of \cite{APW09} that exploits fragmented delivery of the ciphertext stream. This
+line of work has deepened our standing of how to build secure channels, but from
+an API-centric perspective, these works omit a crucial detail.
 
-Providing a reliable (but not secure) channel between any two hosts on the Internet
-is the job of the TCP/IP protocol stack. TCP in particular is designed so that
-application developers need not worry about the details at all.
-%
-Conceptually, the API exports a stream-like functionality in which the sender
-stuffs in any number of bytes with the expectation that the peer receives them
-in the order transmitted.
-%
-Virtually all programming languages export an API for streaming data with TCP. The
-alternative view (and the conventional wisdom of the cryptographic community) is
-that channels provide transport of a sequence of discrete messages between two
-parties. Of course, this is the true for datagram-based transport (UDP), but it
-is not true for TCP.
-%
-The latter is ubiquitous for the delivery of web content; consequently,
-implementations of the TLS record layer export a streaming API. In OpenSSL (the
-most widely-deployed implementation of TLS), \codefont{SSL\_write()} is used to
-write bytes to the stream and \codefont{SSL\_read()} is used to read bytes from
-the stream. The application developer can use this API just as she would use the
+Providing a reliable (but not secure) channel between any two hosts on the
+Internet is the job of the TCP/IP protocol stack. TCP in particular is designed
+so that application developers need not worry about the details at all.
+Virtually all programming languages export an API for \emph{streaming data} over
+TCP, whereby the sender stuffs in any number of bytes and expects that its peer
+receives them in the order transmitted.  The alternative view (and the
+conventional wisdom of the cryptographic community) is that channels provide
+transport of a sequence of atomic messages between two parties.  TCP is
+ubiquitous for the delivery of web content, and consequently, implementations of
+the TLS record layer also export a streaming API. In OpenSSL (the most
+widely-deployed implementation of TLS), \codefont{SSL\_write()} is used to write
+bytes to the stream and \codefont{SSL\_read()} is used to read bytes from the
+stream. An application developer can use this API just as she would use the
 lower-level functionality for reliable transport, but with the added assurance
 that the channel is secure.
 
 Fischlin \etal~\cite{FPMG15} were the first (atleast in the cryptographic
-community) to elucidate secure channels as data streams.
+community) to elucidate secure channels as data streams. (In \cite{BDSP12}, the
+input messages are atomic; in works such as \cite{BFK+13,DLFK+17}, the
+ciphertexts are atomic.)
 %
-Their security notion models an adversary who transmits ciphertext ``fragments''
-over the channel, and may inject and reorder fragments at will. This allows to
-model the way TLS divides the messages stream into discrete ``records'',
-encrypting these individually.
+Their syntax directly captures a streaming API, and their security notions
+(privacy and authenticity) model an adversary who transmits ciphertext
+``fragments'' over the channel, and may drop, inject, and reorder fragments at will.
+This allows them to model streaming protocols (such as TLS) that divide the
+message stream into discrete ``records'' and encrypt each individually before
+transmitting. The peer may receive only a piece of a record, or
+multiple records simultaneously.
 
 We regard the work of Fischlin \etal as an
 important step in an API-centric treatment of secure channels.
+%
 However, there remains a wide gap between their work and cryptographic practice.
 In order to apply their methodology to a real protocol, one would need to
 precisely specify it as a streaming secure channel (according to their
 formalism) and provide a proof of security. This on its own is a complex
-undertaking, but it also places a heavy burden on the security engineers. It is
-incumbent on them to implement this protocol \emph{precisely}, and if the
-protocol needs to be changed (say, to address some engineering constraint), then
-the cryptographer needs to provide a fresh proof.
+undertaking (cf. \cite{DLFK+17}), but it also places a heavy burden on the
+security engineers. It is incumbent on them to implement this protocol
+\emph{precisely}, and if the protocol needs to be changed (say, to address some
+engineering constraint), then the cryptographer needs to provide a fresh proof.
 
 A beautiful, yet largely-overlooked work by Rogaway and Stegers~\cite{RS09}
 affords an opportunity to bridge this gap. Their observation is that when
