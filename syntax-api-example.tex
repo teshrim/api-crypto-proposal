@@ -1,6 +1,6 @@
 \begin{figure}
 \begin{center}
-\fpage{0.75}{
+\fpage{0.55}{
  % \todo{Specify \algfont{ENCRYPT} for completeness.}
   %
   %\\
@@ -10,7 +10,7 @@
   &(\varfont{ExternalVals, InternalVals}) \gets \algfont{Decrypt}(\rwordfont{var}\varfont{ChannelContext},\varfont{SentContext}, \varfont{Ciphertext})\\
   &\varfont{Verdict} \gets \algfont{IsValid}(\varfont{InternalVals})\\
   &\varfont{ExternalVals} \gets
-                                  \algfont{ErrorHandling}(\rwordfont{var}\varfont{ChannelContext},
+                                  \algfont{ErrHandler}(\rwordfont{var}\varfont{ChannelContext},
                                   \varfont{Verdict}, \varfont{ExternalVals})\\
   &\varfont{Return} \varfont{ ExternalVals}
 \end{align*}
@@ -41,22 +41,25 @@ values are implicit.}
 \label{fig:syntax-api-example}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
 \begin{figure}
-\hfpages{0.55}
+\centering
+\hfpages{0.475}
 {
 Given \varfont{ChannelContext}=\\[-0.5ex]
-\nudge\nudge$\langle$ModeKey $K$, PRFKey $L$, ChannelStatus
+\nudge$\langle$ModeKey $K$, PRFKey $L$, ChannelStatus
 ``open''$\rangle$ 
 %Given $\varfont{Msg} =\langle V,H,C \rangle$
 
 \medskip
-Algorithm \algfont{Deserialize}(\varfont{Msg}):\\
+Alg.\ \algfont{Deserialize}(\varfont{Msg}):\\
 \nudge $V \gets \varfont{Msg}.V$; $H \gets \varfont{Msg}.H$; $C \gets
 \varfont{Msg}.C$\\
 \nudge Return $\left((V, H),C\right)$
 
 \medskip
-Algorithm \algfont{Decrypt}({\bf var} \varfont{ChannelContext},$(V,H)$, $C$):\\
+Alg.\ \algfont{Decrypt}({\bf var} \varfont{ChannelContext},$(V,H)$, $C$):\\
 \nudge Parse $C$ into tag $T$ and remainder $Z$\\ 
 %\nudge $K \gets \varfont{ChannelContext.ModeKey}$\\
 %\nudge $L \gets \varfont{ChannelContext.PRFKey}$\\
@@ -65,13 +68,13 @@ Algorithm \algfont{Decrypt}({\bf var} \varfont{ChannelContext},$(V,H)$, $C$):\\
 \nudge Return (\varfont{ExternalVals},\varfont{InternalVals})
 
 \medskip
-Algorithm \algfont{IsValid}(\varfont{InternalVals}):\\
+Alg.\ \algfont{IsValid}(\varfont{InternalVals}):\\
 \nudge \varfont{Verdict} $\gets$ ``Valid''\\
 \nudge if \varfont{InternalVals} =  ``TagFail'' then \varfont{Verdict} $\gets$ ``Invalid''\\
 \nudge Return \varfont{Verdict}
 
 \medskip
-Algorithm \algfont{ErrorHandling}({\bf var} \varfont{ChannelContext},\varfont{Verdict},\varfont{ExternalVals}):\\
+Alg.\ \algfont{ErrHandler}({\bf var} \varfont{ChannelContext},\varfont{Verdict},\varfont{ExternalVals}):\\
 \nudge if \varfont{Verdict} = ``Invalid'' then \\
 \nudge\nudge \varfont{ExternalVals} $\gets$ ``Invalid'' \\
 \nudge\nudge \varfont{ChannelContext.ChannelStatus} $\gets \langle
@@ -81,19 +84,19 @@ Algorithm \algfont{ErrorHandling}({\bf var} \varfont{ChannelContext},\varfont{Ve
 %
 {
 Given \varfont{ChannelContext}=\\[-0.5ex]
-\nudge\nudge $\langle$ModeKey $K$, PRFKey $L$, ChannelStatus ``open'',
-TokenList $ \mathit{TL}\rangle$
+\nudge $\langle$ModeKey $K$, PRFKey $L$, ChannelStatus ``open'',\\
+\nudge\nudge TokenList $ \mathit{TL}\rangle$
 %Given $\varfont{Msg} =\langle V,H,C \rangle$
 
 \medskip
-Algorithm \algfont{Deserialize}(\varfont{Msg}):\\
+Alg.\ \algfont{Deserialize}(\varfont{Msg}):\\
 \nudge $V \gets \varfont{Msg}.V$; $H \gets \varfont{Msg}.H$; $C \gets \varfont{Msg}.C$\\
 \nudge $\mathrm{sid} \gets H.\varfont{StreamID}$\\
 \nudge Return $\left((V, H, \mathrm{sid}),C\right)$
 %\nudge Return $\left((V, H),C\right)$
 
 \medskip
-Algorithm \algfont{Decrypt}({\bf var} \varfont{ChannelContext},$(V,H,\mathrm{sid})$, $C$):\\
+Alg.\ \algfont{Decrypt}({\bf var} \varfont{ChannelContext},$(V,H,\mathrm{sid})$, $C$):\\
 %\nudge $\varfont{ExternalVals} \gets H.\varfont{StreamID}$\\
 \nudge Parse $C$ into tag $T$ and remainder $Z$\\ 
 %\nudge $K \gets \varfont{ChannelContext.ModeKey}$\\
@@ -107,22 +110,24 @@ Algorithm \algfont{Decrypt}({\bf var} \varfont{ChannelContext},$(V,H,\mathrm{sid
 \nudge Return (\varfont{ExternalVals},\varfont{InternalVals})
 
 \medskip
-Algorithm \algfont{IsValid}(\varfont{InternalVals}):\\
+Alg.\ \algfont{IsValid}(\varfont{InternalVals}):\\
 \nudge \varfont{Verdict} $\gets$ ``Valid''\\
-\nudge if ``TagFail'' $\in$ \varfont{InternalVals} then \varfont{Verdict} $\gets$ ``Invalid''\\
-\nudge if ``BadToken'' $\in$ \varfont{InternalVals} then \varfont{Verdict} $\gets \langle
+\nudge if ``TagFail'' $\in$ \varfont{InternalVals} then\\
+\nudge\nudge \varfont{Verdict} $\gets$ ``Invalid''\\
+\nudge if ``BadToken'' $\in$ \varfont{InternalVals} then\\
+\nudge\nudge \varfont{Verdict} $\gets \langle
 \varfont{Verdict},\mbox{``BadToken"} \rangle$\\
 \nudge Return \varfont{Verdict}
 
 \medskip
-Algorithm \algfont{ErrorHandling}({\bf var} \varfont{ChannelContext},\varfont{Verdict},\varfont{ExternalVals}):\\
+Alg.\ \algfont{ErrHandler}({\bf var} \varfont{ChannelContext},\varfont{Verdict},\varfont{ExternalVals}):\\
 \nudge if ``Invalid'' $\in$ \varfont{Verdict} then \\
 \nudge\nudge \varfont{ExternalVals} $\gets$ ``Invalid'' \\
 \nudge\nudge \varfont{ChannelContext.ChannelStatus} $\gets \langle
 \mbox{Status ``closed"} \rangle$\\
 \nudge else if ``BadToken'' $\in$ \varfont{Verdict} then \\
 \nudge\nudge \varfont{ExternalVals} $\gets$ ``Invalid'' \\
-\nudge\nudge \varfont{ChannelContext.ChannelStatus} $\gets$ none \\
+%\nudge\nudge \varfont{ChannelContext.ChannelStatus} $\gets$ none \\
 \nudge Return \varfont{ExternalVals}
 } 
 %\tsnote{Is this actually useful for selling the ideas it is meant to sell?}
@@ -132,7 +137,7 @@ Algorithm \algfont{ErrorHandling}({\bf var} \varfont{ChannelContext},\varfont{Ve
 suppression of all plaintext/errors output by $\calD^V_K(Z)$, and
 causes a single error message to be exposed.  Also,
 in the event of a tag-check failure, the error-handling algorithm
-suggests that the Status of the channel context be updated to
+updates the \varfont{ChannelStatus} to
 ``closed''.  Note that this specification carries out decryption
 $\calD^V_K(Z)$ even if there is a tag-check failure, thereby hiding a
 potential timing side-channel. 
