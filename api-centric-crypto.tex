@@ -355,26 +355,23 @@ compromising security.
   towards providing guidance in the design of the TLS 1.3 record layer.
 \end{task}
 
-
-\todo{Have another look at the online-AE paper. What do Fischlin \etal say
-about it?}
-\cpnote{Flischlin \etal say that OAE is unrelated to their work, although they
+\cpnote{Fischlin \etal say that OAE is unrelated to their work, although they
 didn't read~\cite{HRRV15}. (Their OAE citations are prior work.) Nonetheless, I
 tend to agree with them. First, the syntax is sufficiently different. Second,
 the goals are different; \cite{HRRV15} want to model \emph{online} and
 \emph{constant-space} encryption/decryption; in~\cite{FPMG15} neither of these
-are mandated.}
+are mandated.}\todo{Chris: is there actual text to add from your note?}
 
-\todo{I feel like we are missing an important task here, having to do
-with understanding what are the current APIs for secure channels,
-how those align with theoreticians' viewpoint(s) on secure channels,
-looking for the ``right'' API/syntax for secure channels, i.e. one
-that supports what applications expect, etc.}
+%\todo{I feel like we are missing an important task here, having to do
+%with understanding what are the current APIs for secure channels,
+%how those align with theoreticians' viewpoint(s) on secure channels,
+%looking for the ``right'' API/syntax for secure channels, i.e. one
+%that supports what applications expect, etc.}
 %
-\cpnote{To me this is already done. \cite{FPMG15} syntax is quite close to real
-APIs. The syntax I've worked out for this paper is \emph{even closer}, but I
-don't think that's the main contribution of the paper. The main contribution is
-the security model.}
+%\cpnote{To me this is already done. \cite{FPMG15} syntax is quite close to real
+%APIs. The syntax I've worked out for this paper is \emph{even closer}, but I
+%don't think that's the main contribution of the paper. The main contribution is
+%the security model.}
 
 \paragraph{Establishing the Secure Channel. }
 %
