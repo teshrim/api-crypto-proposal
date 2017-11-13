@@ -282,13 +282,13 @@ tool for designing protocols.
 It is tempting to think that AEAD, on its own, provides a secure channel.  But
 as recently pointed out by Badertscher \etal~\cite{BMM+15}, classical security
 notions, such as those for AEAD ``do not capture in which contexts a scheme
-satisyfying them can securely be used.'' Time and time again, bugs  in the
-\emph{protocol logic} have been exploited to \emph{completely circumvent} the
-security provided by the underlying crypto. This gap has spurred the study of
+satisyfying them can securely be used.''  Indeed, bugs in the
+\emph{protocol logic} have been exploited to circumvent the
+security provided by the underlying crypto.\todo{Chris: example citations?}. This gap has spurred the study of
 \emph{stateful} authenticate encryption schemes that model secure channels more
 closely, such as the highly influential SSH paper~\cite{BKN02} and the analysis
-of the TLS $1.2$ record layer by PI Shrimtpon~\cite{PRS11}. Boldyreva
-\etal~\cite{DBPS12} later extended \cite{BKN02} to encompass the protocol-level
+of the TLS $1.2$ record layer by PI Shrimpton~\cite{PRS11}. Boldyreva
+\etal~\cite{DBPS12} later extended~\cite{BKN02} to encompass the protocol-level
 attack of \cite{APW09} that exploits fragmented delivery of the ciphertext stream. This
 line of work has deepened our standing of how to build secure channels, but from
 an API-centric perspective, these works omit a crucial detail.
@@ -309,7 +309,7 @@ stream. An application developer can use this API just as she would use the
 lower-level functionality for reliable transport, but with the added assurance
 that the channel is secure.
 
-Fischlin \etal~\cite{FPMG15} were the first (atleast in the cryptographic
+Fischlin~\etal~\cite{FPMG15} were the first (atleast in the cryptographic
 community) to elucidate secure channels as data streams. (In \cite{BDSP12}, the
 input messages are atomic; in works such as \cite{BFK+13,DLFK+17}, the
 ciphertexts are atomic.)
@@ -322,14 +322,14 @@ message stream into discrete ``records'' and encrypt each individually before
 transmitting. The peer may receive only a piece of a record, or
 multiple records simultaneously.
 
-We regard the work of Fischlin \etal as an
+We regard the work of Fischlin~\etal as an
 important step in an API-centric treatment of secure channels.
 %
 However, there remains a wide gap between their work and cryptographic practice.
 In order to apply their methodology to a real protocol, one would need to
 precisely specify it as a streaming secure channel (according to their
 formalism) and provide a proof of security. This on its own is a complex
-undertaking (cf. \cite{DLFK+17}), but it also places a heavy burden on the
+undertaking (cf.~\cite{DLFK+17}), but it also places a heavy burden on the
 security engineers. It is incumbent on them to implement this protocol
 \emph{precisely}, and if the protocol needs to be changed (say, to address some
 engineering constraint), then the cryptographer needs to provide a fresh proof.
