@@ -338,14 +338,16 @@ A beautiful, yet largely-overlooked work by Rogaway and Stegers~\cite{RS09}
 affords an opportunity to bridge this gap. Their observation is that when
 cryptographers design protocols, they provide an abstraction that omits many
 details relevant to implementing them on real systems. (They necessarily do
-so for the reasons given above.)
+so for the reasons given above.) 
 %
 They provide a framework for analyzing \emph{partially-specified protocols},
 where the ``cryptographic core'' of the protocol is separated from the
 ``protocol details'' relevant to engineers. In the analysis, one assumes the
 latter is utterly controlled by the adversary. This  allows the security
 engineer a large degree of flexibility in designing the protocol without
-compromising security.
+compromising security.  \todo{Chris: can you expland upon this,
+  please?  Why is it ``beautiful''?  Give an short example to
+  illustrate it's use''}
 
 \begin{task}\label{task:sc}
   \cpnote{This task supports the gaol of making \emph{crypto APIs easier to use
