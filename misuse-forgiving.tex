@@ -2,7 +2,7 @@
 Towards the goal of building cryptography that is forgiving of misuse, prior
 work by PI Shrimpton defined the notion of nonce-misuse-resistant authenticated
 encryption~\cite{RS06}, and showed how to achieve it using standard
-symmetric-key tools.  Rogaway had previously argued~\cite{xxx} that the
+symmetric-key tools.  Rogaway had previously argued~\cite{Rog04} that the
 classical viewpoint that symmetric encryption schemes are randomized primitives
 was misaligned with practice, and what we should be delivering are encryption
 schemes that are deterministic, surfacing an explicit IV input. (This is an
@@ -13,7 +13,8 @@ demanding the IV be random.  In~\cite{RS06}, we sought to make these nonce-based
 encryption schemes even easier to use, by designing them so that their security
 guarantee degrades gracefully when the nonce IV repeats.  Nonce-misuse
 resistance has been recognized as an important goal in practice, and was one of the
-desiderata of the CAESAR competition~\cite{xxx}.
+desiderata of the CAESAR competition.\footnote{See
+\url{https://competitions.cr.yp.to} for the competition's home page.}
 %
 \cpnote{Note that I talk about misuse-resistant and robust AE under the ``Secure
 channels'' heading.}
@@ -70,30 +71,23 @@ bodies to address the mistakes we find.
   competition. Many submissions put forward APIs that look easy to use, but
 actually are broken.}
 
-Going a different direction, the traditional syntax for encryption
-assumes that the plaintext data is a bitstring.  For many practical
-applications this suffices, as structured data can be serialized (or
-``flattened'') prior to application of encryption.  But there are
-important applications in which this won't work.  For example,
-database encryption.  Here the data (i.e. the database) is highly
-structured, and in order to support efficient queries on portions of
-the (encrypted) data, one cannot simply flatten the data into a single
-string and apply traditional IND-CPA-secure encryption.  Various works
+Going a different direction, the traditional syntax for encryption assumes that
+the plaintext data is a bitstring.  For many practical applications this
+suffices, as structured data can be serialized (or ``flattened'') prior to
+application of encryption.  But there are important applications in which this
+won't work.  For example, database encryption.  Here the data (i.e. the
+database) is highly structured, and in order to support efficient queries on
+portions of the (encrypted) data, one cannot simply flatten the data into a
+single string and apply traditional IND-CPA-secure encryption.  Various works
 have proposed to use combinations of deterministic
-encryption~\cite{xxx}\tsnote{BBO}, searchable
-encryption~\cite{xxx}\tsnote{Highly-scalable searchable symmetric
-  encryption with support for boolean queries, Crypto'13} and
-order-preserving/revealing encryption~\cite{xxx}{Order-revealing
-  encryption: New constructions, applications and lower bounds,
-  CCS'16}.  All such property-revealing encryption schemes leak some
-information in order to support computations, and typicallly this
-leakage is formally captured with the attendant security notion.  But
-as recent attacks show~\cite{...}\tsnote{Leakage-Abuse Attacks against
-  searchable encryption, CCS'15; Leakage-Abuse Attacks against
-  order-revealing encryption, S and P '17; Inference Attacks on
-  Property Preserving Encryption, CCS'15}, capturing what is leaked
-does not necessarily say anything about how damaging that leakage is,
-in practice.  
+encryption~\cite{BBO07}, searchable
+encryption~\cite{CJJ+13} and order-preserving/revealing
+encryption~\cite{KW16}. All such property-revealing encryption schemes leak some
+information in order to support computations, and typicallly this leakage is
+formally captured with the attendant security notion.  But as recent attacks
+show~\cite{Cash15,GSB+17,NKW15}, capturing what is
+leaked does not necessarily say anything about how damaging that leakage is, in
+practice.
 
 We see this as an example of seemingly good theory unknowingly
 ``setting up'' developers to misuse it.  What is needed is a proper
@@ -110,8 +104,7 @@ or columns in a table, ciphertexts of trees that are missing a
 subtree.  For traditional encryption, the adversary should only be
 able to ``create'' replays.)  Having explicit malleability models will allow us to
 reason about active attacks, which have often plagued efforts to
-develop database encryption schemes~\cite{xxx}\tsnote{Why your
-  Encrypted Database is not secure, HotOS'17}. 
+develop database encryption schemes~\cite{GRS17}.
 
 \begin{task}
 We will develop a framework of security notions for primitives that
