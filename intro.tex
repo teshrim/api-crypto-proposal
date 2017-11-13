@@ -3,9 +3,11 @@
 
 For years, the cryptography research community has been emploring security
 engineers and developers to ``please stop rolling your own crypto!''  An
-expanded version of this  plea might be: ``cryptography is hard, so let the
-crypto experts handle the crypto; you just worry about implementing what we
-provide.'' There is good sense in this message.  Cryptography \emph{is} hard.
+expanded version of this might be: cryptography is hard, so let the
+crypto experts handle the crypto; you (just) worry about implementing what we
+provide. 
+%
+There is good sense in this message.  Cryptography \emph{is} hard.
 And the security guarantees that we prove can depend crucially on parameter
 choices, padding schemes, protocol logic, etc., and in ways that may not be obvious to
 non-experts. Our research community has developed a collective wisdom that helps
@@ -13,12 +15,13 @@ guide us to good solutions (or at least to avoid pitfalls).
 
 To their credit, security engineers and software developers do largely seem to
 have understood.  But there is a response that, sadly, the research community
-has heard less clearly: ``correctly implementing your theoretical crypto is hard!''
-To paraphrase various industry speakers at editions of Real World Crypto (e.g.,
-David McGrew, Daniel Kahn-Gilmore, Thai Duong),
-and Paul Kocher in his invited lecture at Crypto'16:
+has heard less clearly.
 %
-Cryptographers need to understand that API/library design is hard work and that,
+To paraphrase various industry speakers at editions of Real World Crypto (e.g.,
+David McGrew (Cisco), Daniel Kahn-Gilmore (ACLU), Thai Duong (Google)), and Paul Kocher in his invited lecture at Crypto'16:
+%
+Cryptographers need to understand that the design of cryptographic
+software libraries, specifically the APIs they export, hard work and that,
 once fielded, APIs are very slow to change.
 %
 \if{0}
@@ -28,48 +31,46 @@ once fielded, APIs are very slow to change.
   the API costs \emph{real} money. The other points you make are secondary.})
 \fi
 %
-So no matter how pretty your theory is, if it is hard to implement with existing
+So no matter how good the theory is, if it is hard to implement with existing
 code, it either won't be implemented, or it is prone to be implemented
 incorrectly.
 
-This proposal adopts the position that \emph{a primary focus of crypto research
-should be to deliver primitives and protocols that are as easy as possible to
-implement, correctly.}
+This proposal adopts the position that it is incumbent upon
+academic cryptographers to hear this message, and to accept practical
+implementation and deployment needs as a guide for developing theory.
 %
 %\cpnote{I would say this differently. ``This proposal adopts the position that
 %\emph{it is incumbent on cryptographers to bridge this gap between theory and
 %implementation complexity}.}
 %
-More specifically, that
+Specifically, the tasks that we propose here start from the viewpoint that:
 \begin{enumerate}
-  \item crypto theory is more useful and impactful when it endeavors to respect
-    the APIs that existing crypto libraries expose;
+  \item theory is considerably more useful to \textit{real-world security}
+    when it is mindful of how formalisms are translated into practice;
+    in particular, when it endeavors to respect the APIs that existing crypto
+    libraries expose.
 %
-  \item crypto theory should be mindful of how
-    formalisms are translated into practice;
+  \item cryptographic primitives should aim to be forgiving of misuse,
 %
-  \item wherever possible, crypto theory should try to deliver
-    primitives that are forgiving of misuse (even when properly implemented);
+ \item ease-of-correct-implementation should be treated as a first-class
+    security goal.
 %
- \item when theory gives formal syntax for a primitive, it should be clearly
-%    suggestive of an actual API that is aligned with what developers want; and
-    %
+%
 %    \tsnote{not sure that this is the right wording, or even that it belongs in
 %    this list (seems a bit more down it the weeds than the others)}
 %    \cpnote{Agreed. We could say that this is one way to achieve item~2.}
+\end{enumerate}
+%when theory gives formal syntax for a primitive, it should be clearly
+%    suggestive of an actual API that is aligned with what developers want; and
+%In addition, we believe that ease-of-correct-implementation should be treated as a first-class
+%    security property, not dismissed as a mere ``programming exercise''.
 
-  \item ease of correct implementation should be treated as a first-class
-    security property, not dismissed as a mere ``programming exercise''.
-    %
-  \tsnote{Look at Rogaway's Partially
-    Specified Protocols/Authentication without Ellision paper}
-    \cpnote{This paper is about making it easier to design protocols around
+\noindent
+
+    \cpnote{Rogaway-Stegers is about making it easier to design protocols around
     crypto. An extension is that if you're implementing the protocol, and all
     the crypto you need is available via APIs, then it should be easy to do
-    right.}
-\end{enumerate}
-
-\tsnote{finish out this intro}
+    right.}\tsnote{Use these words as seed for the rest of the intro.}
 
 \paragraph{API-centric Cryptography.}
 \todo{Summarize body section, focusing on tasks and (very briefly)
