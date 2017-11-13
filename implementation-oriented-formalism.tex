@@ -91,14 +91,15 @@ appear in practice.
 %
 For both developer and theoretician, this style of presentation can surface a
 clearer picture of what security demands of these functionalities. For example,
-specifying error handling as an explicit functionality
+specifying error handling as an explicit functionality\footnote{Following Rogaway and Stegers~\cite{RS09}, variables are
+passed by value except where annotated by \rwordfont{var}.}
 \[
 \varfont{ExternalVals} \gets
                                   \algfont{ErrHandler}(\rwordfont{var}
                                   \varfont{ChannelContext},
                                   \varfont{StatusMsg}, \varfont{ExternalVals})
 \]
-forces one to ask questions, like, what \varfont{ExternalVals} should
+more naturally prompts one to consider questions, like, what \varfont{ExternalVals} should
 be returned for a given \varfont{StatusMsg}, and what
 security-relevant information might be leaked by them?  How should the
 \varfont{ChannelContext} be updated for a given \varfont{StatusMsg}?
