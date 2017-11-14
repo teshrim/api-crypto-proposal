@@ -75,7 +75,8 @@ developer to manage certificates (as many existing APIs do~\cite{FHM+12}), then
 the security engineer needs to make this transparent to upper levels. Second,
 there are numerous ways to realize \algfont{NegotiateKey}, each with varying
 degrees of security and efficiency. Third, modern protocols, such as TLS, are
-designed so that application data may be piggy-backed on the handshake. As such,
+designed so that application data may be piggy-backed on the handshake. (This is
+called 0-RTT, or zero round trip time, data.) As such,
 providing an opaque interface is likely not desirable. In general, the ``right''
 level of exposure to the application developer or security engineer is highly
 task-dependent.
@@ -252,7 +253,6 @@ viewpoint of what real-world APIs expose.
 
 
 \paragraph{Secure Channels. }
-%
 Perhaps the most practically important cryptographic functionality is the
 secure channel, the task of which is to provide privacy and authenticity for
 message flows between peers.
@@ -310,54 +310,76 @@ ciphertexts are atomic.)
 %
 Their syntax directly captures a streaming API, and their security notions
 (privacy and authenticity) model an adversary who transmits ciphertext
-``fragments'' over the channel, and may drop, inject, and reorder fragments at will.
-This allows them to model streaming protocols (such as TLS) that divide the
-message stream into discrete ``records'' and encrypt each individually before
-transmitting. The peer may receive only a piece of a record, or
-multiple records simultaneously.
+``fragments'' over the channel, and may drop, inject, and reorder fragments at
+will.  This allows them to model streaming protocols (such as TLS) that divide
+the message stream into discrete ``records'' and encrypt each individually
+before transmitting. The peer may receive only a piece of a record, or multiple
+records simultaneously.
 
-We regard the work of Fischlin~\etal as an
-important step in an API-centric treatment of secure channels.
+We regard the work of Fischlin~\etal as an important step in an API-centric
+treatment of secure channels, but a number of barriers important in practice
+remain.
 %
-However, there remains a wide gap between their work and cryptographic practice.
 In order to apply their methodology to a real protocol, one would need to
 precisely specify it as a streaming secure channel (according to their
 formalism) and provide a proof of security. This on its own is a complex
-undertaking (cf.~\cite{DLFK+17}), but it also places a heavy burden on the
-security engineers. It is incumbent on them to implement this protocol
-\emph{precisely}, and if the protocol needs to be changed (say, to address some
-engineering constraint), then the cryptographer needs to provide a fresh proof.
+undertaking (cf.~\cite{DLFK+17}), but it also places a heavy burden on security
+engineers. It is incumbent on them to implement this protocol \emph{precisely},
+and if the protocol needs to be changed (say, to address some engineering
+constraint), then the cryptographer needs to provide a fresh proof.
 
-A beautiful, yet largely-overlooked work by Rogaway and Stegers~\cite{RS09}
+A largely-overlooked work by Rogaway and Stegers~\cite{RS09}
 affords an opportunity to bridge this gap. Their observation is that when
 cryptographers design protocols, they provide an abstraction that omits many
-details relevant to implementing them on real systems. (They necessarily do
-so for the reasons given above.) 
+details relevant to implementing them on real systems.
 %
-They provide a framework for analyzing \emph{partially-specified protocols},
-where the ``cryptographic core'' of the protocol is separated from the
-``protocol details'' relevant to engineers. In the analysis, one assumes the
-latter is utterly controlled by the adversary. This  allows the security
-engineer a large degree of flexibility in designing the protocol without
-compromising security.  \todo{Chris: can you expland upon this,
-  please?  Why is it ``beautiful''?  Give an short example to
-  illustrate it's use''}
+This is not without reason, of course; the needs of systems are complex and always
+changing.
+%
+\todo{Chris: Give an example that motivates the analysis of TLS 1.3.}
+%
+Rogawy and Stegers provide a framework for analyzing \emph{partially-specified
+protocols}, where the ``cryptographic core'' of the protocol is separated from
+the ``protocol details'' relevant to engineers. In the analysis, one assumes the
+latter is utterly controlled by the adversary. Thus, a proof of security under
+this pessimistic assumption affords the protocol designer a high degree of
+flexibility, while providing a certain amount of robustness to bugs in
+implementations.
 
 \begin{task}\label{task:sc}
-  \cpnote{This task supports the gaol of making \emph{crypto APIs easier to use
-  securely}.}
-  %
   We propose to apply Rogaway-Stegers methodology to streaming secure channels
   towards providing guidance in the design of the TLS 1.3 record layer.
 \end{task}
 
-\cpnote{Fischlin \etal say that OAE is unrelated to their work, although they
-didn't read~\cite{HRRV15}. (Their OAE citations are prior work.) Nonetheless, I
-tend to agree with them. First, the syntax is sufficiently different. Second,
-the goals are different; \cite{HRRV15} want to model \emph{online} and
-\emph{constant-space} encryption/decryption; in~\cite{FPMG15} neither of these
-are mandated.}\todo{Chris: is there actual text to add from your note?}
+\noindent
+\todo{Tom: Review this task below. This is something I'm doing as part of the
+TLS project, and I realize it might be interesting to mention here.}
+Finally, all the works mentioned above, including~\cite{FPMG15}, do something
+rather strange from an API perspective.
+%
+The decryption algorithm outputs a variable $M$ either equal to the message
+(fragment) or some indication of failure, such as the distinguished symbol
+$\bot$. This is a common motif in cryptography. However, real APIs separate the
+message and error outputs. We are unaware of any work \cpnote{Not even
+\url{https://ia.cr/2013/433}} that explicitly treat this separation.
+%
+(See Section~\ref{sec:formalisms} for an in-depth discussion.)
 
+\begin{task}\label{task:sc}
+  In our study of secure channels, we will explore the implications of
+  separating the message and error int he output of decryption.
+\end{task}
+
+\if{0}{
+  \cpnote{Fischlin \etal say that OAE is unrelated to their work, although they
+  didn't read~\cite{HRRV15}. (Their OAE citations are prior work.)
+  Nonetheless, I tend to agree with them. First, the syntax is sufficiently
+  different. Second, the goals are different; \cite{HRRV15} want to model
+  \emph{online} and \emph{constant-space} encryption/decryption;
+  in~\cite{FPMG15} neither of these are mandated.}\todo{Chris: is there actual
+  text to add from your note?} \cpnote{Nope. This was just a response to one of
+  your earlier comments.}
+}\fi
 %\todo{I feel like we are missing an important task here, having to do
 %with understanding what are the current APIs for secure channels,
 %how those align with theoreticians' viewpoint(s) on secure channels,
@@ -370,10 +392,8 @@ are mandated.}\todo{Chris: is there actual text to add from your note?}
 %the security model.}
 
 \paragraph{Establishing the Secure Channel. }
-%
-%Task~\ref{task:sc} deals with communication between parties who share
-%a key.
-%In practice, a  component of a secure channel is the initial key exchange.
+The key agreement protocol used to establish the channel is also amendable to an
+API-centric treatment.
 %
 Since the seminal work of Bellare And Rogway~\cite{BR93}, the vast majority of
 the literature on authenticated key exchange has focused on the case of
@@ -382,6 +402,7 @@ other. In fact, virtually all TLS handshakes on the Internet are only
 \emph{unilaterally} authenticated (UAKE). (The client wishes to verify the
 server's identity.)
 %
+\if{0}{ % We're not actually dealing with this.
 Second, TLS offers features that break with the Bellare-Rogaway model
 altogether. For example, Bhargavan et al.~\cite{bhargavan2014proving} point
 out (a) that handshakes share states \emph{across session} (in
@@ -389,11 +410,10 @@ Bellare-Rogaway each session has its own state), and that (b) the same
 material may be used by the same entity in \emph{different protocols}
 (requires the underlying algorithms be \emph{agile}, a
 la~\cite{acar2010cryptographic}).
+}\fi
 %
-Third, an important consideration in the upcoming TLS 1.3
-specification~\cite{tls13} is \emph{session resumption}, where the goal is
-to piggy-back a fresh key exchange on the data channel between a client and
-server who have already performed the full handshake.
+We alluded to another issue above: an important consideration in the upcoming TLS 1.3
+specification~\cite{tls13} is the transmission of 0-RTT data.
 %
 This feature is crucial from an engineering perspective, but as is
 well-known~\cite[Section 2.2]{tls13}, we cannot provide the same level of
@@ -401,30 +421,40 @@ security for the message on which we are piggy-backing the exchange as is
 possible for subsequent messages. In particular, \emph{forward security} is out
 of reach.
 
-These issues are some of the many that point to a gap between how programmers
-expect they should be able to use cryptography, and how cryptography is to be
-used securely. This presents an opportunity to distill from design patterns in
-existing KE protocols (e.g., the TLS handshake) an abstraction (and
-corresponding API) that cleanly captures the needs of software engineers.
+These issues point to a gap between how programmers expect they should be able
+to use cryptography, and how cryptography is to be used securely. This presents
+an opportunity to distill from design patterns in existing KE protocols (e.g.,
+the TLS handshake) an abstraction (and corresponding API) that cleanly captures
+the needs of software engineers.
 %
 A promising direction is to begin with Dodis and
-Fiore~\cite{dodis2017unilateral}, who show that security in this setting is
-much easier to model than the more general MAKE setting of Bellare-Rogaway.
-An approach by Krawczyk~\cite{krawczyk2016unilateral-to-mutual} can be
-employed to transform a UAKE scheme to a MAKE scheme.
+Fiore~\cite{dodis2017unilateral}, who show that UAKE is much simpler to model
+than MAKE, which requires a more general protocol framework, such as
+Bellare-Rogaway.
 %
 Dodis and Fiore define a natural primitive they call
 \emph{comfirmed encryption} for KEM-based UAKE, which has an API that, we
-feel, is intuitive for security engineers.
+feel, is intuitive for security engineers. Briefly, the sender encrypts its
+message with the public key of the recipient essentially as one would with a
+conventional encryption scheme. The receiver decrypts the ciphertext, then
+transmits a ``confirmation'' proving to the sender that the message was
+received.
 %
-A limitation, however, is that comfirmed encryption cannot provide forward
-security on its own, which makes DH-based KE more attractive.
+This primitive immediately yields UAKE. Using an approach by
+Krawczyk~\cite{krawczyk2016unilateral-to-mutual}, it can also be used as a
+building block for a MAKE protocol.
+
+Distilling a complex problem in this way is invaluable to practice. A
+limitation of~\cite{dodis2017unilateral}, however, is that confirmed encryption
+cannot provide forward security on its own. As this has become a first-class
+concern, we feel it deserves a first-class primitive.
+%
+\cpnote{Tom: I kind of stole the language of the last line from you.}
 
 \begin{task}
-  %\cpnote{\emph{Propose an API} for a field that needs one.}
-  We will establish the syntax and security for DH-based UAKE whose API is
-  similarly intuitive. \todo{Chris: This sentence doesn't make sense to
-    me, in particular the ``whose API is similarly intuitive''. Can you reword it to be more clear?}
+  Extending the work of~\cite{dodis2017unilateral}, we will study UAKE protocols
+  that provide \emph{forward security} with the aim of providing an API that is
+  intuitive for security engineers.
 \end{task}
 
 Having such an API would simplify the task of designing real-world KE
