@@ -190,29 +190,26 @@ the time --- hindsight is 20-20.}
 \tsnote{Need to address head-on the complaint that this is going to
   make for more complicated analysis.}
 
-Let us consider a concrete example to illustrate this approach.
+There are, of course, other ways to handle decryption errors than described in
+Figure~\ref{fig:EtM-aead}; the ``right way'' is highly dependent on the setting
+in which the scheme is used. However, its API
+(Figure~\ref{fig:syntax-api-example}) offers a feature that is useful in all
+real-world applications: it explicitly separates the \emph{message} and
+\emph{error} in the output.
 %
-As we have already alluded to, it is common in cryptography to think of
-decryption as either returning a message or~$\bot$, indicating that something
-went wrong. This choice implies that if the output is not $\bot$, then we must
-assume it is valid.
-%
-This is a ubiquitous choice in cryptography that is rather strange from an API
-perspective. Virtually all APIs that we are aware of separate the message and
-error outputs. Errors also have varying degrees of severity: some are
-\emph{fatal}, requiring the connection be torn down; some are simply
-\emph{warnings} that leave to the application the decision to process the
-message or to tear down the connection; and some might be completely benign,
-indicating, e.g., that more data is available for reading, or that the
-end-of-file has been reached.
+Indeed, virtually all APIs that we are aware of separate these.  Errors have
+varying degrees of severity: some are \emph{fatal}, requiring the connection be
+torn down; some are simply \emph{warnings} that leave to the application the
+decision to process the message or to tear down the connection; and some might
+be completely benign, indicating, e.g., that more data is available for reading,
+or that the end-of-file has been reached.
+
+We are aware of no work that explicitly separates the message and error in this
+manner.
 %
 Some works consider a richer semantics for the error~\cite{BDPS13,FPMG15}, but
 even these couple the message and error so that one of these is output, but
 never both.
-%
-We are aware of no work that explicitly separates the message and error. Of
-course, the impact of this separation on security is highly dependent on the
-setting in which it is used.
 
 \begin{task}\label{task:sc}
   In our study of secure channels (\textbf{task~\ref{task:sc}}), we will explore the implications of
