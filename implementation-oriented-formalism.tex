@@ -102,6 +102,7 @@ practice.  Namely, if the tag check fails, then one should label the
 ciphertext as invalid, and suppress all output other than the (single)
 error message ``Invalid'' (or $\bot$ in typical syntax).
 
+
 \tsnote{Say that this may seem like overkill for ``simple'' primitives
 like symmetric-key decryption, but that (1) it only seems that way
 because we are already implicitly thinking about what it means for
@@ -109,14 +110,12 @@ things to be valid, etc., and (2) we ``know'' not to do certain things
 because mistakes were made in the past, by people who didn't know at
 the time --- hindsight is 20-20.}
 
+\begin{task}
+{We will reconsider the traditional formalisms for cryptographic primitives from an implementation-considerate perspective, and establish security notions with respect to the new syntax. }
+\end{task}
+
 \tsnote{Need to address head-on the complaint that this is going to
   make for more complicated analysis.}
-
-\include{syntax-api-example}
-
-\begin{task}
-{Reconsider the traditional syntax for cryptographic primitives from an implementation-considerate perspective, and establish security notions with respect to the new syntax. }
-\end{task}
 
 \paragraph{Prior Work. }
 %
@@ -127,3 +126,5 @@ accurately model the underlying goal, not only must the security definition
 depart from [prior work], but so too must a scheme's basic syntax. In
 particular, we adopt an API-based view, where the segmentation of a plaintext is
 determined by the caller.''}
+
+\include{syntax-api-example}

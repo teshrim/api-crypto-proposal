@@ -27,7 +27,9 @@
   encodes whatever is to be returned, so yeah, typically the message.}
 %
 \caption{Describing symmetric-key decryption of received message~\varfont{Msg} in terms of
-  explicit functionalities that must be realized. The \varfont{ChannelContext}
+  explicit functionalities that must be realized. All variables are
+  passed by value except those preceded by the keyword
+  \rwordfont{var}. The \varfont{ChannelContext}
   is receiver-maintained information about the channel, and may contain values
   shared with the sender (e.g., the key, channel ID), along with local state.
   The \varfont{SentContext} is context data associated to this particular
