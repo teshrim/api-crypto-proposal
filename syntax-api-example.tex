@@ -1,44 +1,3 @@
-\begin{figure}
-\begin{center}
-\fpage{0.55}{
- % \todo{Specify \algfont{ENCRYPT} for completeness.}
-  %
-  %\\
-\underline{\algfont{DECRYPT}(\rwordfont{var}\varfont{ChannelContext}, \varfont{Msg}):}
-\begin{align*}
-  &(\varfont{SentContext},\varfont{Ciphertext}) \gets\algfont{Deserialize}(\varfont{Msg})\\
-  &(\varfont{ExternalVals, InternalVals}) \gets \algfont{Decrypt}(\rwordfont{var}\varfont{ChannelContext},\varfont{SentContext}, \varfont{Ciphertext})\\
-  &\varfont{Verdict} \gets \algfont{IsValid}(\varfont{InternalVals})\\
-  &\varfont{ExternalVals} \gets
-                                  \algfont{ErrHandler}(\rwordfont{var}\varfont{ChannelContext},
-                                  \varfont{Verdict}, \varfont{ExternalVals})\\
-  &\varfont{Return} \varfont{ ExternalVals}
-\end{align*}
-}
-\end{center}
-%
-%\cpnote{I would call these \algfont{SendMessage} and \algfont{ReceiveMessage}
-%instead of \algfont{ENCRYPT} and \algfont{DECRYPT}.}
-%\cpnote{$\algfont{ParseReceived}$ would be called $\algfont{Unmarshal}$ or
-%$\algfont{Deserialize}$ in modern programming languages. (To me this is like
-%deserializing a protocol buffer.)}
-%
-\cpnote{Does \varfont{ExternalVals} encode the message?}\tsnote{It
-  encodes whatever is to be returned, so yeah, typically the message.}
-%
-\caption{Describing symmetric-key decryption of received message~\varfont{Msg} in terms of
-  explicit functionalities that must be realized. All variables are
-  passed by value except those preceded by the keyword
-  \rwordfont{var}. The \varfont{ChannelContext}
-  is receiver-maintained information about the channel, and may contain values
-  shared with the sender (e.g., the key, channel ID), along with local state.
-  The \varfont{SentContext} is context data associated to this particular
-  ciphertext. The \varfont{ExternalVals} are intended to be released to the
-  external caller, and the \varfont{InternalVals} are intended for use only
-within the decryption process boundary.  The types of all input and output
-values are implicit.}
-\label{fig:syntax-api-example}
-\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 
@@ -130,6 +89,7 @@ Alg.\ \algfont{ErrHandler}({\bf var} \varfont{ChannelContext},\varfont{Verdict},
 \nudge Return \varfont{ExternalVals}
 } 
 %\tsnote{Is this actually useful for selling the ideas it is meant to sell?}
+\todo{Tom: Describe the thing on the right in the caption.}
 \caption{ {\bf
     Left:} Specification of Encrypt-then-MAC decryption over IV-based
   symmetric-key decryption $\calD$ and vector-input PRF~$F$. A tag-check failure results in the
@@ -143,6 +103,6 @@ potential timing side-channel.
 %
 {\bf
   Right: } [...]
-}
+  }
 \label{fig:EtM-aead}
 \end{figure}
