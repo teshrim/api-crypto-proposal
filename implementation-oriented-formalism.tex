@@ -135,12 +135,38 @@ functions needed for decryption. In particular, they specify the components of
 Figure~\ref{fig:syntax-api-example} used to realize \algfont{DECRYPT}. The
 underlying AEAD scheme follows the conventional encrypt-then-MAC paradigm.
 %
-On the left side of the figure, we give a realization that follows what we
+On the left side of the figure, we give a realization of conventional
+encrypt-then-MAC AEAD, following what we
 theoreticians consider as best practice.  Namely, if the tag check fails, then
 one should label the ciphertext as invalid, and suppress all output other than
 the (single) error message ``Invalid'' (or $\bot$ in typical syntax).
+Additionally, when ``Invalid'' is returned, the channel status field
+of \varfont{ChannelContext} is changed to ``closed''.
 %
-\todo{Tom: On the right side, ...}
+On the right side, we give a more complex encrypt-then-MAC style realization that includes
+in the \varfont{ChannelContext} a list of valid tokens that are used within
+the decryption process. It also allows for a stream ID (sid) as part
+of the transmitted AD (i.e. the \varfont{SentContext}).  In the
+absence of any decryption errors, the decryption process will return
+(as the output of \algfont{ErrHandler}) the stream ID and the
+plaintext.  If the tag check fails, then the
+\varfont{Verdict} that is returned by \algfont{IsValid} is either
+``Invalid'', or $\langle\mbox{"Invalid"},\mbox{"BadToken"}\rangle$,
+depending on whether or not the token ID (tid) recovered within
+\algfont{Decrypt} is in the token list.  In either case, the
+decryption process returns ``Invalid'' and the channel status field
+of \varfont{ChannelContext} is changed to ``closed'', as on the left.
+If the tag check \emph{succeeds} but the recovered tid is invalid,
+then the decryption process still returns ``Invalid'', but the
+\varfont{ChannelContext} is not changed.
+\todo{Tom: finish... one can imagine that this might be a real-world
+  behavior, where a ciphertext validity failure is fatal to the
+  channel, but a bad token is considered less of an infraction so the
+  channel is not closed.  (Say, if the cost to tear down/set up a new
+  channel is considered unreasonable for the given application, so you
+  only want to do it if things are really bad.)  Maybe in this case
+  the application requests retransmission, or sends an
+  \emph{application layer} error message back through the channel.} 
 
 \tsnote{Say that this may seem like overkill for ``simple'' primitives
 like symmetric-key decryption, but that (1) it only seems that way
@@ -185,6 +211,7 @@ setting in which it is used.
   separating the message and error in the output of decryption.
 \end{task}
 
+\ignore{
 \paragraph{Prior Work. }
 %
 \todo{Look at Rogaway's online-AE paper.  I seem to remember him
@@ -194,5 +221,6 @@ accurately model the underlying goal, not only must the security definition
 depart from [prior work], but so too must a scheme's basic syntax. In
 particular, we adopt an API-based view, where the segmentation of a plaintext is
 determined by the caller.''}
+}
 
 \include{syntax-api-example}
