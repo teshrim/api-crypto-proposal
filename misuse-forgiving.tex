@@ -113,3 +113,58 @@ is leaked by ciphertexts, and also what explicit malleability models.
 We will establish new primitives for encrypting structured data, with
 support for structural metadata and plaintext associated-data.
 \end{task}
+
+
+
+\paragraph{Hedged Cryptography. }
+Recent work by PI Shrimpton and coauthors~\cite{BPS} revisits the theory of
+hedged public-key encryption (PKE)~\cite{BBN+} from an API-centric perspective.
+%
+The motivation for hedged PKE is quite practical. Traditional PKE schemes are
+proved secure under the assumption that they have access to a source of uniform
+random bits; but in practice, PKE schemes are implemented on systems that have
+faulty RNGs, or where entropy is difficult to harvest.  In these cases, the
+security guarantees proved in theory are, at best, voided; at worst, failure of
+the RNG can lead to recovery of the plaintext.
+%
+Hedged PKE is designed to satisfy traditional notions of security when provided
+uniform randomness, and still deliver useful security properties as the quality
+of randomness degrades.  The most elegant construction of hedged PKE works like
+this~\cite{BBN+,BH15}: synthesize fresh random bits by hashing all of the
+encryption inputs (the public key, the message, the provided randomness), and
+then use these bits as the randomness for an underlying PKE scheme.  In
+practice, implementing this simple construction is surprisingly difficult, as
+the high- and mid-level APIs presented by the most commonly used crypto
+libraries (e.g. OpenSSL and significant forks thereof) \emph{do not} permit one
+to specify the per-encryption randomness.\footnote{Other constructions of hedged
+PKE that do not explicit require the ability to manipulate the encryption coins
+are, likewise, difficult or impossible to implement via existing high- and
+mid-level APIs.  In their cases, it is because the primitives that are needed do
+not exist in common llibraries.}
+In~\cite{BPS}, the theory of hedged
+PKE is reconsidered from the perspective of what can be easily constructed given
+what real APIs expose, and what provable security guarantees these can
+achieve.
+
+Still, \cite{BPS} leaves open some important matters.  First of all, the
+randomness sources in their models are stateless.  Most crypto libraries export
+\emph{pseudorandom number generators with inputs}~\cite{BH05,DPR+13,ST15} for
+providing random bits to library code and applications. These allow the
+programmer to add entropy into the PRNG's internal state.  Additionally,
+\cite{BPS} only considers PKE.
+
+
+\begin{task}
+We will push hedged PKE closer to practice by exploring the
+consequences of sources that are PRNGs with input.  Minimally, this will require
+a reconsideration of security notions and new constructions.  We will
+implement the best schemes to evaluate performance (e.g. overhead
+relative to plain PKE and the schemes from~\cite{BPS}) and interact
+with library maintainers to facilitate deployment of our constructions.
+\end{task}
+
+\begin{task}
+We will work to hedge other primitives against faulty randomness,
+using appropriate models of the randomness sources, all from the
+viewpoint of what real-world APIs expose.
+\end{task}

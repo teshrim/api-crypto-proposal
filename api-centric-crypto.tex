@@ -10,9 +10,22 @@ functionalities that APIs present and the primitives that crypto theory
 provides. In practice, API design is primarily driven by non-security
 requirements (e.g. functionality, adoption, deployment).
 %
-As such, we adopt the position that it is incumbent upon us to take an
-\emph{API-centric} view of the primitives and protocols that we formalize.  In
-the remainder of this section, we discuss specific areas to which we will apply
+As such, we suggest to take an
+\emph{API-centric} view of the primitives and protocols that we
+formalize.  
+
+We are not the first to recognize the benefits of this viewpoint.
+Recent works by Fischlin \etal~\cite{FPMG15} and Huang
+\etal~\cite{HRRV15}, for example, make clear efforts to mimic actual
+APIs in their formal syntax.  In~\cite{HRRV15}, which considers the
+real-world matter of online authenticated encryption, one finds the quote : ``To
+accurately model the underlying goal,... we adopt an \emph{API-based
+  view}, where the segmentation of a plaintext is determined by the
+caller.'' (Our emphasis.)  What we propose is to fully embrace this
+viewpoint, and to apply it broadly to cryptography.
+
+In
+the remainder of this section, we discuss some specific areas to which we will apply
 this API-centric perspective.
 %
 %\cpnote{I think we need to define \emph{API-centric} in the intro.}
@@ -23,15 +36,15 @@ this API-centric perspective.
 It is important to recognize that there are at least two types of ``customers''
 to consider when taking an API-centric viewpoint on cryptography. The first we
 have already mentioned, namely \emph{application developers}. Application developers
-are largely concerned about functionality, and have relatively little expertise
-in cryptography.
+are primarily concerned about functionality, and typically have little
+to know real expertise in cryptography.  (Nor should they, frankly.)
 %
-\cpnote{We could say something stronger: that the needn't have \emph{any}
-expertise in cryptography, and merely understand that the connection needs to be
-secure (in some sense).}
+%\cpnote{We could say something stronger: that the needn't have \emph{any}
+%expertise in cryptography, and merely understand that the connection needs to be
+%secure (in some sense).}
 %
-They are likely to want a simple, semantically-intuitive,
-high-level interface, e.g.
+They are likely to want a simple interface with
+intuitive semantics, e.g.,
 \begin{align*}
 \varfont{SecureSocketHandle}&\gets\algfont{SecureOpen}(\varfont{ReceiverID}), \\
 \varfont{Status}&\gets\algfont{SecureSend}(\varfont{SecureSocketHandle, Msg}),\\
@@ -105,7 +118,7 @@ is, here.  Thoughts?}
 \begin{task}
   We will carry out a detailed survey of existing APIs exposed by
   cryptographic libraries. The goals will be to understand exactly
-  what are the effective primitves being exported, to build a
+  what are the effective primitives being exported, to build a
   framework for finding design patterns common across libraries,
   to set metrics for comparing the complexity of the primitives
   exposed, and so on. This will support multiple subsequent
@@ -117,6 +130,9 @@ developers are to send and receive messages (data-in-flight), and to
 read and write from storage (data-at-rest).  We will explore [[insert
 places where we expect to find APIs for these]] ...
 
+\todo{Chris: Is there a real task here?  I thought there was... Is
+  there a way to better incorporate this/position this/write this? I
+  like the idea of having a couple of tasks per (sub)section.  }
 \begin{task}
 Application developer APIs for secure send/receive of messges
 (data-in-flight) and secure read/write from storage (data-at-rest).  What are
@@ -124,132 +140,6 @@ the implied primitives, and what are the security properties that developers
 assume are provided.
 \end{task}
 
-\paragraph{Standardized APIs. }
-%\cpnote{Do you think there's too much detail here? The hedged PKE stuff has a
-%lot less...}
-%\tsnote{There may ultimately be too much here, but I don't
-%know yet.  Anyway, it's fine to have some sections more detailed than
-%others, especially if some allow you to really trumpet the PI's chops.}
-%
-In~\cite{SSW}, PI Shrimpton and coauthors gave a provable-security treatment to
-the design and analysis of so-called ``cryptographic APIs'', standardized in the
-PKCS\#11 document.\footnote{See
-\url{https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=pkcs11} for the
-latest spec.} That standard details an interface by which one may interact with
-cryptographic tokens (e.g. smart cards, USB devices, enterprise-grade HSMs) that
-are trusted to perform key-manangement duties, enforcement of policies for the
-use of stored keys, and a limited number of asymmetric- and symmetric-key crypto
-operations.  These tokens support a variety of applications, including entity
-authentication, certification authorization, SSL/TLS acceleration, and interbank
-communication.
-%
-
-Our approach in this paper was API-centric, in that we took the PKCS\#11
-standard as the reference point, and defined from it a new cryptographic-API
-primitive.
-%
-%\cpnote{Why ``cryptographic API primitive'' instead of ``cryptographic
-%  API''?}\tsnote{Because I have never liked calling the object whose
-%  syntax we established, and whose security notions we developed, a
-%  cryptographic API.  A cryptographic API exposes some effective primitive.}
-%
-We then formalized some of the intuitive notions of security for a
-cryptographic API.  This was a complex undertaking, as one of the core
-key-management functionalities is to allow the exporting and importing of keys
-via ``key (un)wrapping'' operations.  (This supports, among other things, the
-transportation of cryptographically protected keys between tokens.)  These keys
-may have a variety of attributes associated to them that proscribe their usage,
-e.g.\ this key may/may not be used to encrypt data (via a given API call), that
-key may or may not be wrapped for future export, etc.  Thus, the internal state of
-the key-management functionality changes as an attacker carries out permitted
-API calls. (We note that works such as~\cite{KS13} exploit this changing of
-internal state, sometimes in concert with underspecification in standards and
-device documentation, to cause catastrophic security breaks in HSMs.) Moreover,
-a real adversary may be in possession of one or more tokens ---~keep in mind
-that these may be physically vulnerable devices, such as USB sticks or smart
-cards~--- and these are subject to corruption.  As a result, a victim token is
-asked to import adverasarially-known keys.  This can cause many other keys under
-management by the victim to become (effectively) corrupted, e.g. if the
-attributes of the imported key allow it to be used for wrapping.
-%
-
-While~\cite{SSW} makes important progress in the analysis of
-cryptographic APIs (in particular PKCS\#11), they do leave open some
-interesting avenues.  For exmaple, their handling of attributes is
-quite abstract, only indicating their influence on tokens as part of
-the execution model.  But what one really wants are formal mechanisms and
-security notions for reasoning about the enforcement of specific
-policies, e.g. that certain keys may be used only by certain entities
-and only for a given set of cryptographic operations.  Also,
-\cite{SSW} does not consider the public-key primitives that are
-typically exposed by tokens.  Finally, it would be useful to
-understand the extent to which real tokens respect PKCS\#11 and, if we
-find the model of~\cite{SSW} to be significantly disconnected from
-these tokens (say, because tokens often take liberties with PKCS\#11,
-or because other standards are gaining traction) then we should
-revisit the models.
-
-\begin{task}
-  We will explore these interesting and important extensions
-  to~\cite{SSW}: (1) formal mechanisms and
-security notions for reasoning about the enforcement of specific
-policies, (2) incorporating the public-key primitives that are
-typically exposed by tokens, (3) establishing how closely tokens
-adhear to PKCS\#11 and revisiting the formal models based on what we find.
-\end{task}
-%
-
-\paragraph{Hedged Cryptography. }
-Recent work by PI Shrimpton and coauthors~\cite{BPS} revisits the theory of
-hedged public-key encryption (PKE)~\cite{BBN+} from an API-centric perspective.
-%
-The motivation for hedged PKE is quite practical. Traditional PKE schemes are
-proved secure under the assumption that they have access to a source of uniform
-random bits; but in practice, PKE schemes are implemented on systems that have
-faulty RNGs, or where entropy is difficult to harvest.  In these cases, the
-security guarantees proved in theory are, at best, voided; at worst, failure of
-the RNG can lead to recovery of the plaintext.
-%
-Hedged PKE is designed to satisfy traditional notions of security when provided
-uniform randomness, and still deliver useful security properties as the quality
-of randomness degrades.  The most elegant construction of hedged PKE works like
-this~\cite{BBN+,BH15}: synthesize fresh random bits by hashing all of the
-encryption inputs (the public key, the message, the provided randomness), and
-then use these bits as the randomness for an underlying PKE scheme.  In
-practice, implementing this simple construction is surprisingly difficult, as
-the high- and mid-level APIs presented by the most commonly used crypto
-libraries (e.g. OpenSSL and significant forks thereof) \emph{do not} permit one
-to specify the per-encryption randomness.\footnote{Other constructions of hedged
-PKE that do not explicit require the ability to manipulate the encryption coins
-are, likewise, difficult or impossible to implement via existing high- and
-mid-level APIs.  In their cases, it is because the primitives that are needed do
-not exist in common llibraries.}
-In~\cite{BPS}, the theory of hedged
-PKE is reconsidered from the perspective of what can be easily constructed given
-what real APIs expose, and what provable security guarantees these can achieve.
-
-Still, \cite{BPS} leaves open some important matters.  First of all, the
-randomness sources in their models are stateless.  Most crypto libraries export
-\emph{pseudorandom number generators with inputs}~\cite{BH05,DPR+13,ST15} for
-providing random bits to library code and applications. These allow the
-programmer to add entropy into the PRNG's internal state.  Additionally,
-\cite{BPS} only considers PKE.
-
-
-\begin{task}
-We will push hedged PKE closer to practice by exploring the
-consequences of sources that are PRNGs with input.  Minimally, this will require
-a reconsideration of security notions and new constructions.  We will
-implement the best schemes to evaluate performance (e.g. overhead
-relative to plain PKE and the schemes from~\cite{BPS}) and interact
-with library maintainers to facilitate deployment of our constructions.
-\end{task}
-
-\begin{task}
-We will work to hedge other primitives against faulty randomness,
-using appropriate models of the randomness sources, all from the
-viewpoint of what real-world APIs expose.
-\end{task}
 
 
 \paragraph{Secure Channels. }
@@ -278,8 +168,8 @@ crypto~\cite{Vau02,BKN02,APW09}.\footnote{See
 protocol-level attacks on TLS.}  This gap has spurred the study of
 \emph{stateful} authenticate encryption schemes that model secure channels more
 closely, such as the highly influential SSH paper~\cite{BKN02} and the analysis
-of the TLS $1.2$ record layer by PI Shrimtpon and coauthors~\cite{PRS11}. Boldyreva
-\etal~\cite{BDPS12} later extended \cite{BKN02} to encompass the protocol-level
+of the TLS $1.2$ record layer by PI Shrimpton and coauthors~\cite{PRS11}. Boldyreva
+\etal~\cite{BDPS12} later extended~\cite{BKN02} to encompass the protocol-level
 attack of \cite{APW09} that exploits fragmented delivery of the ciphertext stream. This
 line of work has deepened our understanding of how to build secure channels, but from
 an API-centric perspective, these paperss omit a crucial detail.
@@ -474,6 +364,81 @@ so.
   Trevor Perrin suggested, specifically for AKE?  I feel like we are
   missing a chance to build in more tasks and show more vision}
 \cpnote{I haven't come up with anything.}
+
+\paragraph{Standardized APIs. }
+%\cpnote{Do you think there's too much detail here? The hedged PKE stuff has a
+%lot less...}
+%\tsnote{There may ultimately be too much here, but I don't
+%know yet.  Anyway, it's fine to have some sections more detailed than
+%others, especially if some allow you to really trumpet the PI's chops.}
+%
+In~\cite{SSW}, PI Shrimpton and coauthors gave a provable-security treatment to
+the design and analysis of so-called ``cryptographic APIs'', standardized in the
+PKCS\#11 document.\footnote{See
+\url{https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=pkcs11} for the
+latest spec.} That standard details an interface by which one may interact with
+cryptographic tokens (e.g. smart cards, USB devices, enterprise-grade HSMs) that
+are trusted to perform key-manangement duties, enforcement of policies for the
+use of stored keys, and a limited number of asymmetric- and symmetric-key crypto
+operations.  These tokens support a variety of applications, including entity
+authentication, certification authorization, SSL/TLS acceleration, and interbank
+communication.
+%
+
+Our approach in this paper was API-centric, in that we took the PKCS\#11
+standard as the reference point, and defined from it a new cryptographic-API
+primitive.
+%
+%\cpnote{Why ``cryptographic API primitive'' instead of ``cryptographic
+%  API''?}\tsnote{Because I have never liked calling the object whose
+%  syntax we established, and whose security notions we developed, a
+%  cryptographic API.  A cryptographic API exposes some effective primitive.}
+%
+We then formalized some of the intuitive notions of security for a
+cryptographic API.  This was a complex undertaking, as one of the core
+key-management functionalities is to allow the exporting and importing of keys
+via ``key (un)wrapping'' operations.  (This supports, among other things, the
+transportation of cryptographically protected keys between tokens.)  These keys
+may have a variety of attributes associated to them that proscribe their usage,
+e.g.\ this key may/may not be used to encrypt data (via a given API call), that
+key may or may not be wrapped for future export, etc.  Thus, the internal state of
+the key-management functionality changes as an attacker carries out permitted
+API calls. (We note that works such as~\cite{KS13} exploit this changing of
+internal state, sometimes in concert with underspecification in standards and
+device documentation, to cause catastrophic security breaks in HSMs.) Moreover,
+a real adversary may be in possession of one or more tokens ---~keep in mind
+that these may be physically vulnerable devices, such as USB sticks or smart
+cards~--- and these are subject to corruption.  As a result, a victim token is
+asked to import adverasarially-known keys.  This can cause many other keys under
+management by the victim to become (effectively) corrupted, e.g. if the
+attributes of the imported key allow it to be used for wrapping.
+%
+
+While~\cite{SSW} makes important progress in the analysis of
+cryptographic APIs (in particular PKCS\#11), they do leave open some
+interesting avenues.  For exmaple, their handling of attributes is
+quite abstract, only indicating their influence on tokens as part of
+the execution model.  But what one really wants are formal mechanisms and
+security notions for reasoning about the enforcement of specific
+policies, e.g. that certain keys may be used only by certain entities
+and only for a given set of cryptographic operations.  Also,
+\cite{SSW} does not consider the public-key primitives that are
+typically exposed by tokens.  Finally, it would be useful to
+understand the extent to which real tokens respect PKCS\#11 and, if we
+find the model of~\cite{SSW} to be significantly disconnected from
+these tokens (say, because tokens often take liberties with PKCS\#11,
+or because other standards are gaining traction) then we should
+revisit the models.
+
+\begin{task}
+  We will explore these interesting and important extensions
+  to~\cite{SSW}: (1) formal mechanisms and
+security notions for reasoning about the enforcement of specific
+policies, (2) incorporating the public-key primitives that are
+typically exposed by tokens, (3) establishing how closely tokens
+adhear to PKCS\#11 and revisiting the formal models based on what we find.
+\end{task}
+%
 
 \paragraph{Ease of Correct Implemenation as Security Property. }
 
