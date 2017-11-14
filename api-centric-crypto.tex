@@ -219,7 +219,9 @@ and if the protocol needs to be changed (say, to address some engineering
 constraint), then the cryptographer needs to provide a fresh proof.
 
 A largely-overlooked work by Rogaway and Stegers~\cite{RS09}
-affords an opportunity to bridge this gap. Their observation is that when
+affords an opportunity to bridge this gap\footnote{Degabreile
+  \etal~\cite{DPW11} also note this: ``this is an intriguing approach
+  that we expect to see further developed.''}. Their observation is that when
 cryptographers design protocols, they provide an abstraction that omits many
 details relevant to implementing them on real systems.
 %
@@ -329,18 +331,21 @@ concern, we feel it deserves a first-class primitive.
   intuitive for security engineers.
 \end{task}
 
+\noindent
 Having such an API would simplify the task of designing real-world KE
 protocols, but it is only a component of the design process.
+
 Going in a different direction, Rogaway and Stegers~\cite{RS09} suggest their
-methodology could be extended from entity authentication to AKE. We find it
-somewhat remarkable that this task has not been undertaken, and we propose to do
-so.
+methodology can be extended from entity authentication to AKE.
+Perhaps due to the limited attention this paper has received in the
+cryptographic community, this natural extention as not been explored.
 \begin{task}
   %\cpnote{Make it easier to use APIs correctly.}
   We will apply the partially-specified-protocol methodology of~\cite{RS09} to
   authenticated key-exchange.
   %
 \end{task}
+
 
 \todo{Is there more here?  What about the ideas that
   Trevor Perrin suggested, specifically for AKE?  I feel like we are
@@ -422,6 +427,9 @@ adhear to PKCS\#11 and revisiting the formal models based on what we find.
 \end{task}
 %
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ignore{
 \paragraph{Ease of Correct Implemenation as Security Property. }
 
 %\paragraph{Prior Work.}
@@ -445,4 +453,6 @@ So in this framework we're not formalizing ``implementation risk'' directly;
 instead, we're proving security of protocols that have flexibility in their
 implementation. It says precisely what parts you \emph{must} get right in order
 to have security, and what parts are not crucial.
+}
+
 }

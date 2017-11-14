@@ -1,8 +1,7 @@
 \section{Project Description}
 \label{sec:intro}
 
-For years, the cryptography research community has been emploring security
-engineers and developers to ``please stop rolling your own crypto!''  An
+For years, the cryptography research community has been emploring developers to ``please stop rolling your own crypto!''  An
 expanded version of this might be: cryptography is hard, so let the
 crypto experts handle the crypto; you (just) worry about implementing what we
 provide. 
@@ -13,36 +12,36 @@ choices, padding schemes, protocol logic, etc., and in ways that may not be obvi
 non-experts. Our research community has developed a collective wisdom that helps
 guide us to good solutions (or at least to avoid pitfalls).
 
-To their credit, security engineers and software developers do largely seem to
-have understood.  But there is a response that, sadly, the research community
-has heard less clearly.
+To their credit, most software developers do seem to be heeding our plea.  
+But there is a rejoinder that we academic cryptographers have largely
+missed, or disregarded.
 %
-To paraphrase various industry speakers at editions of Real World Crypto (e.g.,
-David McGrew (Cisco), Daniel Kahn-Gilmore (ACLU), Thai Duong (Google)), and Paul Kocher in his invited lecture at Crypto'16:
+To paraphrase Paul Kocher's invited lecture at Crypto'16, and various
+speakers (e.g., David McGrew (Cisco), Daniel Kahn-Gilmore (ACLU), Thai
+Duong (Google)) at Real World Crypto:
 %
-Cryptographers need to understand that the design of cryptographic
-software libraries, specifically the APIs they export, is hard work; and that
-once fielded, APIs cannot simply be changed to accomodate the latest
-theory.  
+Cryptographers must understand that the design of cryptographic
+libraries, specifically the APIs they export, \emph{is hard
+  too}. Moreover, fielded APIs have long-lifetimes, because changing them wrecks havoc upstream. 
 %Changing APIs breaks the applications that call them, and
 %fixing the applications costs real money.
 %
-So no matter how good the theory is, if it is hard to implement with existing
-code, it either won't be implemented, or it is prone to be implemented
-incorrectly.
+So if a theoretical primitive it is hard to realize with existing libraries/APIs, then either it won't be
+implemented, or (worse) it is prone to being implemented incorrectly.
 
-This proposal adopts the position that it is incumbent upon
+This proposal adopts the position that \emph{it is incumbent upon
 academic cryptographers to accept practical
-implementation and deployment needs as a guide for developing theory.
+implementation and deployment needs as a guide for developing theory.}
 %
 %\cpnote{I would say this differently. ``This proposal adopts the position that
 %\emph{it is incumbent on cryptographers to bridge this gap between theory and
 %implementation complexity}.}
 %
-Specifically, the tasks that we propose here start from the viewpoint that:
+Specifically, the tasks that we propose here are founded on our
+beliefs that:
 \begin{itemize}
-  \item Theory is considerably more useful to \textit{real-world security}
-    when it is mindful of how it  are translated into practice.
+  \item Theory is considerably more useful to real-world security
+    when it is mindful of its translation to practice.
 %    In particular, when it endeavors to respect the APIs that existing crypto
 %    libraries expose.
 %
@@ -64,17 +63,14 @@ Specifically, the tasks that we propose here start from the viewpoint that:
 \paragraph{API-centric Cryptography.}
 \todo{Summarize body section, focusing on tasks and (very briefly)
   prior work by me.}
-\tsnote{subsume implemenation-considerate formalisms into this.}
-\todo{Summarize body section, focusing on tasks and (very briefly)
-  prior work by me.}
-
+\tsnote{subsume implemenation-considerate formalisms into this?}
 
 \paragraph{Misuse-Forgiving Primitives.}
 \todo{Summarize body section, focusing on tasks and (very briefly)
   prior work by me.}
 
 
-\paragraph{Ease of Correct Implemenation as Security Property.}
+\paragraph{Implementation-Considerate Formalisms.}
 \todo{Summarize body section, focusing on tasks and (very briefly)
   prior work by me.}
 
@@ -83,6 +79,8 @@ Specifically, the tasks that we propose here start from the viewpoint that:
 \subsection{PI Qualifications}
 
 \subsection{Proposal Organization and Tasks}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \ignore{
 Contemporary encryption schemes are almost exclusively {\em
