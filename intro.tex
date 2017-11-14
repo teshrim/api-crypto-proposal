@@ -1,4 +1,4 @@
-\section{Project Description}
+\section{Introduction}
 \label{sec:intro}
 
 For years, the cryptography research community has been emploring developers to ``please stop rolling your own crypto!''  An
@@ -29,7 +29,7 @@ libraries, specifically the APIs they export, \emph{is hard
 So if a theoretical primitive it is hard to realize with existing libraries/APIs, then either it won't be
 implemented, or (worse) it is prone to being implemented incorrectly.
 
-This proposal adopts the position that \emph{it is incumbent upon
+Motivated by this reality, our position is that \emph{it is incumbent upon
 academic cryptographers to accept practical
 implementation and deployment needs as a guide for developing theory.}
 %
@@ -37,7 +37,7 @@ implementation and deployment needs as a guide for developing theory.}
 %\emph{it is incumbent on cryptographers to bridge this gap between theory and
 %implementation complexity}.}
 %
-Specifically, the tasks that we propose here are founded on our
+Specifically, the research directions that we propose here are founded on our
 beliefs that:
 \begin{itemize}
   \item Theory is considerably more useful to real-world security
@@ -53,20 +53,34 @@ beliefs that:
 %when theory gives formal syntax for a primitive, it should be clearly
 %    suggestive of an actual API that is aligned with what developers want; and
 
-
 \noindent
+In support of the first, we suggest an \emph{API-centric} approach to
+the development of cryptographic theory.  By this we mean several
+things.  
+%
+First, that existing theory ---~in particular the formal
+syntax that we have developed to describe cryptographic primitives,
+and our theoretical realizations of them~---
+should be carefully reexamined with respect to the actual APIs that
+libraries export.  As prior works by PI Shrimpton~\cite{NRS,BPS} and
+others~(e.g.~\cite{FPMG15}) show, mismatches may be common and lead to
+theory that is less useful than we might thing, or even damaging.
+%
+Second, that new theory 
+
     \cpnote{Rogaway-Stegers is about making it easier to design protocols around
     crypto. An extension is that if you're implementing the protocol, and all
     the crypto you need is available via APIs, then it should be easy to do
     right.}\tsnote{Use these words as seed for the rest of the intro.}
 
+
 \paragraph{API-centric Cryptography.}
-\todo{Summarize body section, focusing on tasks and (very briefly)
+\todo{Chris: Summarize body section, focusing on tasks and (very briefly)
   prior work by me.}
-\tsnote{subsume implemenation-considerate formalisms into this?}
+\tsnote{Possible subsume implemenation-considerate formalisms into this?}
 
 \paragraph{Misuse-Forgiving Primitives.}
-\todo{Summarize body section, focusing on tasks and (very briefly)
+\todo{Tom: Summarize body section, focusing on tasks and (very briefly)
   prior work by me.}
 
 
