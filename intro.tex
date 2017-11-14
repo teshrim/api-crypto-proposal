@@ -45,10 +45,10 @@ beliefs that:
 %    In particular, when it endeavors to respect the APIs that existing crypto
 %    libraries expose.
 %
-  \item Cryptographic primitives should aim to be forgiving of misuse.
-%
  \item Ease-of-correct-implementation should be treated as a first-class
-    security goal.
+    security consideration.
+%
+  \item Cryptographic primitives should aim to be forgiving of misuse.
 \end{itemize}
 %when theory gives formal syntax for a primitive, it should be clearly
 %    suggestive of an actual API that is aligned with what developers want; and
@@ -66,7 +66,17 @@ libraries export.  As prior works by PI Shrimpton~\cite{NRS,BPS} and
 others~(e.g.~\cite{FPMG15}) show, mismatches may be common and lead to
 theory that is less useful than we might thing, or even damaging.
 %
-Second, that new theory 
+Second, that new realizations of existing primitives should take into
+consideration how easy they will be to implement with (at least)
+broadly adopted libraries.
+%
+Third, that the formalization of new primitives should include syntax
+that is clear about the functionalities that will need to be
+implemented, i.e. syntax that is as ``API-like''.  Relatedly, security
+notions should consider these functionalities, so as to have a more
+practice-grounded view of the security of primtives.
+
+
 
     \cpnote{Rogaway-Stegers is about making it easier to design protocols around
     crypto. An extension is that if you're implementing the protocol, and all
