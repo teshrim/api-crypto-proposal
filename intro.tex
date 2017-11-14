@@ -21,22 +21,18 @@ To paraphrase various industry speakers at editions of Real World Crypto (e.g.,
 David McGrew (Cisco), Daniel Kahn-Gilmore (ACLU), Thai Duong (Google)), and Paul Kocher in his invited lecture at Crypto'16:
 %
 Cryptographers need to understand that the design of cryptographic
-software libraries, specifically the APIs they export, hard work and that,
-once fielded, APIs are very slow to change.
-%
-\if{0}
-  (Changes to APIs can break the applications built upon them, leading to
-  unhappy customers, lost of revenue or reputation, etc. \cpnote{The most
-  important point we can make here is that having to change applications using
-  the API costs \emph{real} money. The other points you make are secondary.})
-\fi
+software libraries, specifically the APIs they export, is hard work; and that
+once fielded, APIs cannot simply be changed to accomodate the latest
+theory.  
+%Changing APIs breaks the applications that call them, and
+%fixing the applications costs real money.
 %
 So no matter how good the theory is, if it is hard to implement with existing
 code, it either won't be implemented, or it is prone to be implemented
 incorrectly.
 
 This proposal adopts the position that it is incumbent upon
-academic cryptographers to hear this message, and to accept practical
+academic cryptographers to accept practical
 implementation and deployment needs as a guide for developing theory.
 %
 %\cpnote{I would say this differently. ``This proposal adopts the position that
@@ -45,28 +41,21 @@ implementation and deployment needs as a guide for developing theory.
 %
 Specifically, the tasks that we propose here start from the viewpoint that:
 \begin{enumerate}
-  \item theory is considerably more useful to \textit{real-world security}
-    when it is mindful of how formalisms are translated into practice;
-    in particular, when it endeavors to respect the APIs that existing crypto
-    libraries expose.
+  \item Theory is considerably more useful to \textit{real-world security}
+    when it is mindful of how formalisms are translated into practice.
+%    In particular, when it endeavors to respect the APIs that existing crypto
+%    libraries expose.
 %
-  \item cryptographic primitives should aim to be forgiving of misuse,
+  \item Cryptographic primitives should aim to be forgiving of misuse.
 %
- \item ease-of-correct-implementation should be treated as a first-class
+ \item Ease-of-correct-implementation should be treated as a first-class
     security goal.
-%
-%
-%    \tsnote{not sure that this is the right wording, or even that it belongs in
-%    this list (seems a bit more down it the weeds than the others)}
-%    \cpnote{Agreed. We could say that this is one way to achieve item~2.}
 \end{enumerate}
 %when theory gives formal syntax for a primitive, it should be clearly
 %    suggestive of an actual API that is aligned with what developers want; and
-%In addition, we believe that ease-of-correct-implementation should be treated as a first-class
-%    security property, not dismissed as a mere ``programming exercise''.
+
 
 \noindent
-
     \cpnote{Rogaway-Stegers is about making it easier to design protocols around
     crypto. An extension is that if you're implementing the protocol, and all
     the crypto you need is available via APIs, then it should be easy to do
