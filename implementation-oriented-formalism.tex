@@ -118,6 +118,26 @@ the time --- hindsight is 20-20.}
 \tsnote{Need to address head-on the complaint that this is going to
   make for more complicated analysis.}
 
+\noindent
+\todo{Chris: Work this into this section.}
+\cpnote{Tom: Review this task below. This is something I'm doing as part of the
+TLS project, and I realize it might be interesting to mention here.}
+Finally, all the works mentioned above, including~\cite{FPMG15}, do something
+rather strange from an API perspective.
+%
+The decryption algorithm outputs a variable $M$ either equal to the message
+(fragment) or some indication of failure, such as the distinguished symbol
+$\bot$. This is a common motif in cryptography. However, real APIs separate the
+message and error outputs. We are unaware of any work \cpnote{Not even
+\url{https://ia.cr/2013/433}} that explicitly treat this separation.
+%
+(See Section~\ref{sec:formalisms} for an in-depth discussion.)
+
+\begin{task}\label{task:sc}
+  In our study of secure channels, we will explore the implications of
+  separating the message and error int he output of decryption.
+\end{task}
+
 \paragraph{Prior Work. }
 %
 \todo{Look at Rogaway's online-AE paper.  I seem to remember him
@@ -129,3 +149,4 @@ particular, we adopt an API-based view, where the segmentation of a plaintext is
 determined by the caller.''}
 
 \include{syntax-api-example}
+
