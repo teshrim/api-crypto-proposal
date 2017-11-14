@@ -1,18 +1,19 @@
 \section{API-centric Cryptography}
 The security community has published extensively on the \emph{usability} of
-APIs; recent publications include \cite{ABF+,HHL+17,IKND16}.  Intuitively, if an
-API is easy to use correctly (and hard to use \emph{incorrectly}),
-developers are more likely to build secure applications on top of it.
+APIs; recent developments in this area include \cite{ABF+,HHL+17,IKND16}.
+Intuitively, if an API is easy to use correctly (and hard to use
+\emph{incorrectly}), developers are more likely to build secure applications on
+top of it.
 %
 Our approach is complementary, focusing on the relationships between
-functionalities that APIs present and the primitives
-that crypto theory provides. We take the position that, in practice, API design
-is primarily driven by non-security requirements (e.g. functionality, adoption,
-deployment).
+functionalities that APIs present and the primitives that crypto theory
+provides. In practice, API design is primarily driven by non-security
+requirements (e.g. functionality, adoption, deployment).
 %
-As such, it is incumbent upon us to take an \emph{API-centric} view of the
-primitives and protocols that we formalize.  In the remainder of this section,
-we discuss specific areas to which we will apply this API-centric perspective.
+As such, we adopt the position that it is incumbent upon us to take an
+\emph{API-centric} view of the primitives and protocols that we formalize.  In
+the remainder of this section, we discuss specific areas to which we will apply
+this API-centric perspective.
 %
 %\cpnote{I think we need to define \emph{API-centric} in the intro.}
 
@@ -23,7 +24,13 @@ It is important to recognize that there are at least two types of ``customers''
 to consider when taking an API-centric viewpoint on cryptography. The first we
 have already mentioned, namely \emph{application developers}. Application developers
 are largely concerned about functionality, and have relatively little expertise
-in cryptography. They are likely to want a simple, semantically-intuitive,
+in cryptography.
+%
+\cpnote{We could say something stronger: that the needn't have \emph{any}
+expertise in cryptography, and merely understand that the connection needs to be
+secure (in some sense).}
+%
+They are likely to want a simple, semantically-intuitive,
 high-level interface, e.g.
 \begin{align*}
 \varfont{SecureSocketHandle}&\gets\algfont{SecureOpen}(\varfont{ReceiverID}), \\
@@ -32,12 +39,13 @@ high-level interface, e.g.
 \varfont{Status}&\gets\algfont{SecureClose}(\varfont{SecureSocketHandle}).
 \end{align*}
 %
-where the type and structure of the data object \varfont{Msg} would be
-separately specified, e.g. it may include associated data or attributes, in
-addition to the actual plaintext.
+The type and structure of the data object \varfont{Msg} would be separately
+specified. For example it may include associated data or attributes, in addition
+to the actual plaintext.
 %
-The object \varfont{Status} indicates the channel's health e.g, it may have been
-torn down by the peer, or the destination address may be unreachable.
+The object \varfont{Status} indicates the channel's health. For example, the
+channel may have been torn down by the peer, or the destination address may be
+unreachable.
 
 The above API neatly hides an enormous amount of plumbing implemented by the
 \emph{security engineer}. There are a number of components to put together. The
@@ -65,12 +73,11 @@ where $(\varfont{ReceiverAddr}, \varfont{ReceiverCert})$ comprise
 \varfont{CertAuth}, is implicit in the first API. Unless we are to trust the
 developer to manage certificates (as many existing APIs do~\cite{FHM+12}), then
 the security engineer needs to make this transparent to upper levels. Second,
-there are numerous ways to
-realize \algfont{NegotiateKey}, each with varying degrees of security and
-efficiency. Third, modern protocols, such as TLS $1.3$, are designed so that
-application data may be piggy-backed on the handshake. As such, providing an
-opaque interface is likely not desirable. In general, the ``right'' level of
-exposure to the application developer or security engineer is likely highly
+there are numerous ways to realize \algfont{NegotiateKey}, each with varying
+degrees of security and efficiency. Third, modern protocols, such as TLS, are
+designed so that application data may be piggy-backed on the handshake. As such,
+providing an opaque interface is likely not desirable. In general, the ``right''
+level of exposure to the application developer or security engineer is highly
 task-dependent.
 %
 \if{0}
@@ -96,11 +103,11 @@ is, here.  Thoughts?}
 
 \begin{task}
   We will carry out a detailed survey of existing APIs exposed by
-  cryptographic libraries.  The goals will be to understand exactly
+  cryptographic libraries. The goals will be to understand exactly
   what are the effective primitves being exported, to build a
-  framework within with patterns across libraries can be established,
+  framework for finding design patterns common across libraries,
   to set metrics for comparing the complexity of the primitives
-  exposed, and so on.  This will support multiple subsequent
+  exposed, and so on. This will support multiple subsequent
   tasks.
 \end{task}
 
@@ -154,17 +161,15 @@ may have a variety of attributes associated to them that proscribe their usage,
 e.g.\ this key may/may not be used to encrypt data (via a given API call), that
 key may or may not be wrapped for future export, etc.  Thus, the internal state of
 the key-management functionality changes as an attacker carries out permitted
-API calls. (We note that works by Steele and
-coauthors~\cite{KS13}\cpnote{Others?}
-exploit this changing of internal state, sometimes in concert with
-underspecification in standards and device documentation, to cause catastrophic
-security breaks in HSMs.) Moreover, a real adversary may be in possession of one
-or more tokens ---~keep in mind that these may be physically vulnerable devices,
-such as USB sticks or smart cards~--- and these are subject to corruption.  As a
-result, a victim token is asked to import adverasarially-known keys.  This can
-cause many other keys under management by the victim to become (effectively)
-corrupted, e.g. if the attributes of the imported key allow it to be used for
-wrapping.
+API calls. (We note that works such as~\cite{KS13} exploit this changing of
+internal state, sometimes in concert with underspecification in standards and
+device documentation, to cause catastrophic security breaks in HSMs.) Moreover,
+a real adversary may be in possession of one or more tokens ---~keep in mind
+that these may be physically vulnerable devices, such as USB sticks or smart
+cards~--- and these are subject to corruption.  As a result, a victim token is
+asked to import adverasarially-known keys.  This can cause many other keys under
+management by the victim to become (effectively) corrupted, e.g. if the
+attributes of the imported key allow it to be used for wrapping.
 %
 
 While~\cite{SSW} makes important progress in the analysis of
@@ -247,19 +252,7 @@ viewpoint of what real-world APIs expose.
 
 
 \paragraph{Secure Channels. }
-\if{0}
-\tsnote{I like that you are making this point.  But I think
-  the writing that follows is missing the mark.  Why?  Because you
-  talk about protocols and implementations, but there's no clear
-  reason that any of \emph{that} provides a secure channel either!
-  The point I think you are trying to make is that a secure channel
-  should provide a lot more than what an AEAD scheme does, and I
-  agree: so explicitly say what a secure channel is supposed to provide!
-  What do applications expect from them?  Give it another try :-) And
-  tighten it up, too, please.  Set up the problem, pull out the
-  surprising/important nuggets, make it clear what are the directions
-  they suggest, and then write a couple of clear tasks.}
-\fi
+%
 Perhaps the most practically important cryptographic functionality is the
 secure channel, the task of which is to provide privacy and authenticity for
 message flows between peers.
@@ -273,26 +266,27 @@ notions like \emph{nonce-misuse resistant}~\cite{RS06} and
 \emph{robust}~\cite{HKR15} authenticated encryption make AEAD schemes difficult
 to (inadvertently) use incorrectly. These properties make AEAD an attractive
 tool for designing protocols.
-\if{0}{
-  Indeed, schemes like AES-GCM and
-  ChaCha20\mbox{-}Poly1305 are baked into the upcoming TLS $1.3$
-  specification.\footnote{ See \url{https://tlswg.github.io/tls13-spec}.
-}\fi
 
 It is tempting to think that AEAD, on its own, provides a secure channel.  But
-as recently pointed out by Badertscher \etal~\cite{BMM+15}, classical security
+as pointed out by Badertscher \etal~\cite{BMM+15}, classical security
 notions, such as those for AEAD ``do not capture in which contexts a scheme
 satisyfying them can securely be used.''  Indeed, bugs in the
 \emph{protocol logic} have been exploited to circumvent the
-security provided by the underlying crypto.\todo{Chris: example citations?}. This gap has spurred the study of
+security provided by the underlying
+crypto~\cite{Vau02,BKN02,APW09}.\footnote{See
+\url{https://www.mitls.org/pages/attacks\#protocol} for a list of
+protocol-level attacks on TLS.}  This gap has spurred the study of
 \emph{stateful} authenticate encryption schemes that model secure channels more
 closely, such as the highly influential SSH paper~\cite{BKN02} and the analysis
-of the TLS $1.2$ record layer by PI Shrimtpon~\cite{PRS11}. Boldyreva
+of the TLS $1.2$ record layer by PI Shrimtpon and coauthors~\cite{PRS11}. Boldyreva
 \etal~\cite{BDPS12} later extended \cite{BKN02} to encompass the protocol-level
 attack of \cite{APW09} that exploits fragmented delivery of the ciphertext stream. This
-line of work has deepened our standing of how to build secure channels, but from
-an API-centric perspective, these works omit a crucial detail.
+line of work has deepened our understanding of how to build secure channels, but from
+an API-centric perspective, these paperss omit a crucial detail.
 
+\cpnote{This is a bit redundant in the context of the first section
+``understanding an API's customers. Maybe we should pair this down a bit?}
+%
 Providing a reliable (but not secure) channel between any two hosts on the
 Internet is the job of the TCP/IP protocol stack. TCP in particular is designed
 so that application developers need not worry about the details at all.
