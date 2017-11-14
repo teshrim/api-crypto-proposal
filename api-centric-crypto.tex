@@ -41,8 +41,8 @@ to know real expertise in cryptography.  (Nor should they, frankly.)
 %expertise in cryptography, and merely understand that the connection needs to be
 %secure (in some sense).}
 %
-They are likely to want a simple interface with
-intuitive semantics, e.g.,
+For them, the interface to cryptographic functionalities should be
+simple and have intuitive semantics, e.g.,
 \begin{align*}
 \varfont{SecureSocketHandle}&\gets\algfont{SecureOpen}(\varfont{ReceiverID}), \\
 \varfont{Status}&\gets\algfont{SecureSend}(\varfont{SecureSocketHandle, Msg}),\\
@@ -50,13 +50,15 @@ intuitive semantics, e.g.,
 \varfont{Status}&\gets\algfont{SecureClose}(\varfont{SecureSocketHandle}).
 \end{align*}
 %
-The type and structure of the data object \varfont{Msg} would be separately
-specified. For example it may include associated data or attributes, in addition
+as an API for securely exchanging messages with an specified partner.
+The API would also specify the structure of the inputs and outputs.
+For example, the \varfont{Msg} object may include associated data or attributes, in addition
 to the actual plaintext.
 %
-The object \varfont{Status} indicates the channel's health. For example, the
-channel may have been torn down by the peer, or the destination address may be
-unreachable.
+%The object \varfont{Status} indicates the channel's health. For example, the
+%channel may have been torn down by the peer, or the destination address may be
+%unreachable.
+
 
 The above API neatly hides an enormous amount of plumbing implemented by the
 \emph{security engineer}. There are a number of components to put together. The
@@ -123,19 +125,15 @@ is, here.  Thoughts?}
   tasks.
 \end{task}
 
-Two of the most important secure functionalities needed by application
-developers are to send and receive messages (data-in-flight), and to
-read and write from storage (data-at-rest).  We will explore [[insert
-places where we expect to find APIs for these]] ...
+We note that the \emph{effective} cryptographic primitives that are presented to the
+application developer may be considerably different that those
+considered cryptographers.  
 
-\todo{Chris: Is there a real task here?  I thought there was... Is
-  there a way to better incorporate this/position this/write this? I
-  like the idea of having a couple of tasks per (sub)section.  }
 \begin{task}
-Application developer APIs for secure send/receive of messges
-(data-in-flight) and secure read/write from storage (data-at-rest).  What are
-the implied primitives, and what are the security properties that developers
-assume are provided.
+Beginning with application developer APIs for secure exchange of messges
+and secure read/write from storage, we will formalize the
+cryptographic primitives they imply, and develop security notions that
+capture the security properties that developers assume are provided.
 \end{task}
 
 
