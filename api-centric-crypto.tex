@@ -130,7 +130,7 @@ application developer may be considerably different that those
 considered cryptographers.  
 
 \begin{task}
-Beginning with application developer APIs for secure exchange of messges
+Beginning with application developer APIs for secure exchange of messages
 and secure read/write from storage, we will formalize the
 cryptographic primitives they imply, and develop security notions that
 capture the security properties that developers assume are provided.
@@ -166,33 +166,35 @@ protocol-level attacks on TLS.}  This gap has spurred the study of
 closely, such as the highly influential SSH paper~\cite{BKN02} and the analysis
 of the TLS $1.2$ record layer by PI Shrimpton and coauthors~\cite{PRS11}. Boldyreva
 \etal~\cite{BDPS12} later extended~\cite{BKN02} to encompass the protocol-level
-attack of \cite{APW09} that exploits fragmented delivery of the ciphertext stream. This
-line of work has deepened our understanding of how to build secure channels, but from
-an API-centric perspective, these paperss omit a crucial detail.
+attack of~\cite{APW09} that exploits fragmented delivery of the
+ciphertext stream. 
 
-\cpnote{This is a bit redundant in the context of the first section
-``understanding an API's customers. Maybe we should pair this down a bit?}
+Fischlin \etal~\cite{FPMG15} observe that this line of work still
+misses an important point about the APIs (i.e. the effective cryptographic
+primitives) that are presented in practice.  Namely, the prior work treated
+channels has providing secure transport of atomic messages between two parties.
 %
-Providing a reliable (but not secure) channel between any two hosts on the
-Internet is the job of the TCP/IP protocol stack. TCP in particular is designed
-so that application developers need not worry about the details at all.
-Virtually all programming languages export an API for \emph{streaming data} over
-TCP, whereby the sender stuffs in any number of bytes and expects that its peer
-receives them in the order transmitted.  The alternative view (and the
-conventional wisdom of the cryptographic community) is that channels provide
-transport of a sequence of atomic messages between two parties.  TCP is
-ubiquitous for the delivery of web content, and consequently, implementations of
-the TLS record layer also export a streaming API. In OpenSSL (the most
-widely-deployed implementation of TLS), \codefont{SSL\_write()} is used to write
+%\cpnote{This is a bit redundant in the context of the first section
+%``understanding an API's customers. Maybe we should pair this down a bit?}
+%
+%Providing a reliable (but not secure) channel between any two hosts on the
+%Internet is the job of the TCP/IP protocol stack. TCP in particular is designed
+%so that application developers need not worry about the details at all.
+But TCP is ubiquitous for the delivery of web content, and virtually
+all programming languages export an API for \emph{streaming data} over
+TCP.  Likewise, implementations of
+the TLS record layer also export a streaming data API. 
+%
+In OpenSSL (the most widely-deployed implementation of TLS), \codefont{SSL\_write()} is used to write
 bytes to the stream and \codefont{SSL\_read()} is used to read bytes from the
-stream. An application developer can use this API just as she would use the
+stream.  An application developer can use this API just as she would use the
 lower-level functionality for reliable transport, but with the added assurance
 that the channel is secure.
 
-Fischlin \etal~\cite{FPMG15} were the first (atleast in the cryptographic
-community) to elucidate secure channels as data streams. (In \cite{BDPS12}, the
-input messages are atomic; in works such as \cite{BFK+13,DLFK+17}, the
-ciphertexts are atomic.)
+Fischlin \etal~\cite{FPMG15} were the first to give a cryptographic
+treatment of secure channels as data streams. (Prior
+work~\cite{BDPS12, BFK+13,DLFK+17} treated plaintexts and/or
+ciphertexts as atomic.)
 %
 Their syntax directly captures a streaming API, and their security notions
 (privacy and authenticity) model an adversary who transmits ciphertext
