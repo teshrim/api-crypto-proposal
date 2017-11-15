@@ -1,9 +1,15 @@
+\documentclass[11pt]{article}
+
+%\input{tomsdefs.tex}
+
+\begin{document}
+\thispagestyle{empty}
+
 \begin{center}
 {\Large TWC: Medium: Collaborative: }\\ 
 {\Large Distribution-Sensitive Cryptography} 
 \end{center}
 \noindent
-\thispagestyle{empty}
 
 We propose to develop a framework for distribution-sensitive cryptography
 (DSC), a new viewpoint on tool design that will make connections between, and
@@ -14,7 +20,7 @@ deployment environments in order to provide better security than would would be
 possible with a generic tool.  Necessarily then, we will ground our development
 in the exploration of a number of real-world problems for which good solutions
 have historically been elusive:
-\begin{newitemize}
+\begin{itemize}
 \item \emph{Brute-force attacks against password-based encryption}: Conventional
 encryption schemes fall to brute-force attacks when keys are chosen poorly, as
 is typical with keys derived from human-chosen passwords. We will
@@ -45,7 +51,7 @@ such as secure sketches and fuzzy extractors target security for arbitrary use
 cases and, as a result, often leak too much information about secrets. 
 We propose to explore a new primitive, distribution-sensitive secure sketches, 
 as a way to provide better security in a number of applications.
-\end{newitemize}
+\end{itemize}
 \smallskip
 In each case, we will explore development and application of a cross-cutting 
 framework for guiding both construction and validation of distribution-sensitive
@@ -58,66 +64,38 @@ are damagingly wrong.   %further afield.
 
 \medskip 
 
-\noindent \textbf{Intellectual Merit:} This work will require developing new
-methodologies to integrate real-world insights that empirical,
+\noindent \textbf{Intellectual Merit:} This work will develop a new
+viewpoint on cryptographic primitives and protocols, one that treats the
+implementation and deployment needs of cryptographic practice as a
+primary guide for theory.  The work will require us to develop new styles of
+abstract syntax, and new methods for specifying realizations of these
+abstractions.  It will require new methodologies to integrate real-world insights that empirical,
 data-driven study provides, with formal security analysis, the latter
 in the vein of modern cryptography's provable security paradigm. 
-We believe that this will form the basis of a new approach to
-development of secure cryptographic tools that are tailored to particular
-application settings.  We will have to advance theory to realize these new
-primitives in a secure manner. Our proposed work will necessarily build
-connections with a number of other areas, such as sampling theory, network
-security, natural language processing, learning theory, and more.  
-%\tsnote{I'll add a sentence to the ``Team'' heading of
-%the intro.  Probably should add something in collab plan, too.}
+We believe this work can form the foundation of a new approach to
+development of secure cryptographic tools that are easier for
+developers to implement correctly, and that are more robust against
+misuse.  
 
 \medskip
 
 \noindent {\bf Broader Impact:}  We have arranged our research program to
 maximize its potential for broad impact on a number of groups. We have
-experience transitioning our research results to tools for the anti-censorship
-activist community, to better enable unfettered access to the Internet by
-activists, dissidents and others. We target similar impact for the proposed
-work. We will also actively engage industry, both to glean real-world requirements
-as well as to advertise our new approaches. This will help as well in our efforts
+experience transitioning our research results to industry, as well as to tools for the anti-censorship
+activist community. We target similar impact for the proposed
+work. We will actively engage industry, both to glean real-world requirements
+as well as to advertise our new approaches.  This will help as well in our efforts
 to use the proposed work to more broadly build bridges between the practitioner
 and academic communities, through workshop development, exposure of academics to 
 research questions of applied value, and educational activities stemming from
-the new research methodologies we will develop. Finally, we expect that the
-proposed DSC framework will find utility in a broad array
+the new research methodologies we will develop. We will carefully examine
+standards (IEEE and ISO, for example) and inform them of our
+findings. Finally, we expect that the proposed API-centric viewpoint will find utility in a broad array
 of future research efforts in cryptography.
-
-
-\iffalse
-\begin{newitemize}
-%\newline  $\bullet$ 
-\item {\em Students} who participate in the research through
-new cross-disciplinary research opportunities on security,
-cryptographic theory, and networking.
-%
-\item {\em Science of cybersecurity research} by introducing and
-exercising a new methodology of empirically-driven provable security 
-that tightly couples data-driven experiments with theory, all within
-an iterative refinement process. 
-%automatically finding vulnerabilities, improved RNG designs that provide
-%stronger guarantees  even in non-VM environments, and a new awareness
-%of security vulnerabilities from snapshots/resets. In addition, 
-%computer science will benefit from the increased role of
-%research that crosses traditional disciplinary boundaries.
-%\newline
-%
-\item {\em People targeted by censorship} by providing new, secure 
-techniques for ensuring access to information via the Internet. 
-%
-\item {\em Society} through the use of outreach, education, and engagement
-on the tricky issues surrounding Internet censorship and circumvention
-tools.
-\end{newitemize}
-\fi
 
 %%
 \vspace{1ex}
 \noindent 
-{\bf Key words:} distribution-sensitive cryptography, passwords, censorship, biometrics
+{\bf Key words:} 
 
 
