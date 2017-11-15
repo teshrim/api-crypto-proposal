@@ -20,14 +20,14 @@ To paraphrase Paul Kocher's invited lecture at Crypto'16, and various
 speakers (e.g., David McGrew (Cisco), Daniel Kahn-Gilmore (ACLU), Thai
 Duong (Google)) at Real World Crypto:
 %
-Cryptographers must understand that the design of cryptographic
+cryptographers must understand that the design of cryptographic
 libraries, specifically the APIs they export, \emph{is hard
-  too}. Moreover, fielded APIs have long-lifetimes, because changing them wrecks havoc upstream. 
+  too}. Moreover, fielded APIs have long-lifetimes, because changing them wreaks havoc upstream. 
 %Changing APIs breaks the applications that call them, and
 %fixing the applications costs real money.
 %
 So if a theoretical primitive it is hard to realize with existing libraries/APIs, then either it won't be
-implemented, or (worse) it is prone to being implemented incorrectly.
+implemented, or (worse) it will be prone to being implemented incorrectly.
 
 Motivated by this reality, our position is that \emph{it is incumbent upon
 academic cryptographers to accept practical
@@ -64,7 +64,7 @@ and our theoretical realizations of them~---
 should be carefully reexamined with respect to the actual APIs that
 libraries export.  As prior works by PI Shrimpton~\cite{NRS,BPS} and
 others~(e.g.~\cite{FPMG15}) show, mismatches may be common and lead to
-theory that is less useful than we might thing, or even damaging.
+theory that is less useful than we might think, or even damaging.
 %
 Second, that new realizations of existing primitives should take into
 consideration how easy they will be to implement with (at least)
@@ -78,7 +78,7 @@ practice-grounded view of the security of primtives.
 
 To the second point, ease of correct implementation is not something
 that is formally considered as part of the provable-security paradigm
-that unpins modern cryptography. We think this is unfortunate, as
+that underpins modern cryptography. We think this is unfortunate, as
 security vulnerabilities that result from incorrect implementation are
 far more common than vulnerabilities from bad theory.  In the best
 case, we would like to see ease-of-correct-implementation quantified
@@ -92,12 +92,12 @@ and protocol details (PD).   The PSP is the cryptographic core of the
 protocol, and it is assumed that this portion of the actual real-world
 scheme is specified in sufficient detail to be implemented correctly.
 The PD is the rest of the scheme, i.e., all of the details
-that are not attended to by the theory\footnote{Rogaway and Stegers
+that are not attended to by the theory.\footnote{Rogaway and Stegers
   take aim at protocol standards, but one can just as easily consider
-  academic papers.}.  In their modeling, the PD is \emph{adversarially}
+  academic papers.}  In their modeling, the PD is \emph{adversarially}
 controlled. Thus, a proof of security provides evidence of robustness
 to errors in the implementation of the protocol.  Rogaway and Stegers
-applies this interesting approach to entity authentication protocols, but we
+apply this interesting approach to entity authentication protocols, but we
 believe it can much more broadly applied to cryptographic protocols
 and primitives.  Some of the concrete tasks that we propose reflect
 this.
@@ -113,11 +113,8 @@ introduced by Rogaway and PI Shrimpton~\cite{RS06} in order to build
 nonce-based authenticated encryption schemes that did not forfeit all
 provable-security guarantees when a nonce is repeated.  Since then,
 nonce-misuse-resistance has appeared in a number of papers
-(\todo{Chris: please do a search for ``misuse resistance'' and throw a
-  few citations in here}), and as one of the diseratta in the CAESAR competition.
-
-
-
+(e.g., \cite{ABL+14,HRRV15,HKR15}), and as one of the diseratta in the CAESAR
+competition~\cite{caesar}.
 
 
 
