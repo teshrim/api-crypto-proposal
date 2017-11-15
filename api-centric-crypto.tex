@@ -96,7 +96,7 @@ level of exposure to the application developer or security engineer is highly
 task-dependent.
 %
 \if{0}
-  (Consider for example, the well-known defficiency in TLS version $1.2$ (and
+  (Consider for example, the well-known deficiency in TLS version $1.2$ (and
   older); The final \textsc{Finish} message being MACed renders it impossible to
   prove security in the key-indistiguishiblity sense, which means the handshake
   is not directly composable with the record protocol.)
@@ -157,7 +157,7 @@ tool for designing protocols.
 It is tempting to think that AEAD, on its own, provides a secure channel.  But
 as pointed out by Badertscher \etal~\cite{BMM+15}, classical security
 notions, such as those for AEAD ``do not capture in which contexts a scheme
-satisyfying them can securely be used.''  Indeed, bugs in the
+satisfying them can securely be used.''  Indeed, bugs in the
 \emph{protocol logic} have been exploited to circumvent the
 security provided by the underlying
 crypto~\cite{Vau02,BKN02,APW09}.\footnote{See
@@ -228,7 +228,7 @@ details relevant to implementing them on real systems.
 This is not without reason, of course; the needs of systems are complex and always
 changing.
 %
-TLS is a prime example. The record layer is the peice of the protocol
+TLS is a prime example. The record layer is the piece of the protocol
 encompassing all messages between client and server. The specification document
 for the upcoming version 1.3~\cite{tls13} is comprised of a rich set of rules
 for how the stream of messages are mapped to records: some types of messages may
@@ -279,11 +279,11 @@ implementations.
 %don't think that's the main contribution of the paper. The main contribution is
 %the security model.}
 
-\paragraph{Autenticated Key Exchange. }
+\paragraph{Authenticated Key Exchange. }
 The key agreement protocol used to establish the channel is also amendable to an
 API-centric treatment.
 %
-Since the seminal work of Bellare And Rogway~\cite{BR93}, the vast majority of
+Since the seminal work of Bellare And Rogaway~\cite{BR93}, the vast majority of
 the literature on authenticated key exchange has focused on the case of
 \emph{mutual} AKE (MAKE), where both client and server wish to authenticate the
 other. In fact, virtually all TLS handshakes on the Internet are only
@@ -321,7 +321,7 @@ than MAKE, which requires a more general protocol framework, such as
 Bellare-Rogaway.
 %
 Dodis and Fiore define a natural primitive they call
-\emph{comfirmed encryption} for KEM-based UAKE, which has an API that, we
+\emph{confirmed encryption} for KEM-based UAKE, which has an API that, we
 feel, is intuitive for security engineers. Briefly, the sender encrypts its
 message with the public key of the recipient essentially as one would with a
 conventional encryption scheme. The receiver decrypts the ciphertext, then
@@ -352,7 +352,7 @@ protocols, but it is only a component of the design process.
 Going in a different direction, Rogaway and Stegers~\cite{RS09} suggest their
 methodology can be extended from entity authentication to AKE.
 Perhaps due to the limited attention this paper has received in the
-cryptographic community, this natural extention as not been explored.
+cryptographic community, this natural extension as not been explored.
 \begin{task}
   %\cpnote{Make it easier to use APIs correctly.}
   We will apply the partially-specified-protocol methodology of~\cite{RS09} to
@@ -379,7 +379,7 @@ PKCS\#11 document.\footnote{See
 \url{https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=pkcs11} for the
 latest spec.} That standard details an interface by which one may interact with
 cryptographic tokens (e.g. smart cards, USB devices, enterprise-grade HSMs) that
-are trusted to perform key-manangement duties, enforcement of policies for the
+are trusted to perform key-management duties, enforcement of policies for the
 use of stored keys, and a limited number of asymmetric- and symmetric-key crypto
 operations.  These tokens support a variety of applications, including entity
 authentication, certification authorization, SSL/TLS acceleration, and interbank
@@ -417,7 +417,7 @@ attributes of the imported key allow it to be used for wrapping.
 
 While~\cite{SSW} makes important progress in the analysis of
 cryptographic APIs (in particular PKCS\#11), they do leave open some
-interesting avenues.  For exmaple, their handling of attributes is
+interesting avenues.  For example, their handling of attributes is
 quite abstract, only indicating their influence on tokens as part of
 the execution model.  But what one really wants are formal mechanisms and
 security notions for reasoning about the enforcement of specific
@@ -437,23 +437,23 @@ revisit the models.
 security notions for reasoning about the enforcement of specific
 policies, (2) incorporating the public-key primitives that are
 typically exposed by tokens, (3) establishing how closely tokens
-adhear to PKCS\#11 and revisiting the formal models based on what we find.
+adhere to PKCS\#11 and revisiting the formal models based on what we find.
 \end{task}
 %
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ignore{
-\paragraph{Ease of Correct Implemenation as Security Property. }
+\paragraph{Ease of Correct Implementation as Security Property. }
 
 %\paragraph{Prior Work.}
 \todo{Write.}\tsnote{Chris, at your suggestion, I've downgraded this
   former section to a paragraph-subsection within API-centric
-  crpyto. Let's see how it works.}
+  crypto. Let's see how it works.}
 
 \tsnote{May need to do some digging outside of crypto here!}
 
-\todo{Rogaway's Authentication without Ellision paper}
+\todo{Rogaway's Authentication without Elision paper}
 \cpnote{This is what their framework buys us. The full protocol is divided into the
 ``protocol core'' (PC) and the ``protocol details'' (PD). The PC is specified
 by the cryptographer and the PD is specified by the engineer. The PC ``calls''
