@@ -26,6 +26,9 @@ full  : *.tex
 #	pdflatex transitions
 
 
+dm: full
+	pdftk proposal.pdf cat 14-15 output data-management-plan.pdf
+
 wc: full
 	pdftk proposal.pdf cat 16-20 output works-cited.pdf
 
