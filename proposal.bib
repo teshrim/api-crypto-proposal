@@ -68,16 +68,18 @@
   publisher = {Springer-Verlag},
 }
 
-% TODO
 % FSE 2014
-@misc{BDPS13,
-  author = {Alexandra Boldyreva and Jean Paul Degabriele and Kenneth G.
-  Paterson and Martijn Stam},
-  title = {On Symmetric Encryption with Distinguishable Decryption
-  Failures},
-  howpublished = {Cryptology ePrint Archive, Report 2013/433},
-  year = {2013},
-  note = {\url{https://eprint.iacr.org/2013/433}},
+@Inbook{BDPS13,
+  author="Boldyreva, Alexandra
+    and Degabriele, Jean Paul
+    and Paterson, Kenneth G.
+    and Stam, Martijn",
+  title="On Symmetric Encryption with Distinguishable Decryption Failures",
+  bookTitle="Fast Software Encryption: 20th International Workshop, FSE 2013,
+  Singapore, March 11-13, 2013. Revised Selected Papers",
+  year="2014",
+  publisher="Springer Berlin Heidelberg",
+  pages="367--390",
 }
 
 % C 2014
@@ -151,8 +153,6 @@
 @inproceedings{BH15,
   author="Bellare, Mihir
     and Hoang, Viet Tung",
-  editor="Oswald, Elisabeth
-    and Fischlin, Marc",
   title="Resisting Randomness Subversion: Fast Deterministic and Hedged
     Public-Key Encryption in the Standard Model",
   bookTitle="Advances in Cryptology - EUROCRYPT 2015: 34th Annual International
@@ -193,25 +193,27 @@
   pages="353--373",
 }
 
-% TODO
-@misc{CNS+17,
-  author = {Animesh Chhotaray and Adib Nahiyan and Thomas Shrimpton and
-  Domenic J Forte and Mark Tehranipoor},
-  title = {Standardizing Bad Cryptographic Practice - A Teardown of the
-  IEEE Standard for Protecting Electronic-design Intellectual
-  Property},
-  howpublished = {Cryptology ePrint Archive, Report 2017/828},
+% CCS 2017
+@inproceedings{CNS+17,
+  author = {Chhotaray, Animesh and Nahiyan, Adib and Shrimpton, Thomas and
+    Forte, Domenic and Tehranipoor, Mark},
+  title = {Standardizing Bad Cryptographic Practice: {A} Teardown of the {IEEE
+    P1735} Standard for Protecting Electronic-design Intellectual Property},
+  booktitle = {Proceedings of the 2017 ACM SIGSAC Conference on Computer and
+    Communications Security},
   year = {2017},
-  note = {\url{https://eprint.iacr.org/2017/828}},
+  pages = {1533--1546},
+  publisher = {ACM},
 }
 
+
 % TODO In Financial crypto 2017: can't find the proceeding online!
-@misc{dodis2017unilateral,
+@inproceedings{dodis2017unilateral,
   author = {Yevgeniy Dodis and Dario Fiore},
   title = {Unilaterally-Authenticated Key Exchange},
-  howpublished = {Cryptology ePrint Archive, Report 2017/109},
   year = {2017},
-  note = {\url{https://eprint.iacr.org/2017/109}},
+  booktitle={Proceedings of the 21st International Conference on Financial
+    Cryptography and Data Security.},
 }
 
 % CCS 2013
@@ -374,8 +376,6 @@
 % FSE 2004
 @inproceedings{Rog04,
     author="Rogaway, Phillip",
-    editor="Roy, Bimal
-      and Meier, Willi",
     title="Nonce-Based Symmetric Encryption",
     bookTitle="Fast Software Encryption: 11th International Workshop, FSE 2004,
     Delhi, India, February 5-7, 2004. Revised Papers",
@@ -414,7 +414,7 @@
 @inproceedings{ST15,
   author="Shrimpton, Thomas
     and Terashima, R. Seth",
-  title="A Provable-Security Analysis of Intel's Secure Key RNG",
+  title="A Provable-Security Analysis of {Intel's Secure Key RNG}",
   bookTitle="Advances in Cryptology -- EUROCRYPT 2015: 34th Annual International
     Conference on the Theory and Applications of Cryptographic Techniques,
     Sofia, Bulgaria, April 26-30, 2015, Proceedings, Part I",
@@ -740,6 +740,24 @@
 }
 
 @misc{caesar,
-  title={{CAESAR} authenticated cipher competition},
-  note={Accessed \url{https://competitions.cr.yp.to/} on 15 Nov 2017.}
+  key={CAESAR},
+  title={The {CAESAR} authenticated cipher competition},
+  note={The homepage \url{https://competitions.cr.yp.to}, accessed on 15 Nov 2017.}
+}
+
+@techreport{rfc5297,
+  author = {D. Harkins},
+  title = {Synthetic Initialization Vector (SIV) Authenticated Encryption
+  Using the Advanced Encryption Standard (AES)},
+  howpublished = {Internet Requests for Comments},
+  type = {RFC},
+  number = {5297},
+  year = {2008},
+  month = {October},
+  issn = {2070-1721},
+  publisher = {RFC Editor},
+  institution = {RFC Editor},
+  url = {http://www.rfc-editor.org/rfc/rfc5297.txt},
+  note =
+  {\url{http://www.rfc-editor.org/rfc/rfc5297.txt}},
 }
