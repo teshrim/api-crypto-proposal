@@ -64,7 +64,9 @@ source of the associated data; it may have been transmitted with~$C$ or made
 available locally.) In practice the receiver may maintain local message
 counters, lists of nonces already observed on the channel,\cpnote{More likely it
 would just keep the largest valid nonce observed, since this requires only constant
-space.} information about the
+space.}\tsnote{Can't do that if you want to allow for nonces that are
+randomly generated, which is not uncommon.  Concretely, QUIC was
+specified to keep a strike-list of observed nonces.}  information about the
 overall status and health of the channel (e.g. is it still considered active),
 and so on.  The decryption key~$K$ is also part of the context that the receiver
 maintains.
@@ -107,7 +109,8 @@ decryption process returns nothing but a distinguished error message.
 \end{figure}
 %
 In Figure~\ref{fig:syntax-api-example}, we give an example of a more
-API-like presentation of decryption.
+API-like presentation of decryption.  In fact, what this gives a
+framework for specifying a wide variety of schemes.
 %
 Making these implied functionalities more explicit has several benefits.  The
 most obvious is helping developers to see what they need to implement, rather
@@ -136,22 +139,23 @@ security-relevant information might be leaked by them?  How should the
 In Figure~\ref{fig:EtM-aead} we give two potential realizations of the
 functions needed for decryption. In particular, they specify the components of
 Figure~\ref{fig:syntax-api-example} used to realize \algfont{DECRYPT}. The
-underlying AEAD scheme follows the conventional encrypt-then-MAC paradigm.
+underlying AEAD scheme follows the conventional encrypt-then-MAC (EtM)
+paradigm.
 %
 On the left side of the figure, we give a realization of conventional
-encrypt-then-MAC AEAD, following what we
-theoreticians consider as best practice.  Namely, if the tag check fails, then
+EtM, following what we theoreticians consider as best practice.  Namely, if the tag check fails, then
 one should label the ciphertext as invalid, and suppress all output other than
-the (single) error message ``Invalid'' (or $\bot$ in typical syntax).
+the single error message ``Invalid''.
 Additionally, when ``Invalid'' is returned, the channel status field
 of \varfont{ChannelContext} is changed to ``closed''.
 %
 \cpnote{This needn't be mandatory. Getting ``invalid'' from \algfont{DECRYPT}
 indicates that the channel is possibly under attack. It may make sense to keep
 the channel alive if this happens only once, and to close it if it happens a
-lot.}
-%
-On the right side, we give a more complex encrypt-then-MAC style realization that includes
+lot.}\tsnote{True, but my statement is correct.  This \emph{is} what
+the theory says is best practice.}
+
+On the right side, we give a more complex (and arguably realistic) EtM-style realization that includes
 in the \varfont{ChannelContext} a list of valid tokens that are used within
 the decryption process. It also allows for a stream ID (sid) as part
 of the transmitted AD (i.e. the \varfont{SentContext}).  In the
@@ -166,15 +170,15 @@ decryption process returns ``Invalid'' and the channel status field
 of \varfont{ChannelContext} is changed to ``closed'', as on the left.
 If the tag check \emph{succeeds} but the recovered tid is invalid,
 then the decryption process still returns ``Invalid'', but the
-\varfont{ChannelContext} is not changed.
-\todo{Tom: finish... one can imagine that this might be a real-world
-  behavior, where a ciphertext validity failure is fatal to the
-  channel, but a bad token is considered less of an infraction so the
-  channel is not closed.  (Say, if the cost to tear down/set up a new
-  channel is considered unreasonable for the given application, so you
-  only want to do it if things are really bad.)  Maybe in this case
-  the application requests retransmission, or sends an
-  \emph{application layer} error message back through the channel.} 
+\varfont{ChannelContext} is not changed.  One can imagine that this might be a real-world
+  behavior, where a ciphertext-validity failure is fatal to the
+  channel, but a bad token is considered less of an infraction. 
+  Say, if the cost to tear down/set up a new
+  channel is considered unreasonable for the given application. In the
+  latter case, perhaps the application requests retransmission, or sends an
+  \emph{application layer} error message back through the channel.
+
+
 
 \tsnote{Say that this may seem like overkill for ``simple'' primitives
 like symmetric-key decryption, but that (1) it only seems that way
