@@ -67,11 +67,16 @@ as possible, consistent with resource and policy constraints.
 
 \item {\em Policy (C): Confidential data.} A data steward may deem some data
 temporarily or permanently unsuitable for release outside his institution.
+%
+\if{0}{
 University network packet traces such as we expect to collect in the course of
 this proposal will be deemed confidential in all cases, while derived data such
 as non-personally identifiable aggregate statistics or anonymized packet headers
 may be categorized as (S) or (P). Other data may additionally be deemed
-confidential by the data steward. At the time of data collection, the steward
+confidential by the data steward.
+}\fi
+%
+At the time of data collection, the steward
 will determine whether it is appropriate to erase the data. (For example, highly
 sensitive data not employed in research may be summarily deleted.) Otherwise,
 the data will be preserved according to Policy (S), but with no access granted
@@ -85,10 +90,10 @@ or in an appropriately locatable and accessible public archive.
 
 \paragraph{Data storage and lifetime.} The volume of data produced in this
 proposal will be small enough to permit handling within the existing data
-storage facilities of our respective universities. At a minimum, data will be
-stored for the duration of the project. We anticipate storing most data for a
-considerably more extended period of time, however, and will store for as long
-as is practical both data required to reproduce published experiments and data
+storage facilities of our university. At a minimum, data will be
+stored for the duration of the project. We anticipate storing most data for
+considerably longer, however, and will store for as long
+as is practical: both data required to reproduce published experiments and data
 of public value. We will store all data in suitable standard formats and will
 confirm that university facilities include access controls and encryption as
 suitable for the handling of specific data artifacts.
@@ -96,11 +101,13 @@ suitable for the handling of specific data artifacts.
 \paragraph{Vulnerability disclosures.} This research project does not explicitly
 encompass vulnerability assessments. It is very well possible, however, that we
 will discover security vulnerabilities or inappropriate data disclosures in the
-course of our work. For example, in our statistical modeling of data we may
+course of our work.
+\if{0}{For example, in our statistical modeling of data we may
 uncover inadvertent leakage of personally identifiable information; in our study
 of censorship circumvention we may discover vulnerabilities that expose
 confidential data to censors.
-
+}\fi
+%
 We will adhere broadly to community-standard responsible disclosure practices.
 Specifically, we will follow the following steps in disclosing a vulnerability:
 
