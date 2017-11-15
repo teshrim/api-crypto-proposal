@@ -33,7 +33,7 @@ unknowingly).  We will use the lessons learned from this to formalize
 new primitives and new notions of misuse-resistant security.
 \end{task}
 
-\paragraph{Scrutenizing standards. }
+\paragraph{Scrutinizing standards. }
 Later work by PI Shrimpton~\cite{NRS} reconsidered the traditional wisdom about
 building authenticated encryption (AE) via generic composition of an encryption
 scheme and a MAC.   The seminal work by Bellare and Namprempre~\cite{BN} showed
@@ -63,7 +63,7 @@ bodies to address the mistakes we find.
 \end{task}
 
 
-
+\ignore{
 \tsnote{Hey Chris: what other types of misuse might be considered?
   Think about not just how one might misuse the inputs (say) to a
   primitive, but also how a primitive might be ``misused'' within an
@@ -73,6 +73,7 @@ bodies to address the mistakes we find.
 \cpnote{Good fodder for this question might be the underhanded crypto
   competition. Many submissions put forward APIs that look easy to use, but
 actually are broken.}
+}
 
 Going a different direction, the traditional syntax for encryption assumes that
 the plaintext data is a bitstring.  For many practical applications this

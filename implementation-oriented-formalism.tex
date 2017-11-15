@@ -177,22 +177,28 @@ then the decryption process still returns ``Invalid'', but the
   channel is considered unreasonable for the given application. In the
   latter case, perhaps the application requests retransmission, or sends an
   \emph{application layer} error message back through the channel.
+We note that by making the specification of the functionalities
+explicit, we clearly surface at least two possible attack models.  If
+the adversary sees and can access the channel only, then only the
+\varfont{ExternalVals} are observed; whereas if the adversary sees
+things at the boundary of the decryption process, both the
+\varfont{ExternalVals} and portions of the \varfont{ChannelContext}
+may be visible.
 
 
-
-\tsnote{Say that this may seem like overkill for ``simple'' primitives
-like symmetric-key decryption, but that (1) it only seems that way
-because we are already implicitly thinking about what it means for
-things to be valid, etc., and (2) we ``know'' not to do certain things
-because mistakes were made in the past, by people who didn't know at
-the time --- hindsight is 20-20.}
+%\tsnote{Say that this may seem like overkill for ``simple'' primitives
+%like symmetric-key decryption, but that (1) it only seems that way
+%because we are already implicitly thinking about what it means for
+%things to be valid, etc., and (2) we ``know'' not to do certain things
+%because mistakes were made in the past, by people who didn't know at
+%the time --- hindsight is 20-20.}
 
 \begin{task}
 {We will reconsider the traditional formalisms for cryptographic primitive from an implementation considerate perspective, and establish security notions with respect to the new syntax. }
 \end{task}
 
-\tsnote{Need to address head-on the complaint that this is going to
-  make for more complicated analysis.}
+%\tsnote{Need to address head-on the complaint that this is going to
+%  make for more complicated analysis.}
 
 There are, of course, other ways to handle decryption errors than described in
 Figure~\ref{fig:EtM-aead}; the ``right way'' is highly dependent on the setting
@@ -213,9 +219,9 @@ manner.
 %
 Some works consider a richer semantics for the error~\cite{BDPS13,FPMG15}, but
 even these couple the message and error so that one of these is output, but
-never both.
+never both.  This suggest another secure-channels task.
 
-\begin{task}\label{task:sc}
+\begin{task}
   In our study of secure channels (\textbf{task~\ref{task:sc}}), we will explore the implications of
   separating the message and error in the output of decryption.
 \end{task}
