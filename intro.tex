@@ -8,7 +8,7 @@ provide.
 %
 There is good sense in this message.  Cryptography \emph{is} hard.
 The security theorems that we prove can depend crucially, and
-subtlety, on parameter choices, padding schemes, protocol logic, etc. 
+subtly, on parameter choices, padding schemes, protocol logic, etc. 
 Our research community has developed a collective wisdom that helps
 guide us to good solutions (or at least to avoid pitfalls).
 
@@ -26,7 +26,8 @@ libraries, specifically the APIs they export, \emph{is hard
 %Changing APIs breaks the applications that call them, and
 %fixing the applications costs real money.
 %
-So if a theoretical primitive it is hard to realize with existing libraries/APIs, then either it won't be
+So if a theoretical primitive it is hard to realize with existing libraries and
+their APIs, then either it won't be
 implemented, or (worse) it will be prone to being implemented incorrectly.
 
 Motivated by this reality, our position is that \emph{it is incumbent upon
@@ -72,10 +73,11 @@ broadly adopted libraries.
 %
 Third, that the formalization of new primitives should include syntax
 that is clear about the functionalities that will need to be
-implemented, i.e. syntax that is as ``API-like''.  Relatedly, security
+implemented, i.e. syntax that is ``API-like''.  Relatedly, security
 notions should consider these functionalities, so as to have a more
 practice-grounded view of the security of primtives.  All of the
-research that we propose here adheres to an agenda of API-centric cryptography.
+research that we propose here adheres to an agenda of \emph{API-centric
+cryptography}.
 
 To the second point, ease of correct implementation is not something
 that is formally considered as part of the provable-security paradigm
@@ -111,7 +113,7 @@ preemptively mitigate the damage resulting from common misusages of
 cryptographic primitives, by building the misuse into the adversarial
 model. Concretely misuse-resistance was
 introduced by Rogaway and PI Shrimpton~\cite{RS06} in order to build
-nonce-based authenticated encryption schemes that did not forfeit all
+nonce-based authenticated encryption schemes that do not forfeit all
 provable-security guarantees when a nonce is repeated.  Since then,
 nonce-misuse-resistance has appeared in a number of papers
 (e.g., \cite{ABL+14,HRRV15,HKR15}), and as one of the desiderata in the CAESAR
