@@ -1,4 +1,20 @@
-\documentclass[11pt]{article}
+\documentclass[10pt]{article}
+%\setlength{\topmargin}{-0.5in}
+\setlength{\textwidth}{6.25in}
+\setlength{\textheight}{9in}
+\setlength{\oddsidemargin}{-0.125in}
+\setlength{\evensidemargin}{-0.125in}
+
+\newenvironment{packeditemize}{
+\begin{list}{$\bullet$}{
+\setlength{\labelwidth}{8pt}
+\setlength{\itemsep}{0pt}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\setlength{\parindent}{0pt}
+\setlength{\listparindent}{\parindent}
+\setlength{\parsep}{0pt}
+\setlength{\topsep}{3pt}}}{\end{list}}
 
 %\input{tomsdefs.tex}
 
@@ -6,64 +22,68 @@
 \thispagestyle{empty}
 
 \begin{center}
-{\Large TWC: Medium: Collaborative: }\\ 
-{\Large Distribution-Sensitive Cryptography} 
+{\Large SaTC: CORE: Small }\\ 
+{\Large API-Centric Cryptography\\} 
 \end{center}
+
 \noindent
+The prevailing mindset in the academic cryptography community is that
+we produce theoretically secure and (one hopes) efficient
+cryptographic primitives, and it is the job of security engineers and
+software developers to turn these into real pieces of software that
+are useful for applications.  Implicitly, it is their job to respect
+the syntax that we formalize, and to properly implement the
+provably-secure constructions that we develop.  But
+the gap between what suffices as a
+specification of a primitive in the literature, and an actual
+implementation ---~one that is correct, efficient, and flexible enough
+to support applications~--- is large.  Moreover, various 
+speakers (e.g., Paul Kocher in his Crypto '16 invited lecture) have
+voiced the concern that cryptographers do not appreciate how
+difficult it is to develop good cryptographic libraries, in particular
+good APIs; nor that APIs are relatively inflexible once fielded,
+because changing them (say, to accomodate the latest crypto theory
+results) wrecks havoc on applications that call them.
 
-We propose to develop a framework for distribution-sensitive cryptography
-(DSC), a new viewpoint on tool design that will make connections between, and
-improvements for, several previously proposed cryptographic contexts, as well as
-lead to totally new techniques elsewhere. In DSC, one builds cryptographic
-schemes that are context-specific to take advantage of knowledge about 
-deployment environments in order to provide better security than would would be
-possible with a generic tool.  Necessarily then, we will ground our development
-in the exploration of a number of real-world problems for which good solutions
-have historically been elusive:
-\begin{itemize}
-\item \emph{Brute-force attacks against password-based encryption}: Conventional
-encryption schemes fall to brute-force attacks when keys are chosen poorly, as
-is typical with keys derived from human-chosen passwords. We will
-develop new solutions for this problem based on
-%PIs recent work on
-honey encryption (HE), a primitive recently introduced by the PIs. HE schemes
-use estimates of expected message distributions to ensure that
-brute-force attackers can't determine when they've used the right password.
+Motivated by this, we propose an alternative viewpoint: it is
+\emph{our} job to respect the relatively inflexible nature of
+real-world libraries and their APIs, and it is \emph{our} job to make
+theoretical cryptography that is as easy as possible to implement
+correctly, and that is resilent to misuse even when properly
+implemented.  We refer to this viewpoint as
+\emph{API-centric cryptography}.  This approach suggests at least
+three consequences for the way we develop theory: existing formalisms
+shoudl be carefully reexamined with respect to the actual APIs that
+libraries export, new realizations of existing abstract primitives
+should take into consideration how easy it will be to implement them
+with broadly adopted libraries, and that the formalization of new
+abstract primitives should include syntax that is clear about the
+functionalities that will need to be implemented.  That is, syntax
+that is ``API-like''.
+
+Concretely, we identify a collection of research tasks that adhere to
+this API-centric point of view.  The first group addresses the
+application of the approach to secure channels, authenticated key
+exchange, as well as examining standards for cryptographic APIs.  It
+also includes efforts to survey existing libraries and software
+artifacts, in order to understand what are the \emph{effective}
+cryptographic primitives that are exported by the APIs; in particular
+APIs aimed at application developers, who have relatively little
+crypto expertise.  
 %
-\item \emph{Censorship of encrypted protocols}: Nation-states and others use
-deep-packet inspection to identify and block conventionally encrypted
-network protocols. A possible solution is steganography, where encryption seeks to have
-ciphertexts distributed like ``benign'' traffic, but existing solutions are
-too slow for practical use and, possibly, overkill relative to the types of
-tests that can be run in settings with high traffic volume. Inspired by the
-PIs' experience with format-transforming encryption (FTE), which can be viewed as
-taking advantage of crude estimates of traffic distributions, 
-we will experimentally characterize
-adversarial abilities and a more advanced approach that we call
-distribution-sensitive encryption (DSE).  DSE will strike a new
-balance in the space of steganographic design, helping us achieve
-security against real-world adversaries while supporting high performance. 
+The second group takes aim at developing
+theoretical primitives that are misuse-forgiving.  Here too, we
+propose tasks designed to better understand the landscape of misuse.
+This group contains tasks to revisit so-called ``hedged'' cryptography
+in a way that more closely matches practice, and to develop primtives
+that are expressly meant to handle (natively) the highly structured
+data that is common in practice.
 %
-\item \emph{Securing human-generated authentication secrets}: Human-generated
-secrets are noisy --- passwords are mistyped, biometric measurements are fuzzy,
-etc. Conventional cryptographic primitives cannot deal with such ambiguity, and prior approaches
-such as secure sketches and fuzzy extractors target security for arbitrary use
-cases and, as a result, often leak too much information about secrets. 
-We propose to explore a new primitive, distribution-sensitive secure sketches, 
-as a way to provide better security in a number of applications.
-\end{itemize}
+The third group addresses an effort to produce abstract syntax for
+cryptographic primitives that is more API-like.
+  
+
 \smallskip
-In each case, we will explore development and application of a cross-cutting 
-framework for guiding both construction and validation of distribution-sensitive
-solutions. This will involve empirical estimates of appropriate distributions; 
-conceiving appropriate formal, provable security definitions; building schemes,
-and evaluating them both formally and via experimentation.  One notable aspect of
-our approach will be to build robustness into our primitives.  In particular,
-ensuring appropriate ``fallback'' security notions, in the case that distribution estimates
-are damagingly wrong.   %further afield.
-
-\medskip 
-
 \noindent \textbf{Intellectual Merit:} This work will develop a new
 viewpoint on cryptographic primitives and protocols, one that treats the
 implementation and deployment needs of cryptographic practice as a
@@ -77,7 +97,7 @@ development of secure cryptographic tools that are easier for
 developers to implement correctly, and that are more robust against
 misuse.  
 
-\medskip
+\smallskip
 
 \noindent {\bf Broader Impact:}  We have arranged our research program to
 maximize its potential for broad impact on a number of groups. We have
@@ -96,6 +116,7 @@ of future research efforts in cryptography.
 %%
 \vspace{1ex}
 \noindent 
-{\bf Key words:} 
+{\bf Key words:} cryptography, APIs, cryptographic formalisms,
+authenticated encryption, secure channels, hedged cryptography
 
 \end{document}
