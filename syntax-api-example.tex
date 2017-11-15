@@ -88,10 +88,9 @@ Alg.\ \algfont{ErrHandler}({\bf var} \varfont{ChannelContext},\varfont{Verdict},
 %\nudge\nudge \varfont{ChannelContext.ChannelStatus} $\gets$ none \\
 \nudge Return \varfont{ExternalVals}
 } 
-%\tsnote{Is this actually useful for selling the ideas it is meant to sell?}
-\todo{Tom: Describe the thing on the right in the caption.}
-\caption{ {\bf
-    Left:} Specification of Encrypt-then-MAC decryption over IV-based
+\caption{ Specifying the functionalities surfaced by our
+  decryption API.  {\bf
+    Left:} Encrypt-then-MAC decryption over IV-based
   symmetric-key decryption $\calD$ and vector-input PRF~$F$. A tag-check failure results in the
 suppression of all plaintext/errors output by $\calD^V_K(Z)$, and
 causes a single error message to be exposed.  Also,
@@ -102,7 +101,8 @@ $\calD^V_K(Z)$ even if there is a tag-check failure, thereby hiding a
 potential timing side-channel. 
 %
 {\bf
-  Right: } [...]
+  Right: } EtM-like decryption, with support for valid-token checking and
+multiple error-handling behaviors.
   }
 \label{fig:EtM-aead}
 \end{figure}
