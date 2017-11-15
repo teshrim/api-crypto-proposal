@@ -13,12 +13,14 @@ demanding the IV be random.  In~\cite{RS06}, we sought to make these nonce-based
 encryption schemes even easier to use, by designing them so that their security
 guarantee degrades gracefully when the nonce IV repeats.  Nonce-misuse
 resistance has been recognized as an important goal in practice, and was one of the
-desiderata of the CAESAR competition.\footnote{See
-\url{https://competitions.cr.yp.to} for the competition's home page.}
+desiderata of the CAESAR competition.
+\todo{Chris: Make this into a bib entry please... ``See \url{https://competitions.cr.yp.to} for the competition's home page.''}
 %
-\cpnote{Note that I talk about misuse-resistant and robust AE under the ``Secure
-channels'' heading.}
+%\cpnote{Note that I talk about misuse-resistant and robust AE under the ``Secure
+%channels'' heading.}
 
+We are interested to learn other ways in which cryptographic
+primitives are prone to being misused in practices.
 \begin{task}
 We will leverage institutional and personal connections to industry (Intel,
 Comcast, Honeywell, Harris, Cisco, Agilent, BMW, IBM, Juniper, Mentor
@@ -31,6 +33,7 @@ unknowingly).  We will use the lessons learned from this to formalize
 new primitives and new notions of misuse-resistant security.
 \end{task}
 
+\paragraph{Scrutenizing standards. }
 Later work by PI Shrimpton~\cite{NRS} reconsidered the traditional wisdom about
 building authenticated encryption (AE) via generic composition of an encryption
 scheme and a MAC.   The seminal work by Bellare and Namprempre~\cite{BN} showed
