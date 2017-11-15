@@ -74,7 +74,8 @@ Third, that the formalization of new primitives should include syntax
 that is clear about the functionalities that will need to be
 implemented, i.e. syntax that is as ``API-like''.  Relatedly, security
 notions should consider these functionalities, so as to have a more
-practice-grounded view of the security of primtives.
+practice-grounded view of the security of primtives.  All of the
+research that we propose here adheres to an agenda of API-centric cryptography.
 
 To the second point, ease of correct implementation is not something
 that is formally considered as part of the provable-security paradigm
@@ -113,8 +114,15 @@ introduced by Rogaway and PI Shrimpton~\cite{RS06} in order to build
 nonce-based authenticated encryption schemes that did not forfeit all
 provable-security guarantees when a nonce is repeated.  Since then,
 nonce-misuse-resistance has appeared in a number of papers
-(e.g., \cite{ABL+14,HRRV15,HKR15}), and as one of the diseratta in the CAESAR
-competition~\cite{caesar}.
+(e.g., \cite{ABL+14,HRRV15,HKR15}), and as one of the desiderata in the CAESAR
+competition~\cite{caesar}.  Recent work by PI Shrimpton~\cite{BPS}
+looks at hedged public-key encryption, which can be seen as a kind of
+misuse-resistance where the encryption scheme is used with bad
+randomness.  (This was done from an API-centric perspective, too, as
+we will discuss.)  By interacting with industrial developers, we will
+seek out other forms of misuse, and push to protect a broad range of
+cryptographic primitives ---~and practitioners who wish to use
+them~--- against real-world usage errors.
 
 
 
@@ -133,7 +141,27 @@ competition~\cite{caesar}.
   prior work by me.}
 
 \subsection{Public artifacts and broader impacts}
-
+In addition to publications at venues targeted at expert
+cryptographers and security researchers, we will produce higher-levels
+and survey articles appropriate for a more general computer science
+audience.  Whenever possible, we will implement the theory that we
+develop, and make the software open-source.  Likewise, any software
+tools that we develop in support of the tasks outlined here will be
+made open source.  We specifically propose to work closely with
+industrial contacts in order to develop a better understanding of
+real-world APIs, real-world patterns of misuse, etc., and we will
+provide feedback and assistance to industry in return.
+The PI has a track record of not only releasing public, open-source
+research systems (e.g. LibFTE, Marionette), 
+but also going the extra mile to help incorporate such implementations into production
+systems, such as Tor and Google's uProxy. 
+(See \secref{sec:outreach} for more information about our track record in this
+regard.)
+We will target similar impact for the proposed work
+ 
+We will by default also make data sets publicly available, the exception being
+cases in which we have privacy or confidentiality obligations. See the Data
+Management Plan for more details regarding our handling of data.
 \subsection{PI Qualifications}
 
 \subsection{Proposal Organization and Tasks}
