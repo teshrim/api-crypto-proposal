@@ -25,6 +25,10 @@ full  : *.tex
 #	pdflatex transitions
 #	pdflatex transitions
 
+
+wc: full
+	pdftk proposal.pdf cat 16-20 output works-cited.pdf
+
 clean :
 	rm *.{aux,bbl,blg,log,out}
 	
